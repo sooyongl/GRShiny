@@ -1,0 +1,20 @@
+data: file is grm_dt.csv;
+variable:
+  names are a1-a4;
+  categorical = a1-a4;
+
+analysis:
+  !estimator = MLR;  
+  estimator = WLS;
+  parameterization = THETA;
+  !parameterization = DELTA;
+  
+model:
+
+  F1 by a1*
+        a2-a4;
+  F1@1;
+  [F1@0;
+  
+  
+  

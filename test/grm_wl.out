@@ -1,0 +1,177 @@
+Mplus VERSION 8.6
+MUTHEN & MUTHEN
+01/22/2022  10:42 AM
+
+INPUT INSTRUCTIONS
+
+  data: file is grm_dt.csv;
+  variable:
+    names are a1-a4;
+    categorical = a1-a4;
+
+  analysis:
+    !estimator = MLR;
+    estimator = WLS;
+    parameterization = THETA;
+    !parameterization = DELTA;
+
+  model:
+
+    F1 by a1*
+          a2-a4;
+    F1@1;
+    [F1@0;
+
+
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         500
+
+Number of dependent variables                                    4
+Number of independent variables                                  0
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   A1          A2          A3          A4
+
+Continuous latent variables
+   F1
+
+
+Estimator                                                      WLS
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Parameterization                                             THETA
+Link                                                        PROBIT
+
+Input data file(s)
+  grm_dt.csv
+
+Input data format  FREE
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    A1
+      Category 1    0.486          243.000
+      Category 2    0.098           49.000
+      Category 3    0.416          208.000
+    A2
+      Category 1    0.424          212.000
+      Category 2    0.160           80.000
+      Category 3    0.416          208.000
+    A3
+      Category 1    0.458          229.000
+      Category 2    0.154           77.000
+      Category 3    0.388          194.000
+    A4
+      Category 1    0.516          258.000
+      Category 2    0.062           31.000
+      Category 3    0.422          211.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       12
+
+Chi-Square Test of Model Fit
+
+          Value                              2.997
+          Degrees of Freedom                     2
+          P-Value                           0.2235
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.032
+          90 Percent C.I.                    0.000  0.100
+          Probability RMSEA <= .05           0.570
+
+CFI/TLI
+
+          CFI                                0.995
+          TLI                                0.985
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            204.646
+          Degrees of Freedom                     6
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.017
+
+Optimum Function Value for Weighted Least-Squares Estimator
+
+          Value                     0.29967930D-02
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ F1       BY
+    A1                 0.423      0.080      5.295      0.000
+    A2                 0.765      0.114      6.704      0.000
+    A3                 0.694      0.107      6.501      0.000
+    A4                 1.779      0.546      3.257      0.001
+
+ Means
+    F1                 0.000      0.000    999.000    999.000
+
+ Thresholds
+    A1$1              -0.041      0.061     -0.681      0.496
+    A1$2               0.231      0.062      3.747      0.000
+    A2$1              -0.239      0.072     -3.349      0.001
+    A2$2               0.267      0.072      3.711      0.000
+    A3$1              -0.130      0.069     -1.890      0.059
+    A3$2               0.350      0.070      4.973      0.000
+    A4$1               0.087      0.116      0.752      0.452
+    A4$2               0.405      0.145      2.801      0.005
+
+ Variances
+    F1                 1.000      0.000    999.000    999.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.204E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  10:42:19
+        Ending Time:  10:42:19
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
