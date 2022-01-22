@@ -1,6 +1,6 @@
 Mplus VERSION 8.6
 MUTHEN & MUTHEN
-01/22/2022  10:42 AM
+01/22/2022   1:31 PM
 
 INPUT INSTRUCTIONS
 
@@ -10,10 +10,9 @@ INPUT INSTRUCTIONS
     categorical = a1-a4;
 
   analysis:
-    !estimator = MLR;
     estimator = WLS;
-    parameterization = THETA;
-    !parameterization = DELTA;
+    !parameterization = THETA;
+    parameterization = DELTA;
 
   model:
 
@@ -54,7 +53,7 @@ Estimator                                                      WLS
 Maximum number of iterations                                  1000
 Convergence criterion                                    0.500D-04
 Maximum number of steepest descent iterations                   20
-Parameterization                                             THETA
+Parameterization                                             DELTA
 Link                                                        PROBIT
 
 Input data file(s)
@@ -66,21 +65,21 @@ Input data format  FREE
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     A1
-      Category 1    0.486          243.000
-      Category 2    0.098           49.000
+      Category 1    0.428          214.000
+      Category 2    0.156           78.000
       Category 3    0.416          208.000
     A2
-      Category 1    0.424          212.000
-      Category 2    0.160           80.000
-      Category 3    0.416          208.000
+      Category 1    0.426          213.000
+      Category 2    0.136           68.000
+      Category 3    0.438          219.000
     A3
-      Category 1    0.458          229.000
-      Category 2    0.154           77.000
-      Category 3    0.388          194.000
+      Category 1    0.422          211.000
+      Category 2    0.066           33.000
+      Category 3    0.512          256.000
     A4
-      Category 1    0.516          258.000
-      Category 2    0.062           31.000
-      Category 3    0.422          211.000
+      Category 1    0.388          194.000
+      Category 2    0.180           90.000
+      Category 3    0.432          216.000
 
 
 
@@ -94,34 +93,34 @@ Number of Free Parameters                       12
 
 Chi-Square Test of Model Fit
 
-          Value                              2.997
+          Value                              0.082
           Degrees of Freedom                     2
-          P-Value                           0.2235
+          P-Value                           0.9597
 
 RMSEA (Root Mean Square Error Of Approximation)
 
-          Estimate                           0.032
-          90 Percent C.I.                    0.000  0.100
-          Probability RMSEA <= .05           0.570
+          Estimate                           0.000
+          90 Percent C.I.                    0.000  0.000
+          Probability RMSEA <= .05           0.988
 
 CFI/TLI
 
-          CFI                                0.995
-          TLI                                0.985
+          CFI                                1.000
+          TLI                                1.000
 
 Chi-Square Test of Model Fit for the Baseline Model
 
-          Value                            204.646
+          Value                             85.136
           Degrees of Freedom                     6
           P-Value                           0.0000
 
 SRMR (Standardized Root Mean Square Residual)
 
-          Value                              0.017
+          Value                              0.003
 
 Optimum Function Value for Weighted Least-Squares Estimator
 
-          Value                     0.29967930D-02
+          Value                     0.82241118D-04
 
 
 
@@ -131,23 +130,23 @@ MODEL RESULTS
                     Estimate       S.E.  Est./S.E.    P-Value
 
  F1       BY
-    A1                 0.423      0.080      5.295      0.000
-    A2                 0.765      0.114      6.704      0.000
-    A3                 0.694      0.107      6.501      0.000
-    A4                 1.779      0.546      3.257      0.001
+    A1                 0.460      0.069      6.694      0.000
+    A2                 0.556      0.072      7.769      0.000
+    A3                 0.635      0.075      8.512      0.000
+    A4                 0.508      0.068      7.499      0.000
 
  Means
     F1                 0.000      0.000    999.000    999.000
 
  Thresholds
-    A1$1              -0.041      0.061     -0.681      0.496
-    A1$2               0.231      0.062      3.747      0.000
-    A2$1              -0.239      0.072     -3.349      0.001
-    A2$2               0.267      0.072      3.711      0.000
-    A3$1              -0.130      0.069     -1.890      0.059
-    A3$2               0.350      0.070      4.973      0.000
-    A4$1               0.087      0.116      0.752      0.452
-    A4$2               0.405      0.145      2.801      0.005
+    A1$1              -0.181      0.056     -3.219      0.001
+    A1$2               0.212      0.057      3.759      0.000
+    A2$1              -0.186      0.056     -3.304      0.001
+    A2$2               0.156      0.056      2.766      0.006
+    A3$1              -0.197      0.056     -3.486      0.000
+    A3$2              -0.030      0.056     -0.535      0.593
+    A4$1              -0.285      0.057     -5.002      0.000
+    A4$2               0.171      0.056      3.038      0.002
 
  Variances
     F1                 1.000      0.000    999.000    999.000
@@ -155,12 +154,23 @@ MODEL RESULTS
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.204E-02
+     Condition Number for the Information Matrix              0.415E-01
        (ratio of smallest to largest eigenvalue)
 
 
-     Beginning Time:  10:42:19
-        Ending Time:  10:42:19
+R-SQUARE
+
+    Observed                   Residual
+    Variable        Estimate   Variance
+
+    A1                 0.211      0.789
+    A2                 0.309      0.691
+    A3                 0.403      0.597
+    A4                 0.258      0.742
+
+
+     Beginning Time:  13:31:14
+        Ending Time:  13:31:14
        Elapsed Time:  00:00:00
 
 

@@ -1,6 +1,6 @@
 Mplus VERSION 8.6
 MUTHEN & MUTHEN
-01/22/2022  10:19 AM
+01/22/2022   1:31 PM
 
 INPUT INSTRUCTIONS
 
@@ -11,6 +11,7 @@ INPUT INSTRUCTIONS
 
   analysis:
     estimator = ML;
+    parameterization = DELTA;
 
   model:
 
@@ -24,7 +25,10 @@ INPUT INSTRUCTIONS
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING in ANALYSIS command
+  PARAMETERIZATION=DELTA is not allowed for TYPE=MIXTURE or
+  ALGORITHM=INTEGRATION.  Setting is ignored.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -90,21 +94,21 @@ Input data format  FREE
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     A1
-      Category 1    0.486          243.000
-      Category 2    0.098           49.000
+      Category 1    0.428          214.000
+      Category 2    0.156           78.000
       Category 3    0.416          208.000
     A2
-      Category 1    0.424          212.000
-      Category 2    0.160           80.000
-      Category 3    0.416          208.000
+      Category 1    0.426          213.000
+      Category 2    0.136           68.000
+      Category 3    0.438          219.000
     A3
-      Category 1    0.458          229.000
-      Category 2    0.154           77.000
-      Category 3    0.388          194.000
+      Category 1    0.422          211.000
+      Category 2    0.066           33.000
+      Category 3    0.512          256.000
     A4
-      Category 1    0.516          258.000
-      Category 2    0.062           31.000
-      Category 3    0.422          211.000
+      Category 1    0.388          194.000
+      Category 2    0.180           90.000
+      Category 3    0.432          216.000
 
 
 
@@ -118,13 +122,13 @@ Number of Free Parameters                       12
 
 Loglikelihood
 
-          H0 Value                       -1836.232
+          H0 Value                       -1915.071
 
 Information Criteria
 
-          Akaike (AIC)                    3696.463
-          Bayesian (BIC)                  3747.038
-          Sample-Size Adjusted BIC        3708.950
+          Akaike (AIC)                    3854.142
+          Bayesian (BIC)                  3904.717
+          Sample-Size Adjusted BIC        3866.629
             (n* = (n + 2) / 24)
 
 Chi-Square Test of Model Fit for the Binary and Ordered Categorical
@@ -132,15 +136,15 @@ Chi-Square Test of Model Fit for the Binary and Ordered Categorical
 
           Pearson Chi-Square
 
-          Value                             65.253
+          Value                             50.987
           Degrees of Freedom                    68
-          P-Value                           0.5720
+          P-Value                           0.9387
 
           Likelihood Ratio Chi-Square
 
-          Value                             69.233
+          Value                             58.100
           Degrees of Freedom                    68
-          P-Value                           0.4356
+          P-Value                           0.7984
 
 
 
@@ -150,23 +154,23 @@ MODEL RESULTS
                     Estimate       S.E.  Est./S.E.    P-Value
 
  F1       BY
-    A1                 0.689      0.138      5.007      0.000
-    A2                 1.268      0.194      6.523      0.000
-    A3                 1.154      0.178      6.470      0.000
-    A4                 2.871      0.793      3.620      0.000
+    A1                 0.836      0.167      5.013      0.000
+    A2                 1.124      0.217      5.172      0.000
+    A3                 1.371      0.286      4.797      0.000
+    A4                 0.959      0.184      5.217      0.000
 
  Means
     F1                 0.000      0.000    999.000    999.000
 
  Thresholds
-    A1$1              -0.066      0.099     -0.666      0.505
-    A1$2               0.371      0.101      3.691      0.000
-    A2$1              -0.429      0.120     -3.576      0.000
-    A2$2               0.420      0.120      3.498      0.000
-    A3$1              -0.223      0.113     -1.963      0.050
-    A3$2               0.567      0.118      4.807      0.000
-    A4$1               0.137      0.190      0.722      0.470
-    A4$2               0.666      0.230      2.894      0.004
+    A1$1              -0.333      0.105     -3.183      0.001
+    A1$2               0.393      0.105      3.733      0.000
+    A2$1              -0.375      0.115     -3.253      0.001
+    A2$2               0.312      0.114      2.740      0.006
+    A3$1              -0.427      0.128     -3.349      0.001
+    A3$2              -0.066      0.122     -0.542      0.588
+    A4$1              -0.544      0.112     -4.869      0.000
+    A4$2               0.328      0.108      3.021      0.003
 
  Variances
     F1                 1.000      0.000    999.000    999.000
@@ -174,7 +178,7 @@ MODEL RESULTS
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.269E-02
+     Condition Number for the Information Matrix              0.200E-01
        (ratio of smallest to largest eigenvalue)
 
 
@@ -183,25 +187,25 @@ RESULTS IN PROBABILITY SCALE
                     Estimate
 
  A1
-    Category 1         0.485
-    Category 2         0.098
-    Category 3         0.417
+    Category 1         0.428
+    Category 2         0.156
+    Category 3         0.416
  A2
-    Category 1         0.419
-    Category 2         0.160
-    Category 3         0.421
+    Category 1         0.426
+    Category 2         0.136
+    Category 3         0.438
  A3
-    Category 1         0.456
-    Category 2         0.154
-    Category 3         0.390
+    Category 1         0.422
+    Category 2         0.066
+    Category 3         0.512
  A4
-    Category 1         0.516
-    Category 2         0.062
-    Category 3         0.421
+    Category 1         0.388
+    Category 2         0.180
+    Category 3         0.432
 
 
-     Beginning Time:  10:19:06
-        Ending Time:  10:19:06
+     Beginning Time:  13:31:12
+        Ending Time:  13:31:12
        Elapsed Time:  00:00:00
 
 

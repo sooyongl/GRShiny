@@ -3,11 +3,10 @@ variable:
   names are a1-a4;
   categorical = a1-a4;
 
-analysis:
-  !estimator = MLR;  
+analysis:  
   estimator = WLS;
-  parameterization = THETA;
-  !parameterization = DELTA;
+  !parameterization = THETA;
+  parameterization = DELTA;
   
 model:
 

@@ -1,0 +1,125 @@
+trans_to_grm <- function(grm.fit) {
+
+  if(class(grm.fit) != "lavaan") {
+    est.mirt <- coef(grm.fit, simplify = T, IRTpars = F)
+
+    item.est <- data.frame(est.mirt$items)
+    Lam  <- item.est[grep("a", names(item.est))]
+    Thre <- item.est[grep("d", names(item.est))]
+    FV <- est.mirt$cov
+    FM <- est.mirt$means
+    estimator = "ML"
+
+  } else {
+    est.lav <- lavInspect(grm.fit, what = "est")
+
+    Lam <- data.frame(est.lav$lambda)
+    Thre <- est.lav$tau
+    n_thre <- nrow(Thre)/nrow(Lam)
+    Thre <- data.frame(matrix(Thre, ncol = n_thre, byrow = T))
+
+    FV <- est.lav$psi
+    FM <- est.lav$alpha
+    estimator = "WL"
+  }
+
+  Disc <- matrix(rep(0, nrow(Lam)*ncol(Lam)), ncol = ncol(Lam))
+  Diff <- matrix(rep(0, nrow(Lam)*ncol(Thre)), ncol = ncol(Thre))
+  for(i in 1:nrow(Lam)) {
+
+    lam <- Lam[i,]
+    thre <- Thre[i,]
+
+    for(j in 1:ncol(Lam)) {
+
+      if (estimator == "WL") {
+        Disc[i,j] <- lam*sqrt(FV) / sqrt((1 - (lam)^2))
+      } else {
+        # if ML
+        Disc[i,j] <- lam*sqrt(FV) / 1.7
+      }
+    }
+
+    for(j in 1:ncol(Thre)) {
+      Diff[i,j] <- (thre[,j] - lam*FM) / lam*sqrt(FV)
+    }
+  }
+  if(class(grm.fit) == "lavaan") {
+    Diff <- -Diff
+  }
+  colnames(Diff) <- paste0("d", 1:ncol(Diff))
+  data.frame(Disc, Diff)
+}
+
+lavForgrm <- function(dat, lav.syntax, estimator) {
+
+  if(estimator != "ML") {
+    # WLE
+    grm.fit <- cfa(
+      model = lav.syntax,
+      data = dat,
+      ordered = names(dat),
+      parameterization = "delta",# theta
+      estimator = "WLSMV" #"ML" is not working for now in lavaan
+    )
+
+    grm.par <- trans_to_grm(grm.fit = grm.fit)
+
+  } else {
+    # ML
+    grm.sirt <- lavaan2mirt(dat,lav.syntax,est.mirt = TRUE,poly.itemtype = "graded")
+
+    grm.fit <- grm.sirt$mirt
+    grm.par <- trans_to_grm(grm.fit = grm.fit)
+  }
+
+
+  return(list(grm.fit, grm.par))
+}
+
+genLavSyn <- function(dat) {
+
+  n_thre <- max(dat)
+  usevars <- names(dat)
+  nvars <- length(usevars)
+
+  var_name <- c(paste0(usevars[1:(nvars-1)], "+"),usevars[nvars])
+  lam_label <- paste0("l", 1:nvars,"*")
+  fac_syn <- paste0(lam_label[1], var_name[1])
+  for(i in 2:nvars) {
+    fac_syn <- paste0(fac_syn,paste0(lam_label[i], var_name[i]))
+  }
+
+  first <- paste0("NA*",usevars[1],"+")
+
+  fac_syn <- paste0("F =~ ",first,fac_syn,"\n\n")
+
+  fac_m_v <- "F ~~ 1*F; \n F ~ 0*1;\n"
+
+  thre_name <- rep(paste0("t",1:n_thre,";\n"), each = nvars)
+  thre_label <- paste0("t", apply(expand.grid(1:nvars, 1:n_thre), 1, function(x) paste0(x, collapse = "")))
+  thre_label <- paste0(thre_label, "*")
+  var_name <- paste0(rep(usevars, n_thre), " | ")
+
+  thre_syn <- sapply(1:length(thre_name),function(x) {
+    paste0(var_name[x],thre_label[x],thre_name[x])
+  })
+  thre_syn <- paste0("\n",paste(thre_syn, collapse = ""))
+
+  lav_syn <- paste(fac_syn, fac_m_v, thre_syn, collapse = "\n")
+
+  lav_syn
+}
+
+
+lvmodel <- "grm"
+ipar <- genIRTpar(4, ncat = 3, 1, lvmodel)
+eta <- MASS::mvrnorm(500, rep(0, 1), matrix(c(1), ncol = 1))
+orddata <- genIRTdt(lvmodel, eta, ipar)
+orddata <- data.frame(orddata)
+names(orddata) <- paste0("a", 1:4)
+
+lav.model <- genLavSyn(orddata)
+cat(lav.model)
+lavForgrm(dat = orddata, lav.syntax = lav.model, estimator = "ML")
+lavForgrm(orddata, lav.model, "WL")

@@ -5,6 +5,7 @@ variable:
 
 analysis:
   estimator = ML;
+  parameterization = DELTA;
   
 model:
 
