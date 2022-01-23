@@ -1,7 +1,7 @@
 shinyServer(
   function(input, output, session) {
     #
-    # UI ready ------------------------------------------
+    # Data part ------------------------------------------
     output$data_import <- renderUI({
       if(input$empirical == "empirical") {
         fluidRow(
@@ -9,18 +9,33 @@ shinyServer(
                  fileInput("setups", "Choose csv or dat file for Setup",
                            multiple = FALSE,
                            accept = c("csv", "dat")),
+
+                 numericInput(
+                   inputId = "missing",
+                   label = "Missing",
+                   value = -99,step = 1),
+
                  actionButton("import", "IMPORT"),
                  br(),
                  div(verbatimTextOutput("validation"), id = "val")
           ),
           column(8,
-                 tableOutput("setting"),
-                 tableOutput("itemtable1"),
-                 tableOutput("itemtable2"))
+                 tabsetPanel(
+                   tabPanel("Generated data",
+                            DTOutput("gen_data")
+                   ),
+                   tabPanel("Item parameters",
+                            DTOutput("ipar")
+                   ),
+                   tabPanel("Individual FS",
+                            DTOutput("indi_fs")
+                   )
+
+                 ))
         )
       } else {
         fluidRow(
-          column(4,
+          column(2,
                  numericInput(
                    inputId = "npeople",
                    label = "Number of people",
@@ -36,9 +51,23 @@ shinyServer(
                  numericInput(
                    inputId = "nfac",
                    label = "Number of factors",
-                   value = 1, min = 1, max = 4, step = 1),
+                   value = 1, min = 1, max = 1, step = 1),
 
-                 actionButton("import", "Import data"))
+                 actionButton("import", "Import data")),
+
+          column(10,
+                 tabsetPanel(
+                   tabPanel("Item parameters",
+                            DTOutput("ipar")
+                   ),
+                   tabPanel("Individual FS",
+                            DTOutput("indi_fs")
+                   ),
+                   tabPanel("Generated data",
+                            DTOutput("gen_data")
+                   )
+                 )
+          )
         )
       }
     })
@@ -46,7 +75,18 @@ shinyServer(
 
     imprt_data <- eventReactive(input$import, {
       if(input$empirical == "empirical") {
-        read_csv(filePath = input$setups$datapath)
+
+        orddata <- fread(input$setups$datapath)
+
+        mis_val <- input$missing
+
+        orddata <- orddata %>%
+          mutate_all( ~ na_if(., mis_val))
+
+        eta <- data.frame(x = "not given")
+        ipar <- data.frame(x = "not given")
+
+        list(orddata = orddata, eta = eta, ipar = ipar)
 
       } else {
         npeople <- input$npeople
@@ -55,24 +95,77 @@ shinyServer(
         nfac    <- input$nfac
 
         ipar <- genIRTpar(nitem, ncat = ncate, nfac)
+        ipar <- round(ipar, 3)
         eta <- MASS::mvrnorm(npeople, rep(0, nfac),
                              # matrix(c(1), ncol = nfac),
                              diag(1, nfac),
                              empirical = T)
+        eta <- round(eta, 3)
 
         orddata <- genData(eta, ipar)
-        orddata
+
+        list(ipar=ipar, eta=eta, orddata=orddata)
       }
     })
 
-
-    output$results <- renderPrint({
-
-      imprt_data()
-
+    output$ipar <- renderDT({imprt_data()$ipar})
+    output$indi_fs <- renderDT({imprt_data()$eta})
+    output$gen_data <- renderDT({imprt_data()$orddata})
 
 
+    # Analysis part -----------------------------------------------------------
+    output$what_syn <- renderUI({
+
+      orddata <- imprt_data()$orddata
+      lav.model <- genLavSyn(orddata)
+
+      if(input$cus_syn) {
+        textAreaInput("syntax", "Syntax",width = '100%',height = '600px')
+      } else {
+        textAreaInput("syntax", "Syntax",width = '100%',height = '600px',
+                      value = lav.model)
+      }
     })
+
+    ## run analysis -----------------------------------------------------------
+    observeEvent(input$grmrun, {
+
+      estimator <- input$estimator
+      orddata <- imprt_data()$orddata
+
+      if(input$cus_syn) {
+        lav.model <- input$syntax
+
+        if(input$mplus == "mplus") {
+
+          lav.model <- lavaan::mplus2lavaan.modelSyntax(strsplit(lav.model, "\n")[[1]])
+          lav.model <- str_replace(lav.model, "start\\(1\\)", "NA")
+        }
+
+      } else {
+        lav.model <- genLavSyn(orddata)
+      }
+
+      res1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = estimator)
+
+      output$results <- renderPrint({
+
+        if(estimator == "WL") {
+
+
+          list(summary(res1$lav.fit),
+               res1$grm.par)
+
+        } else {
+
+          list(coef(res1$mirt.fit$mirt, simplify = T),
+               res1$grm.par)
+
+        }
+
+      })
+    })
+
 
   }##################  Shiny Server last line   ############################
 )

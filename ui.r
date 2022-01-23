@@ -6,7 +6,13 @@ fluidPage(
   #   tags$link(rel = "stylesheet", type = "text/css",
   #             href = file.path("inst","extdata", "theme.css"))
   # ),
-  theme=bs_theme(version = 4, bootswatch = "default"),
+  theme=bs_theme(version = 4,
+                 bootswatch = "journal",
+
+                 primary = "#ED79F9",
+                 base_font = font_google("Prompt"),
+                 code_font = font_google("JetBrains Mono")
+                 ),
 
   navbarPage(
 
@@ -42,19 +48,41 @@ fluidPage(
     tabPanel("Analysis",
              fluidRow(
                column(3,
-                      prettyCheckboxGroup("syntax", "Syntax")
+                      switchInput(
+                        inputId = "cus_syn",
+                        label = "Custom Syntax",
+                        value = T,
+                        onStatus = "danger",
+                        offStatus = "sucess",
+                        labelWidth = "100px"),
+                      prettyRadioButtons("mplus",
+                                         label = "Mplus?",
+                                         choices = c("mplus", "lavaan"),
+                                         selected = "lavaan",
+                                         inline = T,
+                                         bigger = TRUE),
+
+                      uiOutput("what_syn")
+
+
 
                ),
-               column(3,
-                      prettyRadioButtons("estimator",
-                                         "Type of estimator",
-                                         choices = c("WL", "ML"),
-                                         selected = "WL")
-               )
+               column(2,
+                      prettyRadioButtons("estimator","Type of estimator",
+                        # inline = T,
+                        choiceNames = c("WLS","MLE"),
+                        choiceValues = c("WL", "ML"),
+                        selected = "WLS"),
 
-             ),
-             verbatimTextOutput("results")
-    )
+                      actionButton("grmrun", "Run")
+
+               ),
+               column(7,
+                      verbatimTextOutput("results")
+               )
+             )
+    ),
+    tabPanel("Plot")
 
 
   )
