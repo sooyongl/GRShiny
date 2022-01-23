@@ -1,0 +1,256 @@
+:root {
+/*-- COLOR VARIABLES --*/
+--DarkBlue:           #003087;
+--Blue:               #005EB8;
+--BrightBlue:         #0072CE;
+
+--Black:              #231F20;
+--DarkGrey:           #425563;
+--MidGrey:            #768692;
+--PaleGrey:           #c7c9c9;
+--White:              #FFFFFF;
+
+--DarkGreen:          #006747;
+--Green:              #009639;
+--AquaGreen:          #00A499;
+
+--Purple:             #330072;
+--DarkPink:           #7C2855;
+--Pink:               #AE2573;
+--DarkRed:            #8A1538;
+--Red:                #DA291C;
+
+--my-blue:            #122140;
+--my-yellow:          #e5bf00;
+--my-gold:            #ae8f00;
+
+--my-coral:          #903030;
+--my-red:            #600018;
+--my-pink:           #c09090;
+}
+
+/* my defined */	
+#validation.shiny-text-output {
+	font-size:15px;
+    color:var(--DarkRed) !important;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+	background-color: #fff;
+    font-weight: bold;
+	
+	border:             0.5px solid var(--PaleGrey);
+    box-shadow:         1px 1px 1px 1px var(--PaleGrey);
+    padding:            0.1em;                    /* padding between code chunk and border */
+    background:         none !important;
+    overflow-x:         auto;                     /* enable horizontal scrolling with overflow */
+    overflow-y:         auto;
+    border-radius:      1px;                      /* modify rounding of corners*/
+    
+    background:         none;
+    line-height:        1.0em;
+}
+
+#ip_size {
+	font-size: 50%;
+}
+
+#refresh_data, #refresh_data:active  {
+      background-color:rgba(0,0,0,0);
+      color: black;
+      /*font-family: Courier New;*/
+      border-color: #ddd;
+      -webkit-box-shadow: 0px;
+      box-shadow: 0px;
+	  border-radius: 5px;
+}
+
+#newline {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /*border-top: 1px solid var(--DarkRed);*/
+  border-radius: 5px;
+}
+
+#tab3title {
+	font-size: 120%;
+	color:var(--DarkBlue);
+	font-weight: bold;
+	margin-bottom: 20px;
+	text-align:left;
+}
+				
+#copyright {
+        font-family: monospace;
+        font-size: 120%;
+        color: grey;
+        line-height: 0;
+        text-align:right;
+        position: absolute;
+        bottom: 0px; 
+        right: 0px;
+}
+
+#text1 {
+	font-size:20px;
+    color:red;
+    display:block;
+    text-align:center;		  
+}
+	
+#import, #used, #update, #update_tab4, #run_tab1, #run_tab4, #run_tab1_new, #run_boot{
+	color: #fff; 
+	background-color: var(--DarkBlue); 
+	border-color: #fff;
+}
+
+#used_sheet + div div a {
+	color: var(--DarkBlue);
+}
+
+.progress-bar{
+	background-color:#212F3D;	
+}
+
+.box-header h3.box-title {
+   font-weight: bold;
+   font-size: 14px;
+   /*background-color: #2C3E50;*/
+   color:#fff;
+}
+
+
+.box.box-solid.box-warning > .box-header {  
+                    background:var(--DarkBlue);
+					/*border-bottom-color: 1.5px solid var(--DarkBlue)*/
+}
+
+.box.box-solid.box-warning{
+                    border-bottom-color:#000;
+                    border-left-color:#000;
+                    border-right-color:#000;
+                    border-top-color:#000;
+                    background:#fff
+}
+	
+.box.box-solid.box-primary > .box-header {  
+                    background:#DFE9FE;
+}
+
+.box.box-solid.box-primary > .box-header h3.box-title {  
+	font-weight: bold;
+    font-size: 14px;
+	color:#000;
+}
+
+.box.box-solid.box-primary{
+                    border-bottom-color:#000;
+                    border-left-color:#000;
+                    border-right-color:#000;
+                    border-top-color:#000;
+                    background:#fff
+}
+	
+/* 
+th {
+	text-align: center;
+}
+
+*/
+
+.nav-tabs {
+  border-bottom: 1.5px solid var(--DarkBlue);
+  font-weight: bold;
+}
+
+.nav-tabs > li >a {
+  border-color: var(--DarkBlue);
+  background: #fff;
+  color: var(--PaleGrey);
+  border-bottom-color: 1.5px solid var(--DarkBlue);
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus, 
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:hover{ 
+   border-color: var(--DarkBlue);
+   background: var(--DarkBlue); 
+   color: #fff;
+   border-bottom-color: 1.5px solid var(--DarkBlue);
+}
+
+.nav-tabs li.active {
+	border-bottom-color: 1.5px solid var(--DarkBlue);
+}
+
+.form-control {
+	/*background: var(--my-red);*/
+	
+}
+/*
+ * Table styles
+ */
+table.dataTable {
+  width: 100%;
+  margin: 0 auto;
+  clear: both;
+  border-collapse: separate;
+  border-spacing: 0;
+  /*
+   * Header and footer styles
+   */
+  /*
+   * Body styles
+   */
+}
+
+table.dataTable thead th,
+table.dataTable tfoot th {
+  font-weight: bold;
+  text-align: center;
+}
+
+table.dataTable tbody tr.selected {
+    color: white;
+    background-color: #56585A;
+	background: #56585A;
+}
+
+.navbar{ 
+   background-color: #fff;
+   border-color: 1.5px solid var(--DarkBlue)
+   
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:focus, 
+.navbar-default .navbar-nav > .active > a:hover {
+	color: #fff;
+	background-color: var(--DarkBlue);
+	}
+	
+	
+.js-irs-0 .irs-single, .js-irs-0 .irs-bar-edge, .js-irs-0 .irs-bar {
+	background-color: var(--DarkBlue);
+	margin: 0 auto;
+}
+
+/* changes the colour of the number tags */
+.irs-from, .irs-to, .irs-single { 
+	background: var(--DarkBlue);
+}
+
+.irs-grid-text { 
+	font-size: 8pt; 
+}
+.form-check-label.form-check-label-inline{
+	margin-right: 10px !important; 
+	margin-left: 10px !important; 
+}
+
+.awesome-checkbox.checkbox-danger.checkbox-inline.checkbox-inline.form-check-inline {
+	margin-right: 10px !important; 
+	margin-left: 10px !important; 
+	padding: 0px !important; 
+}
