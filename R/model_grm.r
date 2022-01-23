@@ -73,11 +73,14 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
   } else {
     # ML
-    grm.sirt <- lavaan2mirt(dat,lav.syntax,est.mirt = TRUE,
+    grm.sirt <- lavaan2mirt(dat,
+                            lav.syntax,
+                            est.mirt = TRUE,
+                            verbose = F,
                             poly.itemtype = "graded")
 
-    grm.fit <- grm.sirt$mirt
-    grm.par <- trans_to_grm(grm.fit = grm.fit)
+    grm.fit <- grm.sirt
+    grm.par <- trans_to_grm(grm.fit = grm.sirt$mirt)
   }
 
   res <- list(fit = grm.fit, grm.par = grm.par)
