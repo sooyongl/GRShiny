@@ -55,12 +55,13 @@ fluidPage(
                         onStatus = "danger",
                         offStatus = "sucess",
                         labelWidth = "100px"),
-                      prettyRadioButtons("mplus",
-                                         label = "Mplus?",
-                                         choices = c("mplus", "lavaan"),
-                                         selected = "lavaan",
-                                         inline = T,
-                                         bigger = TRUE),
+
+                      # prettyRadioButtons("mplus",
+                      #                    label = "Mplus?",
+                      #                    choices = c("mplus", "lavaan"),
+                      #                    selected = "lavaan",
+                      #                    inline = T,
+                      #                    bigger = TRUE),
 
                       uiOutput("what_syn")
 
