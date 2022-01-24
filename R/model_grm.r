@@ -73,14 +73,24 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
   } else {
     # ML
+    lav.syntax <- str_replace_all(lav.syntax, "\\+l[0-9]\\*|\\+l[0-9][0-9]\\*|\\+l[0-9][0-9][0-9]\\*", "+")
+
+    lav.syntax <- str_remove_all(lav.syntax, " t[0-9][0-9]\\*| t[0-9][0-9][0-9]\\*| t[0-9][0-9][0-9][0-9]\\*")
+
     grm.sirt <- lavaan2mirt(dat,
                             lav.syntax,
-                            est.mirt = TRUE,
-                            verbose = F,
-                            poly.itemtype = "graded")
+                            est.mirt = T,
+                            poly.itemtype = "graded",
+                            SE = T, verbose = F)
 
-    grm.fit <- grm.sirt
-    grm.par <- trans_to_grm(grm.fit = grm.sirt$mirt)
+    # grm.fit <-
+    #   mirt::mirt(grm.sirt$dat,
+    #              model = grm.sirt$mirt.model,
+    #              pars = grm.sirt$mirt.pars,
+    #              itemtype = "graded", SE = T, verbose = F)
+
+    grm.fit <- grm.sirt$mirt
+    grm.par <- trans_to_grm(grm.fit = grm.fit)
   }
 
   res <- list(fit = grm.fit, grm.par = grm.par)
