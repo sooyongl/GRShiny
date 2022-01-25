@@ -5,19 +5,18 @@ shinyServer(
     output$data_import <- renderUI({
       if(input$empirical == "empirical") {
         fluidRow(
-          column(2,
+          column(4,
                  fileInput("setups", "Choose csv or dat file for Setup",
                            multiple = FALSE, accept = c("csv", "dat")),
                  numericInput("missing","Missing",value = -99,step = 1),
-                 # uiOutput("chovarUI"),
-                 # textInput("chovar","Choose variables (type the column numbers)"),
+                 textInput("chovar","Choose variables (type the column numbers)"),
                  actionButton("import", "IMPORT")
           ),
-          column(10,
+
+          column(8,
                  tabsetPanel(
-                   tabPanel("Generated data",DTOutput("gen_data")),
-                   tabPanel("Item parameters",DTOutput("ipar")),
-                   tabPanel("Individual FS",DTOutput("indi_fs"))
+                   # verbatimTextOutput("gen_data")
+                   tabPanel("Imported data",DTOutput("gen_data"))
                  ))
         )
       } else {
@@ -32,10 +31,6 @@ shinyServer(
                  numericInput(inputId = "nfac",label = "Number of factors (not yet)",
                               value = 1, min = 1, max = 1, step = 1),
 
-
-
-
-
                  actionButton("import", "Import data")),
 
           column(10,
@@ -49,36 +44,33 @@ shinyServer(
         )
       }
     })
-    # eventReactive(input$import, {
-    # output$chovarUI <- renderUI({
-    #
-    #   orddata <- fread(input$setups$datapath)
-    #
-    #   textInput("chovar","Choose variables (type the column numbers)")
-    # })
-    # })
+
+    # imprt_data <- reactiveValues()
+    observeEvent(input$import, {
+      orddata <- fread(input$setups$datapath)
+      # if(existsFunction("imprt_data")) {
+      #
+      #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
+      # } else {
+        picked <- paste0("1-", ncol(orddata))
+      # }
+      updateTextInput(session, "chovar", value = picked)
+    })
 
     imprt_data <- eventReactive(input$import, {
       if(input$empirical == "empirical") {
-
         mis_val <- input$missing
-        # chovar <- input$chovar
+        chovar <- input$chovar
 
-        # if(grepl("-", chovar)) {
-        #
-        #
-        # }
-        #
-        # selected_items <- eval(parse(text = str_replace(chovar, "-", ":")))
+        selected_items <- eval(parse(text = paste0("c(",str_replace_all(chovar, "-", ":"),")")))
 
         orddata <- fread(input$setups$datapath) %>% mutate_all(~na_if(.,mis_val))
-        # orddata <- orddata[,selected_items]
-
+        orddata <- data.frame(orddata)[, selected_items]
 
         eta <- data.frame(x = "not given")
         ipar <- data.frame(x = "not given")
 
-        list(orddata = orddata, eta = eta, ipar = ipar)
+        list(orddata = orddata, vname = names(orddata), eta = eta, ipar = ipar)
 
       } else {
         npeople <- input$npeople
@@ -94,7 +86,7 @@ shinyServer(
         eta <- round(eta, 3)
         orddata <- genData(eta, ipar)
 
-        list(ipar=ipar, eta=eta, orddata=orddata)
+        list(ipar=ipar, eta=eta, orddata=orddata, vname = names(orddata))
       }
     })
 
@@ -151,33 +143,14 @@ shinyServer(
 
       final$res <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = estimator)
 
-      # output$results <- renderPrint({
-      #   if(estimator == "WL") {
-      #     list(SEM_par = lavaan_out_cleaning(final$res$lav.fit),
-      #          GRM_par = round(final$res$grm.par,3))
-      #   } else {
-      #     list(SEM_par = mirt_out_cleaning(final$res$mirt.fit),
-      #          GRM_par = round(final$res$grm.par,3))
-      #   }
-      # })
-
       output$result0 <- renderDT({
         fit.dt <- extract_fit(final$res)
         fit.dt
       })
 
       output$result1 <- renderDT({
-
         output_cleaning(final$res) %>%
           mutate_if(is.numeric, ~ round(., 3))
-
-        # if(estimator == "WL") {
-        #   lavaan_out_cleaning(final$res$lav.fit) %>%
-        #     mutate_if(is.numeric, ~ round(., 3))
-        # } else {
-        #   lavaan_out_cleaning(final$res$mirt.fit) %>%
-        #     mutate_if(is.numeric, ~ round(., 3))
-        # }
       })
 
       output$result2 <- renderDT({
@@ -200,7 +173,6 @@ shinyServer(
                    choices = item_name,
                    multiple = TRUE
                  )
-
           ),
 
           column(2,
