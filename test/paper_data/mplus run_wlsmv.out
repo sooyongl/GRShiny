@@ -1,0 +1,578 @@
+Mplus VERSION 8.5
+MUTHEN & MUTHEN
+05/21/2021  11:51 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:      GRADED RESPONSE MODEL WITH BECK YOUTH INVENTORY FOR
+              DEPRESSION-WLSMV ESTIMATION
+
+  DATA:       FILE IS C:\USERS\TWHITTAKER\DOCUMENTS\SEM_IRT\BYI_DEMO.DAT;
+
+  VARIABLE:   NAMES ARE SUBJECT COHORT GRADE AGE I1-I20;
+              USEVARIABLES ARE I1-I20;
+              CATEGORICAL ARE I1-I20;
+              IDVARIABLE=SUBJECT;
+              MISSING= ;
+
+  ANALYSIS:
+  !DEFAULT ESTIMATOR WHEN USING CATEGORICAL OUTCOMES
+  ESTIMATOR = WLSMV;
+
+  MODEL:
+  !LABELING FACTOR LOADINGS FOR B1-B20 RELATING THEM TO FACTOR F
+              F BY I1-I20* (L1-L20);
+
+  !LABELING FACTOR VARIANCE AND MEAN, RESPECTIVELY
+              F* (FVAR);
+              [F] (FMEAN);
+
+  !LABELING THREE THRESHOLDS (#CATEGORIES-1) PER ITEM
+          [I1$1-I20$1] (T1I1-T1I20); !THRESHOLD 1 FOR ITEMS 1-20
+          [I1$2-I20$2] (T2I1-T2I20); !THRESHOLD 2 FOR ITEMS 1-20
+          [I1$3-I20$3] (T3I1-T3I20); !THRESHOLD 3 FOR ITEMS 1-20
+
+  !USING MODEL CONSTRAINT TO CALCULATE IRT PARAMETERS
+  MODEL CONSTRAINT:
+
+  !SETTING FACTOR VARIANCE AND FACTOR MEAN TO 1 AND ZERO, RESPECTIVELY
+  !NEEDED FOR MODEL IDENTIFICATION
+          FVAR=1;
+          FMEAN=0;
+
+  !CREATING NEW IRT PARAMETERS
+
+  !DIS=DISCRIMINATION; D=DIFFICULTY; I=ITEM
+  NEW(DIS1-DIS20 D1I1-D1I20 D2I1-D2I20 D3I1-D3I20);
+
+  !DIS1-DIS20 ARE DISCRIMINATIONS FOR ITEMS 1-20
+  !DISCRIMINATION CALCULATED USING EQUATION 7 WITH THE DO LOOP
+  !FOR ITEMS 1-20, REPLACE # WITH RESPECTIVE ITEM #
+  DO(1,20) DIS# = (L#*SQRT(FVAR))/SQRT(1-L#^2); !EQUATION 7
+
+  !D1I1-D1I20, D2I1-D2I20, AND D3I1-D3I20 ARE DIFFICULTIES
+  !DIFFICULTIES CALCULATED USING EQUATION 8 WITH THE DO LOOP
+  !FOR ITEMS 1-20, REPLACE # WITH RESPECTIVE ITEM #
+  DO(1,20) D1I# =  (T1I#-(L#*FMEAN))/(L#*SQRT(FVAR));
+  DO(1,20) D2I# =  (T2I#-(L#*FMEAN))/(L#*SQRT(FVAR));
+  DO(1,20) D3I# =  (T3I#-(L#*FMEAN))/(L#*SQRT(FVAR));
+
+  SAVEDATA:
+  !SAVING FACTOR SCORES/THETAS IN THETA_WLSMV.DAT
+  FILE IS THETA_WLSMV.DAT;
+  SAVE=FSCORES;
+
+  PLOT:
+  !REQUEST PLOT 3 FOR TEM CHARACTERISTIC AND INFORMATION CURVES
+  TYPE IS PLOT3;
+
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+GRADED RESPONSE MODEL WITH BECK YOUTH INVENTORY FOR
+DEPRESSION-WLSMV ESTIMATION
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        1678
+
+Number of dependent variables                                   20
+Number of independent variables                                  0
+Number of continuous latent variables                            1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   I1          I2          I3          I4          I5          I6
+   I7          I8          I9          I10         I11         I12
+   I13         I14         I15         I16         I17         I18
+   I19         I20
+
+Continuous latent variables
+   F
+
+Variables with special functions
+
+  ID variable           SUBJECT
+
+Estimator                                                    WLSMV
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Parameterization                                             DELTA
+Link                                                        PROBIT
+
+Input data file(s)
+  C:\USERS\TWHITTAKER\DOCUMENTS\SEM_IRT\BYI_DEMO.DAT
+
+Input data format  FREE
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    I1
+      Category 1    0.343          575.000
+      Category 2    0.539          905.000
+      Category 3    0.092          154.000
+      Category 4    0.026           44.000
+    I2
+      Category 1    0.147          247.000
+      Category 2    0.703         1180.000
+      Category 3    0.122          204.000
+      Category 4    0.028           47.000
+    I3
+      Category 1    0.542          910.000
+      Category 2    0.375          629.000
+      Category 3    0.061          103.000
+      Category 4    0.021           36.000
+    I4
+      Category 1    0.737         1237.000
+      Category 2    0.198          332.000
+      Category 3    0.046           78.000
+      Category 4    0.018           31.000
+    I5
+      Category 1    0.294          494.000
+      Category 2    0.476          799.000
+      Category 3    0.139          233.000
+      Category 4    0.091          152.000
+    I6
+      Category 1    0.625         1049.000
+      Category 2    0.282          474.000
+      Category 3    0.061          102.000
+      Category 4    0.032           53.000
+    I7
+      Category 1    0.431          723.000
+      Category 2    0.446          748.000
+      Category 3    0.083          140.000
+      Category 4    0.040           67.000
+    I8
+      Category 1    0.411          690.000
+      Category 2    0.417          700.000
+      Category 3    0.117          197.000
+      Category 4    0.054           91.000
+    I9
+      Category 1    0.193          324.000
+      Category 2    0.604         1013.000
+      Category 3    0.162          271.000
+      Category 4    0.042           70.000
+    I10
+      Category 1    0.376          631.000
+      Category 2    0.443          743.000
+      Category 3    0.134          225.000
+      Category 4    0.047           79.000
+    I11
+      Category 1    0.586          984.000
+      Category 2    0.304          510.000
+      Category 3    0.069          116.000
+      Category 4    0.041           68.000
+    I12
+      Category 1    0.530          889.000
+      Category 2    0.331          556.000
+      Category 3    0.093          156.000
+      Category 4    0.046           77.000
+    I13
+      Category 1    0.405          679.000
+      Category 2    0.477          800.000
+      Category 3    0.084          141.000
+      Category 4    0.035           58.000
+    I14
+      Category 1    0.395          663.000
+      Category 2    0.471          791.000
+      Category 3    0.098          164.000
+      Category 4    0.036           60.000
+    I15
+      Category 1    0.639         1073.000
+      Category 2    0.262          439.000
+      Category 3    0.065          109.000
+      Category 4    0.034           57.000
+    I16
+      Category 1    0.346          581.000
+      Category 2    0.477          800.000
+      Category 3    0.144          241.000
+      Category 4    0.033           56.000
+    I17
+      Category 1    0.213          357.000
+      Category 2    0.567          951.000
+      Category 3    0.151          254.000
+      Category 4    0.069          116.000
+    I18
+      Category 1    0.170          286.000
+      Category 2    0.614         1031.000
+      Category 3    0.160          269.000
+      Category 4    0.055           92.000
+    I19
+      Category 1    0.469          787.000
+      Category 2    0.349          586.000
+      Category 3    0.119          199.000
+      Category 4    0.063          106.000
+    I20
+      Category 1    0.592          994.000
+      Category 2    0.299          502.000
+      Category 3    0.068          114.000
+      Category 4    0.041           68.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       80
+
+Chi-Square Test of Model Fit
+
+          Value                           1737.393*
+          Degrees of Freedom                   170
+          P-Value                           0.0000
+
+*   The chi-square value for MLM, MLMV, MLR, ULSMV, WLSM and WLSMV cannot be used
+    for chi-square difference testing in the regular way.  MLM, MLR and WLSM
+    chi-square difference testing is described on the Mplus website.  MLMV, WLSMV,
+    and ULSMV difference testing is done using the DIFFTEST option.
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.074
+          90 Percent C.I.                    0.071  0.077
+          Probability RMSEA <= .05           0.000
+
+CFI/TLI
+
+          CFI                                0.950
+          TLI                                0.945
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                          31838.651
+          Degrees of Freedom                   190
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.044
+
+Optimum Function Value for Weighted Least-Squares Estimator
+
+          Value                     0.33332248D+00
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ F        BY
+    I1                 0.769      0.013     58.643      0.000
+    I2                 0.528      0.020     26.428      0.000
+    I3                 0.677      0.017     39.391      0.000
+    I4                 0.773      0.015     50.687      0.000
+    I5                 0.466      0.021     22.454      0.000
+    I6                 0.709      0.017     41.342      0.000
+    I7                 0.737      0.014     53.716      0.000
+    I8                 0.683      0.015     44.112      0.000
+    I9                 0.433      0.021     20.521      0.000
+    I10                0.769      0.012     63.138      0.000
+    I11                0.742      0.015     49.741      0.000
+    I12                0.655      0.018     37.170      0.000
+    I13                0.680      0.015     44.285      0.000
+    I14                0.699      0.016     44.850      0.000
+    I15                0.837      0.011     74.099      0.000
+    I16                0.509      0.020     25.211      0.000
+    I17                0.739      0.013     54.927      0.000
+    I18                0.760      0.013     58.589      0.000
+    I19                0.778      0.012     62.754      0.000
+    I20                0.831      0.011     72.971      0.000
+
+ Means
+    F                  0.000      0.000    999.000    999.000
+
+ Thresholds
+    I1$1              -0.405      0.032    -12.852      0.000
+    I1$2               1.185      0.040     29.745      0.000
+    I1$3               1.939      0.064     30.242      0.000
+    I2$1              -1.049      0.038    -27.911      0.000
+    I2$2               1.038      0.037     27.751      0.000
+    I2$3               1.911      0.063     30.489      0.000
+    I3$1               0.106      0.031      3.466      0.001
+    I3$2               1.386      0.044     31.443      0.000
+    I3$3               2.025      0.069     29.411      0.000
+    I4$1               0.635      0.033     19.266      0.000
+    I4$2               1.514      0.047     31.900      0.000
+    I4$3               2.086      0.073     28.725      0.000
+    I5$1              -0.541      0.032    -16.748      0.000
+    I5$2               0.741      0.034     21.881      0.000
+    I5$3               1.337      0.043     31.140      0.000
+    I6$1               0.319      0.031     10.236      0.000
+    I6$2               1.326      0.043     31.063      0.000
+    I6$3               1.858      0.060     30.900      0.000
+    I7$1              -0.174      0.031     -5.661      0.000
+    I7$2               1.158      0.039     29.430      0.000
+    I7$3               1.752      0.056     31.533      0.000
+    I8$1              -0.224      0.031     -7.269      0.000
+    I8$2               0.948      0.036     26.214      0.000
+    I8$3               1.605      0.050     31.939      0.000
+    I9$1              -0.867      0.035    -24.647      0.000
+    I9$2               0.830      0.035     23.887      0.000
+    I9$3               1.731      0.055     31.623      0.000
+    I10$1             -0.316      0.031    -10.139      0.000
+    I10$2              0.911      0.036     25.525      0.000
+    I10$3              1.674      0.053     31.818      0.000
+    I11$1              0.218      0.031      7.074      0.000
+    I11$2              1.228      0.041     30.213      0.000
+    I11$3              1.745      0.055     31.564      0.000
+    I12$1              0.075      0.031      2.441      0.015
+    I12$2              1.085      0.038     28.461      0.000
+    I12$3              1.686      0.053     31.784      0.000
+    I13$1             -0.241      0.031     -7.805      0.000
+    I13$2              1.182      0.040     29.711      0.000
+    I13$3              1.818      0.058     31.172      0.000
+    I14$1             -0.266      0.031     -8.583      0.000
+    I14$2              1.110      0.039     28.805      0.000
+    I14$3              1.802      0.058     31.265      0.000
+    I15$1              0.357      0.031     11.400      0.000
+    I15$2              1.288      0.042     30.762      0.000
+    I15$3              1.825      0.059     31.122      0.000
+    I16$1             -0.395      0.031    -12.562      0.000
+    I16$2              0.927      0.036     25.828      0.000
+    I16$3              1.833      0.059     31.070      0.000
+    I17$1             -0.797      0.034    -23.164      0.000
+    I17$2              0.771      0.034     22.571      0.000
+    I17$3              1.482      0.047     31.831      0.000
+    I18$1             -0.952      0.036    -26.300      0.000
+    I18$2              0.789      0.034     22.982      0.000
+    I18$3              1.600      0.050     31.943      0.000
+    I19$1             -0.078      0.031     -2.539      0.011
+    I19$2              0.909      0.036     25.481      0.000
+    I19$3              1.529      0.048     31.922      0.000
+    I20$1              0.234      0.031      7.561      0.000
+    I20$2              1.235      0.041     30.277      0.000
+    I20$3              1.745      0.055     31.564      0.000
+
+ Variances
+    F                  1.000      0.000    999.000    999.000
+
+New/Additional Parameters
+    DIS1               1.203      0.050     23.962      0.000
+    DIS2               0.621      0.033     19.072      0.000
+    DIS3               0.920      0.043     21.333      0.000
+    DIS4               1.219      0.060     20.381      0.000
+    DIS5               0.526      0.030     17.582      0.000
+    DIS6               1.005      0.049     20.561      0.000
+    DIS7               1.092      0.045     24.506      0.000
+    DIS8               0.935      0.040     23.542      0.000
+    DIS9               0.480      0.029     16.682      0.000
+    DIS10              1.204      0.047     25.783      0.000
+    DIS11              1.105      0.049     22.391      0.000
+    DIS12              0.866      0.041     21.236      0.000
+    DIS13              0.928      0.039     23.800      0.000
+    DIS14              0.976      0.042     22.967      0.000
+    DIS15              1.531      0.069     22.153      0.000
+    DIS16              0.591      0.032     18.681      0.000
+    DIS17              1.096      0.044     24.944      0.000
+    DIS18              1.169      0.047     24.756      0.000
+    DIS19              1.239      0.050     24.758      0.000
+    DIS20              1.495      0.066     22.550      0.000
+    D1I1              -0.527      0.043    -12.219      0.000
+    D1I2              -1.987      0.112    -17.699      0.000
+    D1I3               0.157      0.045      3.473      0.001
+    D1I4               0.821      0.046     17.788      0.000
+    D1I5              -1.161      0.091    -12.690      0.000
+    D1I6               0.450      0.045      9.991      0.000
+    D1I7              -0.236      0.042     -5.558      0.000
+    D1I8              -0.329      0.047     -7.046      0.000
+    D1I9              -2.004      0.136    -14.744      0.000
+    D1I10             -0.411      0.042     -9.781      0.000
+    D1I11              0.294      0.042      7.043      0.000
+    D1I12              0.114      0.047      2.445      0.015
+    D1I13             -0.355      0.047     -7.518      0.000
+    D1I14             -0.381      0.046     -8.249      0.000
+    D1I15              0.426      0.038     11.321      0.000
+    D1I16             -0.777      0.072    -10.791      0.000
+    D1I17             -1.079      0.054    -19.975      0.000
+    D1I18             -1.253      0.056    -22.322      0.000
+    D1I19             -0.100      0.040     -2.527      0.012
+    D1I20              0.281      0.037      7.573      0.000
+    D2I1               1.541      0.063     24.337      0.000
+    D2I2               1.968      0.111     17.793      0.000
+    D2I3               2.047      0.093     21.962      0.000
+    D2I4               1.959      0.082     23.827      0.000
+    D2I5               1.590      0.107     14.844      0.000
+    D2I6               1.871      0.085     22.000      0.000
+    D2I7               1.571      0.068     23.260      0.000
+    D2I8               1.388      0.067     20.672      0.000
+    D2I9               1.919      0.130     14.730      0.000
+    D2I10              1.184      0.054     21.795      0.000
+    D2I11              1.657      0.072     23.142      0.000
+    D2I12              1.658      0.081     20.370      0.000
+    D2I13              1.738      0.078     22.301      0.000
+    D2I14              1.589      0.072     22.013      0.000
+    D2I15              1.538      0.060     25.742      0.000
+    D2I16              1.821      0.109     16.762      0.000
+    D2I17              1.043      0.053     19.523      0.000
+    D2I18              1.038      0.051     20.190      0.000
+    D2I19              1.168      0.054     21.771      0.000
+    D2I20              1.485      0.059     25.158      0.000
+    D3I1               2.522      0.106     23.893      0.000
+    D3I2               3.622      0.201     18.014      0.000
+    D3I3               2.990      0.144     20.732      0.000
+    D3I4               2.698      0.123     21.984      0.000
+    D3I5               2.871      0.172     16.694      0.000
+    D3I6               2.621      0.123     21.350      0.000
+    D3I7               2.375      0.099     23.946      0.000
+    D3I8               2.351      0.105     22.446      0.000
+    D3I9               4.002      0.253     15.828      0.000
+    D3I10              2.176      0.088     24.657      0.000
+    D3I11              2.353      0.102     23.106      0.000
+    D3I12              2.575      0.122     21.031      0.000
+    D3I13              2.672      0.120     22.272      0.000
+    D3I14              2.580      0.116     22.243      0.000
+    D3I15              2.180      0.087     25.138      0.000
+    D3I16              3.602      0.204     17.632      0.000
+    D3I17              2.006      0.083     24.190      0.000
+    D3I18              2.105      0.085     24.792      0.000
+    D3I19              1.965      0.080     24.577      0.000
+    D3I20              2.099      0.084     24.982      0.000
+
+
+R-SQUARE
+
+    Observed                   Residual
+    Variable        Estimate   Variance
+
+    I1                 0.591      0.409
+    I2                 0.278      0.722
+    I3                 0.458      0.542
+    I4                 0.598      0.402
+    I5                 0.217      0.783
+    I6                 0.503      0.497
+    I7                 0.544      0.456
+    I8                 0.466      0.534
+    I9                 0.187      0.813
+    I10                0.592      0.408
+    I11                0.550      0.450
+    I12                0.429      0.571
+    I13                0.463      0.537
+    I14                0.488      0.512
+    I15                0.701      0.299
+    I16                0.259      0.741
+    I17                0.546      0.454
+    I18                0.577      0.423
+    I19                0.605      0.395
+    I20                0.691      0.309
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.544E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              F             F_SE
+              ________      ________
+                0.011         0.274
+
+
+           Covariances
+              F             F_SE
+              ________      ________
+ F              0.898
+ F_SE          -0.045         0.003
+
+
+           Correlations
+              F             F_SE
+              ________      ________
+ F              1.000
+ F_SE          -0.821         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores, estimated values, residuals)
+  Scatterplots (sample values, estimated factor scores, estimated values, residuals)
+  Sample proportions and estimated probabilities
+  Item characteristic curves
+  Information curves
+  Latent variable distribution plots
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    THETA_WLSMV.DAT
+
+  Order and format of variables
+
+    I1             F10.3
+    I2             F10.3
+    I3             F10.3
+    I4             F10.3
+    I5             F10.3
+    I6             F10.3
+    I7             F10.3
+    I8             F10.3
+    I9             F10.3
+    I10            F10.3
+    I11            F10.3
+    I12            F10.3
+    I13            F10.3
+    I14            F10.3
+    I15            F10.3
+    I16            F10.3
+    I17            F10.3
+    I18            F10.3
+    I19            F10.3
+    I20            F10.3
+    F              F10.3
+    F_SE           F10.3
+    SUBJECT        I5
+
+  Save file format
+    22F10.3 I5
+
+  Save file record length    10000
+
+  Save missing symbol        *
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    c:\users\tw31\documents\sem_irt\mplus run_wlsmv.dgm
+
+     Beginning Time:  11:51:09
+        Ending Time:  11:51:10
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2020 Muthen & Muthen

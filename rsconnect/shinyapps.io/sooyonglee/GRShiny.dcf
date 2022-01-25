@@ -1,0 +1,14 @@
+name: GRShiny
+title: GRShiny
+username:
+account: sooyonglee
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5492066
+bundleId: 5504458
+url: https://sooyonglee.shinyapps.io/GRShiny/
+when: 1643078531.18626
+lastSyncTime: 1643078531.18626
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .gitattributes|.Rbuildignore|DESCRIPTION|inst/www/template.docx|inst/www/theme.css|man/hello.Rd|Mplus Run Models.log|NAMESPACE|test

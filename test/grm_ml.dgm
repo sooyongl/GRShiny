@@ -1,0 +1,44 @@
+VERSION 1.1.0
+INPUT
+DATA:
+ file is grm_dt.csv;
+VARIABLE:
+  names are a1-a4;
+  categorical = a1-a4;
+ANALYSIS:
+  estimator = ML;
+MODEL:
+  F1 by a1-a4* (L1-L4);
+   F1* (FVAR);
+  [F1*] (FMEAN);
+  [a1$1-a4$1] (T1a1-T1a4);
+  [a1$2-a4$2] (T2a1-T2a4);
+INPUT_END
+2
+0
+0
+0
+ML
+1
+GENERAL
+0
+4
+1
+0
+a1 a2 a3 a4 f1
+1
+-1 -1 -1 -1 0
+0
+1
+f1
+a1 a2 a3 a4
+1 1 f1 a1    0.893    0.161
+91 1 f1 a1 l1
+1 1 f1 a2    1.852    0.354
+91 1 f1 a2 l2
+1 1 f1 a3    1.078    0.181
+91 1 f1 a3 l3
+1 1 f1 a4    1.394    0.233
+91 1 f1 a4 l4
+5 1 f1    1.000    0.000
+95 1 f1 fvar

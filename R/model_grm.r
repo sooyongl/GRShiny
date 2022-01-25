@@ -7,7 +7,7 @@ trans_to_grm <- function(grm.fit) {
 
     item.est <- data.frame(est.mirt$items)
     Lam  <- item.est[grep("a", names(item.est))]
-    Thre <- item.est[grep("d", names(item.est))]
+    Thre <- -item.est[grep("d", names(item.est))]
     FV <- est.mirt$cov
     FM <- est.mirt$means
     estimator = "ML"
@@ -36,7 +36,7 @@ trans_to_grm <- function(grm.fit) {
 
       if (toupper(estimator) == "ML") {
         # if ML
-        Disc[i,j] <- lam*sqrt(FV) / 1.7
+        Disc[i,j] <- lam*sqrt(FV) # / 1.7
       } else {
         # if WL
         Disc[i,j] <- lam*sqrt(FV) / sqrt((1 - (lam)^2))
@@ -51,7 +51,7 @@ trans_to_grm <- function(grm.fit) {
     Diff <- -Diff
   }
   colnames(Disc) <- paste0("a", 1:ncol(Disc))
-  colnames(Diff) <- paste0("d", 1:ncol(Diff))
+  colnames(Diff) <- paste0("b", 1:ncol(Diff))
   data.frame(Disc, Diff)
 }
 
