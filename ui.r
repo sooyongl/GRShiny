@@ -8,11 +8,9 @@ fluidPage(
   # ),
   theme=bs_theme(version = 4,
                  bootswatch = "journal",
-
                  primary = "#ED79F9",
-                 base_font = font_google("Prompt"),
-                 code_font = font_google("JetBrains Mono")
-                 ),
+                 base_font = font_google("Work Sans") #
+  ),
 
   navbarPage(
 
@@ -22,7 +20,7 @@ fluidPage(
 
 
     # title -------------------------------------------------
-    title = "Graded response model (v.0.1)",
+    title = "Graded response model (0.0.0)",
 
     #---------------------------------------------------------
     # Data Import
@@ -70,20 +68,46 @@ fluidPage(
                ),
                column(2,
                       prettyRadioButtons("estimator","Type of estimator",
-                        # inline = T,
-                        choiceNames = c("WLS","MLE"),
-                        choiceValues = c("WL", "ML"),
-                        selected = "WLS"),
+                                         # inline = T,
+                                         choiceNames = c("WLS","MLE"),
+                                         choiceValues = c("WL", "ML"),
+                                         selected = "WLS"),
 
                       actionButton("grmrun", "Run")
 
                ),
                column(7,
-                      verbatimTextOutput("results")
+                      # verbatimTextOutput("results")
+                      tabsetPanel(
+                        tabPanel("Model Fit",DTOutput("result0")),
+                        tabPanel("Param Est",DTOutput("result1")),
+                        tabPanel("GRM Param",DTOutput("result2"))
+                      )
                )
              )
     ),
-    tabPanel("Plot")
+    tabPanel("Plot",
+             actionButton("plotrun", "Make plots"),
+
+             uiOutput("plotinfo"),
+
+             tabsetPanel(
+               # tabPanel("test", verbatimTextOutput("p_test")),
+               tabPanel("ICC",
+                        plotOutput("p_icc"),
+                        plotOutput("p_probp")),
+               tabPanel("EXpected Score",
+                        plotOutput("p_exs")),
+               # tabPanel("Prob+", plotOutput("p_probp")),
+               tabPanel("Information",
+                        plotOutput("p_info"),
+                        plotOutput("p_tinfo")
+               ),
+               tabPanel("Factor Score",
+                        plotOutput("p_hist"),
+                        plotOutput("p_den"))
+             )
+    )
 
 
   )
