@@ -4,3 +4,6 @@
 ^Mplus Run Models.log
 ^server.r
 ^ui.r
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

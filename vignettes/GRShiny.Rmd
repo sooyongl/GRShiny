@@ -1,0 +1,25 @@
+---
+title: "GRShiny"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{GRShiny}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(GRShiny)
+```
+
+## Launch app
+
+```{r}
+startGRshiny()
+```
