@@ -2,7 +2,7 @@
 #'
 #' @examples
 #' genIRTpar(20, 4, 3)
-#'
+#' @export
 genIRTpar <- function(nitem=25, ncat=4, nfac=3) {
 
   if(ncat <= 1) {
@@ -46,6 +46,7 @@ genIRTpar <- function(nitem=25, ncat=4, nfac=3) {
 #' eta <- MASS::mvrnorm(100, rep(0, 2), matrix(c(1,0,0,1),ncol=2))
 #' genData(eta, ipar)
 #'
+#' @export
 genData <- function(eta, ipar) {
 
   stopifnot(is.data.frame(ipar))

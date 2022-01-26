@@ -175,6 +175,7 @@ shinyServer(
                    inputId = "itemchoice",
                    label = "Choose items",
                    choices = item_name,
+                   selected = item_name[1:2],
                    multiple = TRUE
                  )
           ),
@@ -183,11 +184,29 @@ shinyServer(
                    inputId = "thetarange",
                    label = "Theta range:",
                    choices = -6:6,
-                   selected = c(-3, 3)
+                   selected = c(-5, 5)
                  )
 
           ),
+          column(2,
+                 sliderTextInput(
+                   inputId = "pickcolor",
+                   label = "Pick colours:",
+                   choices = LETTERS[1:8],
+                   selected = "D"
+                 )
+          ),
 
+          column(2,
+                 numericInput(
+                   "linesize",
+                   "Line size",
+                   value = 1,
+                   min = 1,
+                   max = 10,
+                   step = 1
+                 )
+          ),
           column(2,
                  numericInput(
                    "basesize",
@@ -197,9 +216,11 @@ shinyServer(
                    max = 30,
                    step = 1
                  )
+          ),
+          column(1,
+                 actionButton("plotrun", "Make plots")
           )
         )
-
       })
     })
     observeEvent(input$plotrun, {
@@ -207,11 +228,13 @@ shinyServer(
       basesize <- as.numeric(input$basesize)
       itemchoice <- input$itemchoice
       thetarange <- input$thetarange
+      pickcolor <- input$pickcolor
+      linesize <- input$linesize
+      blabel <- input$blabel
 
       theta_range <- seq(thetarange[1], thetarange[2], .1)
 
       itemchoice <- which(imprt_data()$varname %in% itemchoice)
-      # itemchoice <- as.numeric(parse_number(itemchoice))
 
       res     <- final$res
       grm.par <- res$grm.par
@@ -233,7 +256,9 @@ shinyServer(
             selected_item = itemchoice,
             theta = theta_range,
             plot.ps = FALSE,
-            base_size = basesize
+            base_size = basesize,
+            line_size = linesize,
+            cal_option = pickcolor
           )
         p
       })
@@ -245,7 +270,10 @@ shinyServer(
             selected_item = itemchoice,
             theta = theta_range,
             plot.ps = T,
-            base_size = basesize
+            base_size = basesize,
+            line_size = linesize,
+            cal_option = pickcolor,
+            addlabel = blabel
           )
         p
       })
@@ -257,7 +285,9 @@ shinyServer(
             res,
             selected_item = itemchoice,
             theta = theta_range,
-            base_size = basesize
+            base_size = basesize,
+            line_size = linesize,
+            cal_option = pickcolor
           )
         p
 
@@ -270,7 +300,9 @@ shinyServer(
             selected_item = itemchoice,
             theta = theta_range,
             type = "icc",
-            base_size = basesize
+            base_size = basesize,
+            line_size = linesize,
+            cal_option = pickcolor
           )
         p
 
@@ -284,7 +316,9 @@ shinyServer(
             selected_item = itemchoice,
             theta = theta_range,
             type = "tcc",
-            base_size = basesize
+            base_size = basesize,
+            line_size = linesize,
+            cal_option = pickcolor
           )
         p
 

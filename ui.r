@@ -87,15 +87,28 @@ fluidPage(
              )
     ),
     tabPanel("Plot",
-             actionButton("plotrun", "Make plots"),
-
              uiOutput("plotinfo"),
 
              tabsetPanel(
                # tabPanel("test", verbatimTextOutput("p_test")),
                tabPanel("ICC",
-                        plotOutput("p_icc"),
-                        plotOutput("p_probp")),
+
+                        fluidRow(
+                          column(1,
+                                 materialSwitch(
+                                   inputId = "blabel",
+                                   label = "Add b labels",
+                                   value = TRUE,
+                                   status = "danger"
+                                 )
+                          ),
+                          column(11,
+                                 plotOutput("p_icc"),
+                                 plotOutput("p_probp")
+                          )
+
+                        )
+               ),
                tabPanel("EXpected Score",
                         plotOutput("p_exs")),
                # tabPanel("Prob+", plotOutput("p_probp")),

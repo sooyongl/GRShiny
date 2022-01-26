@@ -57,7 +57,10 @@ trans_to_grm <- function(grm.fit) {
 
 #' Run graded response model
 #'
+#' @export runGRM
 runGRM <- function(dat, lav.syntax, estimator) {
+
+  varname <- names(dat)
 
   if(toupper(estimator) != "ML") {
     # WLE
@@ -93,6 +96,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
     grm.par <- trans_to_grm(grm.fit = grm.fit)
   }
 
+  rownames(grm.par) <- varname
+
   res <- list(fit = grm.fit, grm.par = grm.par)
   names(res)[1] <- ifelse(estimator != "ML", "lav.fit", "mirt.fit")
 
@@ -101,6 +106,7 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
 #' Generate lavaan syntax
 #'
+#' @export genLavSyn
 genLavSyn <- function(dat) {
 
   n_thre <- max(dat)

@@ -1,5 +1,5 @@
 rm(list=ls())
-for (i in fs::dir_ls("R")) {source(i)}
+for (i in sort(fs::dir_ls("R"))) {source(i)}
 
 orddata <- fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
 
@@ -8,9 +8,9 @@ orddata <- fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
 lav.model <- genLavSyn(orddata)
 cat(lav.model)
 
-aa1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "ML")
-coef(aa1$mirt.fit, simplify = T, IRTpars = F)$items
-coef(aa1$mirt.fit, simplify = T, IRTpars = T)$items
+a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "ML")
+coef(a1$mirt.fit, simplify = T, IRTpars = F)$items
+coef(a1$mirt.fit, simplify = T, IRTpars = T)$items
 output_cleaning(a1)
 a1$grm.par
 
@@ -19,10 +19,14 @@ summary(a1$lav.fit)
 output_cleaning(a1)
 a1$grm.par
 
-fs_scores <- calFS(a1)
+# fs_scores <- calFS(a1)
 font_size = 16
-ICCplot(fit = a1, selected_item = 1:2, theta = seq(-6, 6, .1),
-        plot.ps = FALSE,font_size)
+linesize = 2
+colour_option = "D"
+
+
+ICCplot(fit = a1, selected_item = 12:20, theta = seq(-2, 6, .1),
+        plot.ps = FALSE,base_size = font_size, line_size = linesize, cal_option = "D")
 itemplot(a1$mirt.fit, 2)
 plot(
   a1$mirt.fit,

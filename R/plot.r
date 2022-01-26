@@ -1,6 +1,7 @@
 # ref: https://aidenloe.github.io/irtplots.html
 
-## Calculate Factor score --------------------------------------------------
+#' Calculate Factor score
+#'
 calFS <- function(fit) {
   res.fit <- fit[grep("fit",names(fit))][[1]]
   if(class(res.fit) == "lavaan") {
@@ -11,9 +12,12 @@ calFS <- function(fit) {
   data.frame(fs_scores)
 }
 
-# FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
-# FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
-FSplot <- function(fit, type = "histogram", hist_bins = 20, base_size = 16) {
+#' Plot Factor score
+#' @examples
+#' FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
+#' FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
+#' @export
+FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey70", base_size = 16) {
 
   fs_scores <- calFS(fit)
 
@@ -26,12 +30,12 @@ FSplot <- function(fit, type = "histogram", hist_bins = 20, base_size = 16) {
   if(grepl("hist", tolower(type))) {
     p <- fs_scores %>%
       ggplot(aes(x = F1)) +
-      geom_histogram(bins = hist_bins, fill = "grey70", colour = "white")
+      geom_histogram(bins = hist_bins, fill = fill_colour, colour = "white")
 
   } else {
     p <- fs_scores %>%
       ggplot(aes(x = F1)) +
-      geom_density(fill = "grey70", alpha = 1)
+      geom_density(fill = fill_colour, alpha = 1)
   }
 
   p +
@@ -39,7 +43,8 @@ FSplot <- function(fit, type = "histogram", hist_bins = 20, base_size = 16) {
 }
 
 
-## Calculate probability ---------------------------------------------------
+#' Calculate probability
+#'
 calProb <- function(ipar, theta = seq(-3, 3, .1)) {
 
   ipar <- data.frame(ipar)
@@ -66,9 +71,13 @@ calProb <- function(ipar, theta = seq(-3, 3, .1)) {
   return(list(prob = prob, ps = ps))
 }
 
-# ICCplot(ipar, 1, seq(-3, 3, .1), plot.ps = FALSE, base_size = 16)
-# ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.ps = T, base_size = 16)
-ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE, addlabel = F, base_size = 16) {
+#' Plot ICC or OCC
+#'
+#' @examples
+#' ICCplot(ipar, 1, seq(-3, 3, .1), plot.ps = FALSE, base_size = 16)
+#' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.ps = T, base_size = 16)
+#' @export
+ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
   # plot.ps=F : Categorical response curve
   # plot.ps=T : operating characteristic curve plot
 
@@ -78,13 +87,14 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
   b <- ipar[grep("^b", names(ipar))]
 
   selected_ipar <- ipar %>%
-    data.frame(iid = paste0("item", 1:nrow(ipar))) %>%
+    data.frame(iid = rownames(ipar)) %>%
     slice(selected_item)
+  selected_id <- selected_ipar$iid
 
   prob_dt <- selected_ipar %>%
     group_split(iid) %>%
     map(., ~ calProb(.x, theta)) %>%
-    set_names(paste0("item", selected_item))
+    set_names(selected_id)
 
   if (plot.ps) {
 
@@ -103,10 +113,10 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
       bind_rows(.id = "item")
 
     # x_breaks = seq(from = min(theta), to = max(theta), by = 0.5)
-    x_breaks = round(seq(from = min(theta), to = max(theta), length.out = 10),2)
+    x_breaks = c(0,round(seq(from = min(theta), to = max(theta), length.out = 9),1))
 
     used_b <- round(b[selected_item,],2)
-    used_b$item <- paste0("item", parse_number(rownames(used_b)))
+    used_b$item <- selected_id
     used_b <- used_b %>% gather("b","val", -item)
     used_b <- used_b %>% mutate(ye = 0.5, ys = 0, xs = 0)
 
@@ -117,7 +127,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
 
     p <- prob_dt %>%
       ggplot(aes(x = theta, y = `prob+`)) +
-      geom_line(aes(color = step)) +
+      geom_line(aes(color = step), size = line_size) +
       facet_wrap(~item) +
       # geom_vline(xintercept = b) +
       geom_segment(
@@ -140,11 +150,11 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
     }
 
     p <-  p +
-      scale_color_viridis_d(option = "H") +
+      scale_color_viridis_d(option = cal_option) +
       labs(title = "Operating characteristic curve",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(p)),
-           colour = "") #expression(italic(p)(y==1))) +
+           colour = "") + #expression(italic(p)(y==1))) +
     scale_x_continuous(breaks = x_breaks)
 
   } else {
@@ -154,13 +164,13 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
             gather("cate","p")) %>%
       bind_rows(.id = "item")
 
-    x_breaks = round(seq(from = min(theta), to = max(theta), length.out = 10),2)
+    x_breaks = c(0,round(seq(from = min(theta), to = max(theta), length.out = 9),1))
 
     p <- prob_dt %>%
       data.frame(theta = theta) %>%
-      ggplot(aes(x = theta, y = p, color = cate)) +
-      geom_line() +
-      scale_color_viridis_d(option = "H") +
+      ggplot(aes(x = theta, y = p)) +
+      geom_line(aes(color = cate), size = line_size) +
+      scale_color_viridis_d(option = cal_option) +
       facet_wrap(~item) +
       labs(title = "ICC",
            # subtitle = "Each curve is for the probs of each category",
@@ -170,10 +180,11 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
       scale_x_continuous(breaks = x_breaks)
   }
 
-  p + theme_classic(base_size = base_size)
+  p + theme_bw(base_size = base_size)
 }
 
-# Expected scores --------------------------------------------------------
+#' Calculate expected scores
+#'
 calES = function(ipar,theta = seq(-3, 3, .1)) {
 
   ipar <- data.frame(ipar)
@@ -185,36 +196,41 @@ calES = function(ipar,theta = seq(-3, 3, .1)) {
   ES
 }
 
-ESplot <- function(fit, selected_item, theta, base_size = 16) {
+#' Plot expected scores by items
+#'
+#' @export
+ESplot <- function(fit, selected_item, theta, base_size = 16, line_size=1, cal_option = "D") {
 
   ipar <- fit$grm.par
+  selected_id <- rownames(ipar)[selected_item]
 
   ipar <- data.frame(ipar)
   exscore_dt <- ipar %>%
-    data.frame(iid = paste0("item", 1:nrow(ipar))) %>%
+    data.frame(iid = rownames(ipar)) %>%
     slice(selected_item) %>%
     group_split(iid) %>%
     map(., ~ calES(.x, theta)) %>%
-    set_names(paste0("item", selected_item)) %>%
+    set_names(selected_id) %>%
     do.call("cbind", .) %>%
     data.frame(theta = theta) %>%
     gather("item","score", -theta)
 
-  x_breaks = round(seq(from = min(theta), to = max(theta), length.out = 10),2)
+  x_breaks = c(0,round(seq(from = min(theta), to = max(theta), length.out = 9),1))
 
   exscore_dt %>%
     ggplot(aes(x = theta, y = score, colour = item)) +
-    geom_line() +
-    scale_color_viridis_d(option = "H") +
+    geom_line(size = line_size) +
+    scale_color_viridis_d(option = cal_option) +
     labs(title = "Expected score",
          x = expression(theta~('ability on the logit scale')),
          y = expression(italic(Expected)~ italic(Score)),
          colour = "") +
     scale_x_continuous(breaks = x_breaks) +
-    theme_classic(base_size = base_size)
+    theme_bw(base_size = base_size)
 }
 
-# Item information --------------------------------------------------------
+#' Calculate item information
+#'
 calInfo = function(ipar, theta = seq(-3, 3, .1)) {
 
   ipar <- data.frame(ipar)
@@ -232,36 +248,43 @@ calInfo = function(ipar, theta = seq(-3, 3, .1)) {
   return(info)
 }
 
-# infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
-# infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
-infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-3, 3, .1), base_size = 16) {
+#' Calculate item information
+#'
+#' @examples
+#' infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
+#' infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
+#' @export
+infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-3, 3, .1), base_size = 16, line_size=1, cal_option = "D") {
 
   ipar <- fit$grm.par
+  varname <- rownames(ipar)
 
   if(tolower(type) == "icc") {
     ipar <- data.frame(ipar) %>%
-      data.frame(iid = paste0("item", 1:nrow(ipar))) %>%
+      data.frame(iid = varname) %>%
       slice(selected_item)
+    selected_id <- ipar$iid
   } else {
     ipar <- data.frame(ipar) %>%
-      data.frame(iid = paste0("item", 1:nrow(ipar)))
+      data.frame(iid = varname)
     selected_item <- 1:nrow(ipar)
+    selected_id <- ipar$iid
   }
 
   info_dt <- ipar %>%
     group_split(iid) %>%
     map(., ~ calInfo(.x, theta)) %>%
-    set_names(paste0("item", selected_item)) %>%
+    set_names(selected_id) %>%
     do.call("cbind", .) %>%
     data.frame(theta = theta) %>%
     gather("item","info", -theta)
 
-  x_breaks = round(seq(from = min(theta), to = max(theta), length.out = 10),2)
+  x_breaks = c(0,round(seq(from = min(theta), to = max(theta), length.out = 9),1))
 
   if(tolower(type) == "icc") {
     p <- info_dt %>%
       ggplot(aes(x = theta, y = info, colour = item)) +
-      geom_line() +
+      geom_line(size = line_size) +
       labs(title = "Information",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(I)~(theta)),
@@ -272,14 +295,14 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-3, 3, .1), b
       group_by(theta) %>%
       summarise(total.info = sum(info)) %>%
       ggplot(aes(x = theta, y = total.info)) +
-      geom_line() +
+      geom_line(size = line_size) +
       labs(title = "Total Information",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(TI)~(theta)),
            colour = "")
   }
   p  +
-    scale_color_viridis_d(option = "H") +
+    scale_color_viridis_d(option = cal_option) +
     scale_x_continuous(breaks = x_breaks) +
-    theme_classic(base_size = base_size)
+    theme_bw(base_size = base_size)
 }

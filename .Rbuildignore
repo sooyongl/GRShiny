@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^test
 ^Mplus Run Models.log
+^server.r
+^ui.r
