@@ -47,14 +47,18 @@ shinyServer(
 
     # imprt_data <- reactiveValues()
     observeEvent(input$import, {
-      orddata <- fread(input$setups$datapath)
-      # if(existsFunction("imprt_data")) {
-      #
-      #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
-      # } else {
+
+      if(input$empirical == "empirical"){
+
+        orddata <- fread(input$setups$datapath)
+        # if(existsFunction("imprt_data")) {
+        #
+        #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
+        # } else {
         picked <- paste0("1-", ncol(orddata))
-      # }
-      updateTextInput(session, "chovar", value = picked)
+        # }
+        updateTextInput(session, "chovar", value = picked)
+      }
     })
 
     imprt_data <- eventReactive(input$import, {
@@ -70,7 +74,7 @@ shinyServer(
         eta <- data.frame(x = "not given")
         ipar <- data.frame(x = "not given")
 
-        list(orddata = orddata, vname = names(orddata), eta = eta, ipar = ipar)
+        list(orddata = orddata, varname = names(orddata), eta = eta, ipar = ipar)
 
       } else {
         npeople <- input$npeople
@@ -86,7 +90,7 @@ shinyServer(
         eta <- round(eta, 3)
         orddata <- genData(eta, ipar)
 
-        list(ipar=ipar, eta=eta, orddata=orddata, vname = names(orddata))
+        list(ipar=ipar, eta=eta, orddata=orddata, varname = names(orddata))
       }
     })
 
@@ -174,6 +178,15 @@ shinyServer(
                    multiple = TRUE
                  )
           ),
+          column(2,
+                 sliderTextInput(
+                   inputId = "thetarange",
+                   label = "Theta range:",
+                   choices = -6:6,
+                   selected = c(-3, 3)
+                 )
+
+          ),
 
           column(2,
                  numericInput(
@@ -193,11 +206,16 @@ shinyServer(
 
       basesize <- as.numeric(input$basesize)
       itemchoice <- input$itemchoice
-      itemchoice <- as.numeric(parse_number(itemchoice))
+      thetarange <- input$thetarange
+
+      theta_range <- seq(thetarange[1], thetarange[2], .1)
+
+      itemchoice <- which(imprt_data()$varname %in% itemchoice)
+      # itemchoice <- as.numeric(parse_number(itemchoice))
 
       res     <- final$res
       grm.par <- res$grm.par
-      fs_scores <- calFS(res)
+      # fs_scores <- calFS(res)
 
       # output$p_test <- renderPrint({
       #
@@ -211,9 +229,9 @@ shinyServer(
 
         p <-
           ICCplot(
-            grm.par,
+            res,
             selected_item = itemchoice,
-            theta = seq(-3, 3, .1),
+            theta = theta_range,
             plot.ps = FALSE,
             base_size = basesize
           )
@@ -223,9 +241,9 @@ shinyServer(
       output$p_probp <- renderPlot({
         p <-
           ICCplot(
-            grm.par,
+            res,
             selected_item = itemchoice,
-            theta = seq(-3, 3, .1),
+            theta = theta_range,
             plot.ps = T,
             base_size = basesize
           )
@@ -236,9 +254,9 @@ shinyServer(
       output$p_exs <- renderPlot({
         p <-
           ESplot(
-            grm.par,
+            res,
             selected_item = itemchoice,
-            theta = seq(-3, 3, .1),
+            theta = theta_range,
             base_size = basesize
           )
         p
@@ -248,8 +266,9 @@ shinyServer(
       output$p_info <- renderPlot({
         p <-
           infoPlot(
-            grm.par,
+            res,
             selected_item = itemchoice,
+            theta = theta_range,
             type = "icc",
             base_size = basesize
           )
@@ -261,8 +280,9 @@ shinyServer(
       output$p_tinfo <- renderPlot({
         p <-
           infoPlot(
-            grm.par,
+            res,
             selected_item = itemchoice,
+            theta = theta_range,
             type = "tcc",
             base_size = basesize
           )
@@ -272,7 +292,7 @@ shinyServer(
 
       output$p_hist <- renderPlot({
         p <-
-          FSplot(fs_scores,
+          FSplot(res,
                  type = "histogram",
                  hist_bins = 20,
                  base_size = basesize)
@@ -282,7 +302,7 @@ shinyServer(
 
       output$p_den <- renderPlot({
         p <-
-          FSplot(fs_scores,
+          FSplot(res,
                  type = "density",
                  hist_bins = 30,
                  base_size = basesize)
