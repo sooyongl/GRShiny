@@ -1,3 +1,5 @@
+# ref: https://aidenloe.github.io/irtplots.html
+
 ## Calculate Factor score --------------------------------------------------
 calFS <- function(fit) {
   res.fit <- fit[grep("fit",names(fit))][[1]]
@@ -11,7 +13,10 @@ calFS <- function(fit) {
 
 # FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
 # FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
-FSplot <- function(fs_scores, type = "histogram", hist_bins = 20, base_size = 16) {
+FSplot <- function(fit, type = "histogram", hist_bins = 20, base_size = 16) {
+
+  fs_scores <- calFS(fit)
+
 
   if(!is.data.frame(fs_scores))
     fs_scores <- data.frame(fs_scores)
@@ -63,19 +68,32 @@ calProb <- function(ipar, theta = seq(-3, 3, .1)) {
 
 # ICCplot(ipar, 1, seq(-3, 3, .1), plot.ps = FALSE, base_size = 16)
 # ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.ps = T, base_size = 16)
-ICCplot <- function(ipar, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE, base_size = 16) {
+ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE, addlabel = F, base_size = 16) {
+  # plot.ps=F : Categorical response curve
+  # plot.ps=T : operating characteristic curve plot
+
+  ipar <- fit$grm.par
 
   ipar <- data.frame(ipar)
   b <- ipar[grep("^b", names(ipar))]
 
-  prob_dt <- ipar %>%
+  selected_ipar <- ipar %>%
     data.frame(iid = paste0("item", 1:nrow(ipar))) %>%
-    slice(selected_item) %>%
+    slice(selected_item)
+
+  prob_dt <- selected_ipar %>%
     group_split(iid) %>%
     map(., ~ calProb(.x, theta)) %>%
     set_names(paste0("item", selected_item))
 
   if (plot.ps) {
+
+    selected_ipar <- selected_ipar %>%
+      mutate_if(is.numeric, ~ round(., 2)) %>%
+      rename("item"="iid") %>%
+      gather("b", "val", -item) %>%
+      filter(str_detect(b, "b"))
+
 
     prob_dt <- prob_dt %>%
       map(., ~ .x$ps %>%
@@ -98,8 +116,8 @@ ICCplot <- function(ipar, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE
       mutate(ys = 0.5, xs = min(theta)) %>% ungroup()
 
     p <- prob_dt %>%
-      ggplot(aes(x = theta, y = `prob+`, color = step)) +
-      geom_line() +
+      ggplot(aes(x = theta, y = `prob+`)) +
+      geom_line(aes(color = step)) +
       facet_wrap(~item) +
       # geom_vline(xintercept = b) +
       geom_segment(
@@ -113,11 +131,17 @@ ICCplot <- function(ipar, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE
         aes(x=xs, xend = val, y = ys, yend = ye),
         lty = "dashed",
         colour = "grey30"
-      ) +
+      )
 
+    if(addlabel) {
+      p <- p +
+        geom_label(data = selected_ipar,
+                   aes(label = val, x = val, y = 0))
+    }
+
+    p <-  p +
       scale_color_viridis_d(option = "H") +
-      labs(title = "Prob+ curve",
-           # subtitle = "Each curve is for the probs of each category",
+      labs(title = "Operating characteristic curve",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(p)),
            colour = "") #expression(italic(p)(y==1))) +
@@ -161,7 +185,9 @@ calES = function(ipar,theta = seq(-3, 3, .1)) {
   ES
 }
 
-ESplot <- function(ipar, selected_item, theta, base_size = 16) {
+ESplot <- function(fit, selected_item, theta, base_size = 16) {
+
+  ipar <- fit$grm.par
 
   ipar <- data.frame(ipar)
   exscore_dt <- ipar %>%
@@ -208,7 +234,9 @@ calInfo = function(ipar, theta = seq(-3, 3, .1)) {
 
 # infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
 # infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
-infoPlot <- function(ipar, selected_item, type = "icc", theta = seq(-3, 3, .1), base_size = 16) {
+infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-3, 3, .1), base_size = 16) {
+
+  ipar <- fit$grm.par
 
   if(tolower(type) == "icc") {
     ipar <- data.frame(ipar) %>%
