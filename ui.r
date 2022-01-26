@@ -1,5 +1,21 @@
 for (i in fs::dir_ls("R")) {source(i)}
 
+library(tidyverse)
+library(lavaan)
+library(mirt)
+library(sirt)
+library(MplusAutomation)
+library(shiny)
+library(shinythemes)
+library(shinyWidgets)
+library(shinydashboard)
+library(shinyalert)
+library(waiter)
+library(shinycssloaders)
+library(bslib)
+library(DT)
+library(data.table)
+
 fluidPage(
   # useShinydashboard(),
   # tags$head(

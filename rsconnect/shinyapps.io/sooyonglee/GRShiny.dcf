@@ -5,10 +5,10 @@ account: sooyonglee
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5492066
-bundleId: 5508522
+bundleId: 5512334
 url: https://sooyonglee.shinyapps.io/GRShiny/
-when: 1643164989.05293
-lastSyncTime: 1643164989.05293
+when: 1643238151.50799
+lastSyncTime: 1643238151.50799
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .gitattributes|.Rbuildignore|DESCRIPTION|inst/www/template.docx|inst/www/theme.css|man/hello.Rd|Mplus Run Models.log|NAMESPACE|test
+ignoredFiles: .gitattributes|.Rbuildignore|_pkgdown.yml|DESCRIPTION|inst/www/template.docx|inst/www/theme.css|Mplus Run Models.log|NAMESPACE|README.md|README.rmd|vignettes/.gitignore|vignettes/GRShiny.Rmd|docs|man|test
