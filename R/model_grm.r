@@ -48,7 +48,7 @@ trans_to_grm <- function(grm.fit) {
     }
   }
   if(class(grm.fit) == "lavaan") {
-    Diff <- -Diff
+    Diff <- Diff
   }
   colnames(Disc) <- paste0("a", 1:ncol(Disc))
   colnames(Diff) <- paste0("b", 1:ncol(Diff))
