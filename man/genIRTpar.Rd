@@ -6,6 +6,13 @@
 \usage{
 genIRTpar(nitem = 25, ncat = 4, nfac = 3)
 }
+\arguments{
+\item{nitem}{a numeric indicating the number of items}
+
+\item{ncat}{a numeric indicating the number of categories}
+
+\item{nfac}{a numeric indicating the number of factors}
+}
 \description{
 Generate Item parameters
 }

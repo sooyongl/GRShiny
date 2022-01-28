@@ -6,6 +6,13 @@
 \usage{
 runGRM(dat, lav.syntax, estimator)
 }
+\arguments{
+\item{dat}{a data frame containing graded response model}
+
+\item{lav.syntax}{a character indicating lavvan syntax}
+
+\item{estimator}{a character indicating the type of estimator}
+}
 \description{
 Run graded response model
 }

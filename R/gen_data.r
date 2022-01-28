@@ -1,5 +1,9 @@
 #' Generate Item parameters
 #'
+#' @param nitem a numeric indicating the number of items
+#' @param ncat  a numeric indicating the number of categories
+#' @param nfac  a numeric indicating the number of factors
+#'
 #' @examples
 #' genIRTpar(20, 4, 3)
 #' @export
@@ -38,12 +42,33 @@ genIRTpar <- function(nitem=25, ncat=4, nfac=3) {
   return(ipar)
 }
 
+#' Generate individual true latent traits
+#'
+#' @param nsample a numeric indicating the number of people
+#' @param nfac a numeric indicating the number of factors
+#' @param l.cov a matrix containing latent covariances
+#' @export
+genTheta <- function(nsample, nfac, l.cov = NULL) {
+
+  if(is.null(l.cov)) {
+    l.cov <- diag(nfac)
+    covs <- sample(c(-.2, 0, .2), sum(lower.tri(l.cov)), prob = c(0.25, 0.5, 0.25))
+    l.cov[lower.tri(l.cov)] <- covs
+    l.cov[upper.tri(l.cov)] <- covs
+  }
+
+  MASS::mvrnorm(nsample, rep(0, nfac), l.cov)
+}
+
 #' Generate IRT data
+#'
+#' @param eta a matrix indicating individual true latent traits
+#' @param ipar a dataframe containing item parameters
 #'
 #' @examples
 #'
 #' ipar <- genIRTpar(20, ncat = 3, 2)
-#' eta <- MASS::mvrnorm(100, rep(0, 2), matrix(c(1,0,0,1),ncol=2))
+#' eta <- genTheta(100, 2)
 #' genData(eta, ipar)
 #'
 #' @export

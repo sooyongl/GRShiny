@@ -1,6 +1,10 @@
 rm(list=ls())
 for (i in fs::dir_ls("R")) {source(i)}
 
+library(lavaan)
+library(mirt)
+library(sirt)
+library(tidyverse)
 ipar <- genIRTpar(4, ncat = 3, 1)
 eta <- MASS::mvrnorm(500, rep(0, 1), matrix(c(1), ncol = 1))
 orddata <- genData(eta, ipar)

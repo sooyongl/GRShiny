@@ -6,13 +6,18 @@
 \usage{
 genData(eta, ipar)
 }
+\arguments{
+\item{eta}{a matrix indicating individual true latent traits}
+
+\item{ipar}{a dataframe containing item parameters}
+}
 \description{
 Generate IRT data
 }
 \examples{
 
 ipar <- genIRTpar(20, ncat = 3, 2)
-eta <- MASS::mvrnorm(100, rep(0, 2), matrix(c(1,0,0,1),ncol=2))
+eta <- genTheta(100, 2)
 genData(eta, ipar)
 
 }

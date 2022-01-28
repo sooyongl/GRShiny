@@ -1,5 +1,7 @@
 #' Clean output to look like Mplus
 #'
+#' @param fit an object from \code{\link{runGRM}}
+#'
 #' @export
 output_cleaning <- function(fit) {
   fit <- fit[grep("fit",names(fit))][[1]]
@@ -54,7 +56,7 @@ mirt_output_cleaning <- function(mirt.fit) {
     data.frame(., varname = rownames(.)) %>%
     gather("parname","se", -varname)
 
-  EST %>%
+  EST <- EST %>%
     left_join(SE, by=c("varname","parname")) %>%
     mutate(z = est / se,
            pvalue = 2*pnorm(abs(z), mean = 0, sd = 1, lower.tail = F)) %>%
@@ -65,9 +67,16 @@ mirt_output_cleaning <- function(mirt.fit) {
       rhs = str_replace(rhs, "d","t")
     ) %>%
     select(lhs, op, rhs, everything()) %>%
-    select(-varname, -parname) %>%
+    # select(-varname, -parname) %>%
     mutate_if(is.numeric, ~ round(., 3))
 
+  new_lhs <- EST %>% filter(str_detect(parname, "a")) %>% pull(parname) %>%
+    parse_number(.) %>% paste0("F",.) %>%
+    c(.,EST %>% filter(!str_detect(parname, "a")) %>% pull(parname))
+
+  EST$lhs <- new_lhs
+
+  EST %>% filter(!is.na(se))
 }
 
 #' clean lavaan class

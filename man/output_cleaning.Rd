@@ -6,6 +6,9 @@
 \usage{
 output_cleaning(fit)
 }
+\arguments{
+\item{fit}{an object from \code{\link{runGRM}}}
+}
 \description{
 Clean output to look like Mplus
 }

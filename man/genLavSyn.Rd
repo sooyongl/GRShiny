@@ -4,7 +4,12 @@
 \alias{genLavSyn}
 \title{Generate lavaan syntax}
 \usage{
-genLavSyn(dat)
+genLavSyn(dat, nfac = 1)
+}
+\arguments{
+\item{dat}{a data frame containing graded response data}
+
+\item{nfac}{a numeric indicating the number of factors}
 }
 \description{
 Generate lavaan syntax

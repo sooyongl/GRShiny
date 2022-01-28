@@ -23,7 +23,7 @@ startGRshiny <- function(...) {
       ui = shiny_ui,
       server = shiny_server
     )
-    runApp(app, ...)
+    shiny::runApp(app, ...)
 
   } else {
     stop('shiny package is not available. Please install.', call.=FALSE)

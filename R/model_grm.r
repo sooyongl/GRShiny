@@ -57,6 +57,10 @@ trans_to_grm <- function(grm.fit) {
 
 #' Run graded response model
 #'
+#' @param dat a data frame containing graded response model
+#' @param lav.syntax a character indicating lavvan syntax
+#' @param estimator a character indicating the type of estimator
+#'
 #' @export runGRM
 runGRM <- function(dat, lav.syntax, estimator) {
 
@@ -72,7 +76,12 @@ runGRM <- function(dat, lav.syntax, estimator) {
       estimator = "WLSMV" #"ML" is not working for now in lavaan
     )
 
-    grm.par <- trans_to_grm(grm.fit = grm.fit)
+    if(grm.fit@pta$nfac == 1) {
+      grm.par <- trans_to_grm(grm.fit = grm.fit)
+      rownames(grm.par) <- varname
+    } else {
+      grm.par <- "traditional parameterization of GRM not working with more than 2 factors"
+    }
 
   } else {
     # ML
@@ -93,10 +102,13 @@ runGRM <- function(dat, lav.syntax, estimator) {
     #              itemtype = "graded", SE = T, verbose = F)
 
     grm.fit <- grm.sirt$mirt
-    grm.par <- trans_to_grm(grm.fit = grm.fit)
-  }
+    if(ncol(grm.fit@Fit$F) == 1) {
+      grm.par <- trans_to_grm(grm.fit = grm.fit)
 
-  rownames(grm.par) <- varname
+    } else {
+      grm.par <- "traditional parameterization of GRM not working with more than 2 factors"
+    }
+  }
 
   res <- list(fit = grm.fit, grm.par = grm.par)
   names(res)[1] <- ifelse(estimator != "ML", "lav.fit", "mirt.fit")
@@ -106,37 +118,75 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
 #' Generate lavaan syntax
 #'
+#' @param dat a data frame containing graded response data
+#' @param nfac a numeric indicating the number of factors
+#'
 #' @export genLavSyn
-genLavSyn <- function(dat) {
+genLavSyn <- function(dat, nfac=1) {
 
-  n_thre <- max(dat)
-  usevars <- names(dat)
-  nvars <- length(usevars)
-
-  var_name <- c(paste0(usevars[1:(nvars-1)], "+"),usevars[nvars])
-  lam_label <- paste0("l", 1:nvars,"*")
-  fac_syn <- paste0(lam_label[1], var_name[1])
-  for(i in 2:nvars) {
-    fac_syn <- paste0(fac_syn,paste0(lam_label[i], var_name[i]))
+  gen_a <- function(nitem, nfac) {
+    idx_ <- rep(floor(nitem / nfac),nfac)
+    idx_[length(idx_)] <- nitem - sum(idx_[-length(idx_)])
+    idx_c <- c(0,cumsum(idx_))
+    a_idx <- matrix(rep(0, nitem*nfac), ncol=nfac)
+    for(j in 1:nfac) { # j=1
+      a_idx[(idx_c[j]+1):idx_c[(j+1)],j] <- 1
+    }
+    a_idx
   }
 
-  first <- paste0("NA*",usevars[1],"+")
+  n_thre <- max(dat)
+  nvars <- ncol(dat)
 
-  fac_syn <- paste0("F =~ ",first,fac_syn,"\n\n")
+  oname <- names(dat)
+  fname <- paste0("F",1:nfac)
 
-  fac_m_v <- "F ~~ 1*F; \n F ~ 0*1;\n"
+  a_list <- gen_a(nvars, nfac); svar <- 1; num_po <- 0
+  fac_m_v <- c(); lav_syn <- c()
+  for(j in 1:nfac) { # j = 1
+
+    picked <- which(a_list[, j] == 1)
+    picked_len <- length(picked)
+    num_po <- num_po + picked_len
+    picked_ovar <- oname[picked]
+    picked_fvar <- fname[j]
+
+    var_name <- c(paste0(picked_ovar[1:(picked_len-1)], "+"),picked_ovar[picked_len])
+    lam_label <- paste0("l", svar:num_po,"*")
+    indi_syn <- paste0(lam_label[1], var_name[1])
+    for(i in 2:picked_len) { # i = 1
+      indi_syn <- paste0(indi_syn,paste0(lam_label[i], var_name[i]))
+    }
+    firstid <- paste0("NA*",picked_ovar[1],"+")
+    indi_syn <- paste0(picked_fvar, " =~ ",firstid,indi_syn,"\n\n")
+
+    lav_syn <- paste0(lav_syn, "\n", indi_syn)
+
+    fac_m_v <- paste0(fac_m_v, "\n",paste(c(paste0(picked_fvar,"~~ 1*",picked_fvar ),paste0(picked_fvar,"~ 0*1" )), collapse = "\n"))
+
+    svar <- svar + num_po
+  }
+
+  fac_c <- c()
+  if(nfac > 1){
+    for(j in 2:nfac) { # j = 2
+      fac_c <- paste0(fac_c, "\n",paste0(fname[(j-1)],"~~",
+                                         paste(fname[(j):nfac], collapse = "+") ))
+    }}
 
   thre_name <- rep(paste0("t",1:n_thre,";\n"), each = nvars)
   thre_label <- paste0("t", apply(expand.grid(1:nvars, 1:n_thre), 1, function(x) paste0(x, collapse = "")))
   thre_label <- paste0(thre_label, "*")
-  var_name <- paste0(rep(usevars, n_thre), " | ")
+  var_name <- paste0(rep(oname, n_thre), " | ")
 
   thre_syn <- sapply(1:length(thre_name),function(x) {
     paste0(var_name[x],thre_label[x],thre_name[x])
   })
   thre_syn <- paste0("\n",paste(thre_syn, collapse = ""))
 
-  lav_syn <- paste(fac_syn, fac_m_v, thre_syn, collapse = "\n")
+  lav_syn <- paste(lav_syn, fac_m_v, fac_c, thre_syn, collapse = "\n")
+
+  cat(lav_syn)
 
   lav_syn
 }

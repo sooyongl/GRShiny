@@ -29,7 +29,7 @@ shinyServer(
                  numericInput(inputId = "ncate",label = "Number of categories",
                               value = 3, min = 2, max = 5, step = 1),
                  numericInput(inputId = "nfac",label = "Number of factors (not yet)",
-                              value = 1, min = 1, max = 1, step = 1),
+                              value = 1, min = 1, max = 3, step = 1),
 
                  actionButton("import", "Import data")),
 
@@ -84,9 +84,7 @@ shinyServer(
 
         ipar <- genIRTpar(nitem, ncat = ncate, nfac)
         ipar <- round(ipar, 3)
-        eta <- MASS::mvrnorm(npeople, rep(0, nfac),
-                             # matrix(c(1), ncol = nfac),
-                             diag(1, nfac), empirical = T)
+        eta <- genTheta(npeople, nfac)
         eta <- round(eta, 3)
         orddata <- genData(eta, ipar)
 
@@ -109,9 +107,10 @@ shinyServer(
 
     # Analysis part -----------------------------------------------------------
     output$what_syn <- renderUI({
+      nfac    <- input$nfac
 
       orddata <- imprt_data()$orddata
-      lav.model <- genLavSyn(orddata)
+      lav.model <- genLavSyn(orddata, nfac)
 
       if(input$cus_syn) {
         column(12,
@@ -129,7 +128,7 @@ shinyServer(
     ## run analysis -----------------------------------------------------------
     final <- reactiveValues()
     observeEvent(input$grmrun, {
-
+      nfac    <- input$nfac
       estimator <- input$estimator
       orddata <- imprt_data()$orddata
 
@@ -142,7 +141,7 @@ shinyServer(
           lav.model <- str_replace(lav.model, "start\\(1\\)", "NA")
         }
       } else {
-        lav.model <- genLavSyn(orddata)
+        lav.model <- genLavSyn(orddata, nfac)
       }
 
       final$res <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = estimator)
@@ -158,7 +157,9 @@ shinyServer(
       })
 
       output$result2 <- renderDT({
-        round(final$res$grm.par,3)
+
+        if(!is.character(final$res$grm.par))
+          round(final$res$grm.par,3)
       })
 
     })
@@ -166,61 +167,72 @@ shinyServer(
     # Plot part -----------------------------------------------------------
 
     observeEvent(input$grmrun, {
+
+      nfac <- input$nfac
+
       output$plotinfo <- renderUI({
-        item_name <- names(imprt_data()$orddata)
 
-        fluidRow(
-          column(2,
-                 pickerInput(
-                   inputId = "itemchoice",
-                   label = "Choose items",
-                   choices = item_name,
-                   selected = item_name[1:2],
-                   multiple = TRUE
-                 )
-          ),
-          column(2,
-                 sliderTextInput(
-                   inputId = "thetarange",
-                   label = "Theta range:",
-                   choices = -6:6,
-                   selected = c(-5, 5)
-                 )
+        if(nfac == 1) {
 
-          ),
-          column(2,
-                 sliderTextInput(
-                   inputId = "pickcolor",
-                   label = "Pick colours:",
-                   choices = LETTERS[1:8],
-                   selected = "D"
-                 )
-          ),
+          item_name <- names(imprt_data()$orddata)
 
-          column(2,
-                 numericInput(
-                   "linesize",
-                   "Line size",
-                   value = 1,
-                   min = 1,
-                   max = 10,
-                   step = 1
-                 )
-          ),
-          column(2,
-                 numericInput(
-                   "basesize",
-                   "Plot text size",
-                   value = 16,
-                   min = 5,
-                   max = 30,
-                   step = 1
-                 )
-          ),
-          column(1,
-                 actionButton("plotrun", "Make plots")
+          fluidRow(
+            column(2,
+                   pickerInput(
+                     inputId = "itemchoice",
+                     label = "Choose items",
+                     choices = item_name,
+                     selected = item_name[1:2],
+                     multiple = TRUE
+                   )
+            ),
+            column(2,
+                   sliderTextInput(
+                     inputId = "thetarange",
+                     label = "Theta range:",
+                     choices = -6:6,
+                     selected = c(-5, 5)
+                   )
+
+            ),
+            column(2,
+                   sliderTextInput(
+                     inputId = "pickcolor",
+                     label = "Pick colours:",
+                     choices = LETTERS[1:8],
+                     selected = "D"
+                   )
+            ),
+
+            column(2,
+                   numericInput(
+                     "linesize",
+                     "Line size",
+                     value = 1,
+                     min = 1,
+                     max = 10,
+                     step = 1
+                   )
+            ),
+            column(2,
+                   numericInput(
+                     "basesize",
+                     "Plot text size",
+                     value = 16,
+                     min = 5,
+                     max = 30,
+                     step = 1
+                   )
+            ),
+            column(1,
+                   actionButton("plotrun", "Make plots")
+            )
           )
-        )
+        } else {
+
+          p("For now, not working with more than 2 factors")
+
+        }
       })
     })
     observeEvent(input$plotrun, {
