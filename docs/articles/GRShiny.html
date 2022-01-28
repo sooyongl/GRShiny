@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">GRShiny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,14 +69,67 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">GRShiny</span><span class="op">)</span></code></pre></div>
-  </main>
+<div class="section level2">
+<h2 id="grm-data-simulation">GRM data simulation<a class="anchor" aria-label="anchor" href="#grm-data-simulation"></a>
+</h2>
+<div class="section level3">
+<h3 id="item-parameters-for-graded-response-model">Item parameters for graded response model<a class="anchor" aria-label="anchor" href="#item-parameters-for-graded-response-model"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">item_pars</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/genIRTpar.html">genIRTpar</a></span><span class="op">(</span>nitem <span class="op">=</span> <span class="fl">10</span>,
+                       ncat <span class="op">=</span> <span class="fl">3</span>,
+                       nfac <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="individual-true-latent-traits">Individual true latent traits<a class="anchor" aria-label="anchor" href="#individual-true-latent-traits"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">true_theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/genTheta.html">genTheta</a></span><span class="op">(</span>nsample <span class="op">=</span> <span class="fl">500</span>,
+                       nfac <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="grm-data">GRM data<a class="anchor" aria-label="anchor" href="#grm-data"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grm_dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/genData.html">genData</a></span><span class="op">(</span>eta <span class="op">=</span> <span class="va">true_theta</span>,
+                  ipar <span class="op">=</span> <span class="va">item_pars</span><span class="op">)</span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="grm-data-simulation-1">GRM data simulation<a class="anchor" aria-label="anchor" href="#grm-data-simulation-1"></a>
+</h2>
+<div class="section level3">
+<h3 id="generate-lavaan-syntax">Generate lavaan syntax<a class="anchor" aria-label="anchor" href="#generate-lavaan-syntax"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lav_syn</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/genLavSyn.html">genLavSyn</a></span><span class="op">(</span>dat <span class="op">=</span> <span class="va">grm_dt</span>, nfac <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="conduct-grm-with-two-different-estimators">Conduct GRM with two different estimators<a class="anchor" aria-label="anchor" href="#conduct-grm-with-two-different-estimators"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/runGRM.html">runGRM</a></span><span class="op">(</span>dat <span class="op">=</span> <span class="va">grm_dt</span>, lav.syntax <span class="op">=</span> <span class="va">lav_syn</span>,
+       estimator <span class="op">=</span> <span class="st">"WL"</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/runGRM.html">runGRM</a></span><span class="op">(</span>dat <span class="op">=</span> <span class="va">grm_dt</span>, lav.syntax <span class="op">=</span> <span class="va">lav_syn</span>,
+       estimator <span class="op">=</span> <span class="st">"ML"</span><span class="op">)</span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="launch-app">Launch app<a class="anchor" aria-label="anchor" href="#launch-app"></a>
+</h2>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/startGRshiny.html">startGRshiny</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by The package maintainer.</p>
+<p>Developed by Sooyong Lee.</p>
 </div>
 
 <div class="pkgdown-footer-right">

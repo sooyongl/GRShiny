@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">GRShiny</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,114 +48,121 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">genData</span><span class="op">(</span><span class="va">eta</span>, <span class="va">ipar</span><span class="op">)</span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>eta</dt>
+<dd><p>a matrix indicating individual true latent traits</p></dd>
+<dt>ipar</dt>
+<dd><p>a dataframe containing item parameters</p></dd>
+</dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
 <span class="r-in"><span class="va">ipar</span> <span class="op">&lt;-</span> <span class="fu"><a href="genIRTpar.html">genIRTpar</a></span><span class="op">(</span><span class="fl">20</span>, ncat <span class="op">=</span> <span class="fl">3</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">eta</span> <span class="op">&lt;-</span> <span class="fu">MASS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/mvrnorm.html" class="external-link">mvrnorm</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span>,ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">eta</span> <span class="op">&lt;-</span> <span class="fu"><a href="genTheta.html">genTheta</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">genData</span><span class="op">(</span><span class="va">eta</span>, <span class="va">ipar</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     y1 y2 y3 y4 y5 y6 y7 y8 y9 y10 y11 y12 y13 y14 y15 y16 y17 y18 y19 y20</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    2  0  2  2  0  2  0  2  0   0   2   1   0   2   2   2   2   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2    0  0  0  0  0  0  0  2  0   0   2   0   1   2   0   0   0   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    2  0  0  0  0  2  0  0  1   0   2   1   1   0   0   0   0   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    2  2  2  2  2  0  2  2  1   2   2   2   2   1   0   1   1   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    0  0  1  0  1  0  2  2  0   1   2   0   2   0   2   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    0  0  0  0  0  0  0  1  2   0   2   2   2   1   1   1   2   2   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    0  0  2  0  0  2  0  0  1   0   2   0   0   2   1   0   0   1   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    0  0  0  0  2  0  0  0  0   1   0   0   2   0   0   0   2   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    0  2  2  0  2  1  2  0  0   0   2   2   0   2   0   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   0  2  2  0  2  1  1  2  0   0   2   1   1   0   0   2   2   0   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11   0  0  0  0  2  2  2  2  0   2   0   1   2   0   0   0   2   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12   2  2  2  2  1  0  2  2  0   2   2   0   2   1   2   0   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13   0  2  2  2  1  2  1  2  2   0   2   0   2   2   1   0   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   0  0  2  0  2  2  0  0  0   2   1   0   1   0   0   0   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   0  0  2  1  0  0  2  2  0   2   0   0   2   1   0   2   0   0   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   2  2  2  2  2  2  2  2  1   2   0   0   2   2   0   2   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   2  0  0  0  1  1  2  2  0   2   2   2   2   2   0   2   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18   2  2  2  2  2  2  2  2  2   0   2   2   2   1   0   0   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19   2  2  0  0  0  0  0  2  2   0   1   0   1   2   0   1   0   1   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20   2  1  0  1  1  1  0  2  2   2   2   1   1   2   2   0   2   2   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21   0  0  0  0  2  2  0  0  1   0   2   2   2   2   1   2   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22   0  2  2  2  2  2  1  0  2   2   1   2   0   0   0   2   0   0   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23   0  2  0  1  1  1  0  0  0   0   2   0   2   2   1   2   2   1   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   0  2  2  2  2  2  2  0  0   2   2   2   1   1   0   0   2   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25   1  2  2  0  2  0  1  0  2   0   2   2   2   2   0   2   2   0   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   2  2  2  1  2  2  0  0  0   2   2   0   0   0   0   0   0   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27   2  2  0  2  2  1  2  0  0   0   0   1   0   0   0   2   2   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28   2  0  0  1  1  0  2  2  2   0   0   1   1   0   2   2   0   2   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29   1  1  1  2  0  2  0  2  2   2   2   2   0   0   1   0   1   0   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30   1  0  0  2  2  2  1  2  1   0   0   0   2   0   1   2   0   0   1   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31   0  0  2  0  0  0  1  2  0   1   2   2   2   0   0   0   0   0   1   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32   2  1  2  2  1  0  2  2  2   0   1   1   2   2   0   0   0   2   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33   2  2  0  2  2  2  2  0  2   0   0   0   0   0   0   1   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34   2  2  1  1  0  2  2  0  0   2   0   2   0   2   0   1   0   0   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35   0  1  2  2  2  2  2  0  1   2   2   0   0   1   0   0   2   0   1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36   1  0  2  0  1  1  2  0  2   2   0   0   0   0   2   0   0   0   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37   2  2  2  2  1  0  2  0  2   2   2   0   0   1   2   0   2   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38   1  0  0  2  2  1  1  0  0   2   0   0   2   0   1   0   0   2   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39   2  2  0  1  1  2  0  2  2   2   0   1   2   2   2   1   2   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40   0  2  1  0  1  1  0  2  1   2   0   1   0   0   0   0   1   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41   2  2  0  2  2  2  2  2  2   0   0   2   2   2   0   2   2   0   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42   0  0  0  0  0  0  2  0  1   0   0   1   2   2   2   2   2   0   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43   2  0  0  0  1  0  2  0  1   0   2   2   2   2   0   2   1   0   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44   0  0  0  0  0  2  0  0  0   0   1   0   1   0   1   2   0   0   1   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45   2  2  1  0  2  1  0  0  0   0   2   2   2   2   2   1   2   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46   2  2  2  1  2  2  2  2  2   2   2   2   2   1   2   2   2   2   2   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47   0  0  2  0  0  0  1  0  1   0   0   0   1   0   0   0   1   0   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48   2  0  1  0  2  0  2  0  2   2   1   1   0   1   0   1   0   0   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49   2  1  0  2  2  1  2  0  1   2   2   2   0   2   1   2   0   2   2   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50   1  0  1  0  0  2  2  0  1   0   0   2   2   1   0   0   2   0   1   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51   2  2  2  2  2  0  2  0  1   2   2   1   2   2   0   2   0   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52   0  2  0  1  0  2  0  0  0   0   1   2   0   1   0   0   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53   2  0  0  0  1  0  2  2  2   2   0   0   0   0   0   0   2   0   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54   0  2  2  0  2  1  0  2  1   2   1   0   0   0   0   2   2   0   1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55   2  0  0  0  0  0  0  0  2   0   0   0   2   0   0   0   2   1   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56   1  0  0  1  1  0  1  0  0   0   0   2   0   2   1   0   0   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57   0  0  1  0  0  1  0  2  0   0   0   0   0   0   0   2   1   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58   0  0  2  0  0  0  0  2  2   0   2   2   2   2   2   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59   0  0  2  0  2  2  2  0  1   1   2   2   2   1   0   2   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60   2  1  0  0  2  1  0  0  1   1   2   1   0   2   0   1   0   2   2   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61   0  0  0  0  0  0  0  2  0   0   2   0   0   0   0   0   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62   2  2  2  2  2  2  2  2  0   2   0   1   0   0   2   0   0   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63   0  0  1  0  0  0  0  0  0   0   1   2   2   0   0   2   2   1   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64   0  0  0  2  0  2  0  2  0   0   2   2   2   2   2   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65   2  0  0  2  0  0  0  0  2   0   0   2   2   2   0   0   0   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66   2  0  0  0  1  0  2  0  2   2   0   0   2   2   2   2   0   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67   0  0  0  0  0  0  0  1  2   2   1   1   1   2   0   1   2   2   1   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68   2  0  1  2  2  2  0  0  2   0   2   2   2   2   1   0   2   1   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69   2  2  2  2  0  0  2  1  1   0   2   2   2   2   1   0   2   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70   2  2  2  2  1  0  2  2  0   2   1   2   2   0   2   2   0   1   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71   0  0  0  0  0  2  0  2  0   1   2   0   0   2   2   2   2   1   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72   0  0  2  2  0  2  2  0  2   2   1   0   1   0   0   2   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 73   0  0  0  1  1  0  0  1  0   0   0   1   2   2   1   2   2   1   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 74   2  2  1  2  0  2  0  0  0   2   0   0   2   2   1   2   0   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75   0  2  0  0  0  0  0  0  0   2   2   2   2   2   2   2   0   2   2   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 76   0  2  0  0  2  0  0  2  0   2   0   0   2   0   2   0   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77   2  0  2  2  0  0  2  2  2   2   2   0   2   1   0   1   0   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78   1  2  2  0  2  2  2  2  2   2   2   2   1   0   0   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79   2  2  2  2  1  2  2  2  0   1   2   2   2   0   2   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80   2  2  2  2  1  1  0  2  2   0   0   1   0   0   2   0   0   0   2   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81   2  2  0  0  0  0  0  0  0   0   2   2   0   0   2   0   0   0   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82   2  2  2  1  2  2  2  2  1   0   2   2   2   2   2   2   2   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 83   0  0  0  0  0  0  0  0  0   0   1   2   2   2   2   2   2   2   1   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 84   0  0  0  0  0  0  0  0  0   0   2   2   2   2   0   1   2   0   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 85   1  2  2  2  0  2  2  2  2   0   0   1   0   0   1   0   0   1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 86   0  0  0  0  1  1  2  0  2   0   2   2   2   2   0   1   1   0   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 87   2  0  0  2  0  0  2  0  0   2   2   1   0   2   2   0   0   1   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 88   2  2  2  1  2  2  2  0  2   2   1   1   2   2   2   1   2   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 89   0  0  2  0  0  0  0  0  0   0   0   1   0   1   0   0   2   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 90   1  2  0  0  2  0  2  0  1   2   0   0   0   0   2   2   2   0   1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 91   0  0  2  2  2  0  1  0  0   0   0   0   2   0   0   1   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 92   1  0  2  0  2  1  2  2  1   2   1   1   2   2   2   0   2   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 93   2  0  2  2  1  2  0  0  0   1   2   2   2   2   0   2   2   2   0   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 94   0  0  0  0  0  0  0  2  0   0   0   2   2   2   1   2   0   1   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95   0  0  0  2  0  0  0  1  2   0   0   0   1   0   2   0   0   2   2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 96   0  2  1  0  2  2  2  1  0   2   2   0   1   2   2   2   0   2   2   2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97   0  0  0  2  0  0  0  2  2   0   2   0   0   1   0   2   0   0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98   0  2  2  2  2  0  0  2  0   2   2   2   0   0   2   0   0   0   1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 99   1  2  2  2  2  2  2  2  2   2   0   2   0   0   1   1   0   2   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100  2  0  2  2  2  0  0  0  2   2   0   0   0   0   0   0   0   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0  2  2  0  0  0  2  2  1   2   2   2   2   2   2   1   1   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    0  0  0  0  0  2  0  0  1   0   2   2   2   2   2   2   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    0  0  2  0  2  0  0  0  2   0   0   1   0   0   0   2   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    0  2  2  2  2  2  0  0  0   2   2   0   0   0   2   2   2   0   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    0  1  0  0  0  0  0  0  0   0   2   1   2   2   2   1   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    0  0  2  0  0  2  0  0  0   1   0   0   0   0   0   0   0   1   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    2  2  2  2  2  1  0  2  2   2   0   0   2   0   0   2   1   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    2  2  0  0  2  2  0  2  2   2   0   1   2   2   1   2   2   1   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    2  0  2  0  0  0  2  2  1   2   1   2   2   2   2   2   2   1   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   0  0  0  0  0  0  0  0  1   0   2   1   2   1   2   1   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11   2  2  2  0  1  2  2  2  1   0   0   0   2   0   0   0   2   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12   2  2  0  0  2  0  0  0  0   2   0   0   0   2   0   2   2   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13   0  0  0  0  1  0  1  0  1   0   2   2   2   0   0   2   1   0   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   2  2  2  0  0  0  1  2  1   2   2   0   2   0   2   1   2   1   1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   0  0  0  0  1  0  0  2  0   0   2   2   2   0   0   0   0   0   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   0  2  0  0  0  0  0  1  0   0   1   2   2   2   2   2   2   2   2   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   0  0  2  0  2  0  0  0  0   0   2   1   2   0   2   0   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   1  2  2  2  0  2  2  0  2   2   0   0   2   0   0   1   1   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19   1  0  0  1  0  0  2  0  0   0   2   2   0   2   0   0   2   2   1   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   0  0  2  2  2  0  0  0  0   0   2   2   2   1   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21   0  2  0  2  0  0  2  0  0   0   1   1   0   0   0   0   2   0   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22   2  2  0  0  0  0  0  1  1   2   0   2   2   0   0   0   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23   2  2  0  2  2  0  0  0  1   2   0   2   0   0   0   1   2   1   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   0  0  2  0  0  0  2  0  0   0   2   2   0   0   0   2   2   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25   0  0  0  0  2  0  0  0  2   2   2   2   2   0   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26   1  0  2  2  0  1  2  2  0   2   2   0   0   2   0   0   2   0   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27   2  2  2  1  2  2  2  2  2   2   0   1   0   2   0   1   0   0   1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28   0  0  0  2  0  2  2  2  2   2   2   2   0   2   2   2   2   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29   2  2  2  0  2  2  0  1  2   2   2   0   0   2   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30   0  2  2  0  0  2  0  2  1   1   0   0   2   0   0   0   2   0   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31   0  0  1  2  0  2  1  2  0   2   0   2   1   2   2   0   2   1   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32   0  2  0  2  2  0  2  2  2   2   1   2   2   2   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33   2  2  0  2  0  2  2  2  2   0   0   0   2   0   2   0   2   0   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34   0  0  1  0  1  2  2  2  2   2   2   0   0   1   0   2   0   2   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35   1  2  2  2  1  2  1  0  0   0   0   0   2   0   2   2   2   0   2   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36   0  1  2  2  2  2  2  0  0   0   0   0   0   1   2   0   0   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37   0  2  2  1  0  2  0  0  1   2   2   2   2   2   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38   0  2  2  1  1  1  2  0  2   2   0   1   0   0   0   2   0   0   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39   0  0  2  0  0  0  1  2  1   0   2   0   2   0   2   1   1   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40   1  0  2  0  0  2  2  0  2   0   2   0   2   1   2   1   2   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41   2  1  0  2  0  0  0  0  2   1   2   2   2   0   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42   0  0  0  0  0  0  0  0  0   0   2   2   2   2   2   2   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43   2  0  0  0  2  1  0  2  2   0   0   0   0   0   0   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44   2  2  2  2  1  2  2  0  2   2   2   0   1   0   1   0   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45   2  2  2  2  2  2  2  2  1   2   0   0   0   0   0   1   1   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46   2  0  2  0  2  1  0  2  1   1   0   0   0   0   0   0   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47   2  0  0  2  0  1  0  0  0   0   2   0   2   2   2   0   1   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48   0  0  0  2  0  1  0  2  0   2   0   0   2   2   0   1   1   0   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49   2  2  1  0  2  0  2  1  0   0   2   0   2   0   0   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50   0  2  2  0  2  0  0  2  0   0   2   1   2   1   2   2   2   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51   0  0  0  0  0  1  2  0  0   2   2   2   2   2   2   0   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52   0  0  0  0  0  0  0  0  0   2   1   2   2   0   0   0   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53   2  2  0  1  0  2  0  0  0   0   2   1   2   2   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54   2  2  0  1  0  0  2  0  0   1   2   2   0   0   0   1   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55   2  2  2  2  2  0  2  2  2   2   2   2   2   2   2   2   1   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56   2  0  2  2  2  2  2  0  2   1   1   0   0   1   0   1   0   0   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57   1  2  0  2  2  2  1  2  2   2   2   2   2   1   2   0   2   0   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58   0  0  0  0  2  2  0  0  0   1   0   2   0   1   2   0   1   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59   2  0  0  0  0  0  0  0  2   0   2   1   0   0   0   2   0   0   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60   0  2  0  2  2  1  2  0  1   2   2   1   0   0   2   2   1   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61   0  2  0  0  0  0  1  0  0   2   0   1   2   2   2   0   0   0   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62   2  2  0  2  2  2  2  0  2   2   2   0   0   2   0   2   2   2   1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63   0  0  2  2  0  0  2  2  0   2   0   2   2   0   2   2   1   0   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64   2  0  0  2  0  0  0  2  1   1   0   0   0   1   0   2   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65   2  0  2  2  2  2  2  2  2   2   0   2   2   0   0   2   0   0   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66   2  2  2  2  0  2  1  0  0   2   2   2   2   2   2   2   2   0   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67   2  2  1  0  1  0  2  1  1   1   2   2   2   2   0   1   2   0   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68   2  2  2  2  0  0  1  0  1   2   2   2   2   2   2   2   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69   2  2  2  1  0  2  1  0  0   0   0   2   2   2   0   0   2   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70   2  2  2  2  2  2  0  0  2   2   2   2   2   0   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71   0  1  1  2  0  2  0  2  0   0   1   0   0   0   0   2   2   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72   0  2  1  0  2  0  0  2  0   2   2   2   2   2   2   2   2   2   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73   2  2  2  0  2  2  0  2  2   2   0   0   2   1   0   0   0   0   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74   2  2  2  0  1  1  2  0  0   1   1   2   1   2   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75   2  2  0  0  0  2  0  2  2   0   1   0   2   0   2   2   2   1   0   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76   0  0  0  2  0  1  1  0  0   0   0   0   2   2   2   0   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77   0  0  2  0  0  1  2  1  2   0   0   1   2   0   2   2   0   0   2   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78   2  2  2  2  2  2  2  2  0   2   2   2   2   1   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79   2  0  2  2  2  0  0  2  2   2   0   1   0   0   0   2   0   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80   0  2  0  2  1  2  1  0  0   2   0   2   0   0   0   0   0   2   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81   0  2  1  2  2  2  2  0  0   2   2   1   0   0   2   0   1   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82   2  2  2  2  2  2  2  2  2   2   0   1   0   0   0   0   0   2   1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83   2  2  2  1  2  2  2  0  1   2   0   2   0   2   0   2   0   2   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84   1  0  2  0  2  0  0  2  0   1   2   2   2   0   2   2   2   2   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85   1  2  0  0  1  0  0  0  1   0   2   1   0   0   0   0   1   0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86   2  2  1  2  0  0  0  2  2   0   2   1   2   0   2   1   2   2   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87   2  2  2  2  0  2  1  2  2   2   2   0   2   1   2   1   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88   0  2  0  0  0  1  2  0  2   2   2   2   1   2   2   0   0   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89   2  2  2  2  2  0  2  2  2   2   0   2   0   2   1   0   1   0   2   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90   2  2  2  1  2  2  0  2  1   2   0   2   2   2   2   1   2   0   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91   2  0  2  1  0  2  2  2  2   0   0   2   0   0   0   2   2   0   1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92   0  0  1  0  1  0  2  0  2   0   2   2   2   2   2   2   2   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93   2  2  2  2  2  2  2  2  2   2   0   2   1   2   0   0   1   2   1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94   2  0  2  2  2  2  2  0  2   0   1   0   2   2   2   1   2   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95   2  2  0  0  0  0  0  0  0   2   0   0   2   2   2   0   1   1   2   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 96   1  2  0  0  2  1  2  0  0   0   2   2   2   2   2   2   2   0   2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97   1  2  0  2  2  2  0  0  2   0   2   1   2   2   2   0   2   2   1   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98   2  2  2  2  2  1  2  2  2   2   2   0   0   0   0   1   1   2   0   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99   2  2  0  2  1  2  0  0  0   0   0   2   0   0   1   2   1   2   2   2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100  0  2  2  0  2  2  0  2  0   2   2   2   1   2   0   1   0   0   2   1</span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -164,7 +171,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by The package maintainer.</p>
+  <p></p><p>Developed by Sooyong Lee.</p>
 </div>
 
 <div class="pkgdown-footer-right">
