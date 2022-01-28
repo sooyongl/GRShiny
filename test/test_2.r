@@ -5,8 +5,8 @@ library(lavaan)
 library(mirt)
 library(sirt)
 library(tidyverse)
-ipar <- genIRTpar(4, ncat = 3, 1)
-eta <- MASS::mvrnorm(500, rep(0, 1), matrix(c(1), ncol = 1))
+ipar <- genIRTpar(4, ncat = 3, 2)
+eta <- genTheta(300, 2)
 orddata <- genData(eta, ipar)
 
 
@@ -18,7 +18,7 @@ orddata <- genData(eta, ipar)
 orddata <- fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
 
 
-lav.model <- genLavSyn(orddata)
+lav.model <- genLavSyn(orddata, 2)
 cat(lav.model)
 
 # lav.model <- str_replace_all(lav.model, "\\+l[0-9]\\*|\\+l[0-9][0-9]\\*|\\+l[0-9][0-9][0-9]\\*", "+")
@@ -55,7 +55,7 @@ cat(lav.model)
 # first_item <- strsplit(strsplit(lav.model, "NA\\*")[[1]][2], " \\+ ")[[1]][1]
 
 
-a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "ML")
+a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "WL")
 a1[[1]]
 summary(a1$mirt.fit)
 

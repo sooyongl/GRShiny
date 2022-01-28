@@ -303,11 +303,73 @@ shiny_server <- function(input, output, session) {
 
     output$plotinfo <- renderUI({
 
-      if(nfac == 1) {
+      if(nfac != 1) {
 
+        item_name <- names(imprt_data()$orddata)
+        fluidPage(
+          fluidRow(
+
+            p("For now, not working with more than 2 factors")
+          ),
+          fluidRow(
+
+            column(2,
+                   pickerInput(
+                     inputId = "itemchoice",
+                     label = "Choose items",
+                     choices = item_name,
+                     selected = item_name[1:2],
+                     multiple = TRUE
+                   )
+            ),
+            column(2,
+                   sliderTextInput(
+                     inputId = "thetarange",
+                     label = "Theta range:",
+                     choices = -6:6,
+                     selected = c(-5, 5)
+                   )
+
+            ),
+            column(2,
+                   sliderTextInput(
+                     inputId = "pickcolor",
+                     label = "Pick colours:",
+                     choices = LETTERS[1:8],
+                     selected = "D"
+                   )
+            ),
+
+            column(2,
+                   numericInput(
+                     "linesize",
+                     "Line size",
+                     value = 1,
+                     min = 1,
+                     max = 10,
+                     step = 1
+                   )
+            ),
+            column(2,
+                   numericInput(
+                     "basesize",
+                     "Plot text size",
+                     value = 16,
+                     min = 5,
+                     max = 30,
+                     step = 1
+                   )
+            ),
+            column(1,
+                   actionButton("plotrun", "Make plots")
+            )
+          )
+        )
+      } else {
         item_name <- names(imprt_data()$orddata)
 
         fluidRow(
+
           column(2,
                  pickerInput(
                    inputId = "itemchoice",
@@ -359,11 +421,9 @@ shiny_server <- function(input, output, session) {
                  actionButton("plotrun", "Make plots")
           )
         )
-      } else {
-
-        p("For now, not working with more than 2 factors")
 
       }
+
     })
   })
   observeEvent(input$plotrun, {

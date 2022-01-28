@@ -25,6 +25,10 @@ trans_to_grm <- function(grm.fit) {
     estimator = "WL"
   }
 
+  Lam <- matrix(rowSums(Lam), byrow = T)
+  FM <- c(FM)
+  FV <- diag(FV)
+
   Disc <- matrix(rep(0, nrow(Lam)*ncol(Lam)), ncol = ncol(Lam))
   Diff <- matrix(rep(0, nrow(Lam)*ncol(Thre)), ncol = ncol(Thre))
   for(i in 1:nrow(Lam)) {
@@ -34,17 +38,20 @@ trans_to_grm <- function(grm.fit) {
 
     for(j in 1:ncol(Lam)) {
 
+      fv <- FV[j]
+      fm <- FM[j]
+
       if (toupper(estimator) == "ML") {
         # if ML
-        Disc[i,j] <- lam*sqrt(FV) # / 1.7
+        Disc[i,j] <- lam*sqrt(fv) # / 1.7
       } else {
         # if WL
-        Disc[i,j] <- lam*sqrt(FV) / sqrt((1 - (lam)^2))
+        Disc[i,j] <- lam*sqrt(fv) / sqrt((1 - (lam)^2))
       }
     }
 
     for(j in 1:ncol(Thre)) {
-      Diff[i,j] <- (thre[,j] - lam*FM) / lam*sqrt(FV)
+      Diff[i,j] <- (thre[,j] - lam*fm) / lam*sqrt(fv)
     }
   }
   if(class(grm.fit) == "lavaan") {
@@ -77,10 +84,17 @@ runGRM <- function(dat, lav.syntax, estimator) {
     )
 
     if(grm.fit@pta$nfac == 1) {
+
       grm.par <- trans_to_grm(grm.fit = grm.fit)
       rownames(grm.par) <- varname
+
     } else {
+
       grm.par <- "traditional parameterization of GRM not working with more than 2 factors"
+      print(grm.par)
+
+      grm.par <- trans_to_grm(grm.fit = grm.fit)
+      rownames(grm.par) <- varname
     }
 
   } else {
@@ -103,10 +117,16 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
     grm.fit <- grm.sirt$mirt
     if(ncol(grm.fit@Fit$F) == 1) {
+
       grm.par <- trans_to_grm(grm.fit = grm.fit)
 
     } else {
-      grm.par <- "traditional parameterization of GRM not working with more than 2 factors"
+
+      print(grm.par)
+
+      grm.par <- trans_to_grm(grm.fit = grm.fit)
+      rownames(grm.par) <- varname
+
     }
   }
 
