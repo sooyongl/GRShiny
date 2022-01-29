@@ -1,0 +1,73 @@
+---
+title: "A Tutorial for Obtaining Item Response Theory Results"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+base_path <- rprojroot::find_rstudio_root_file()
+
+data_path <- file.path(base_path, "test/paper_data/BYI_DEMO.DAT")
+```
+
+```{r}
+# devtools::install_github("sooyongl/GRShiny")
+library(GRShiny)
+library(data.table)
+```
+
+## Data import
+
+```{r import-data}
+paperdt <- data.table::fread(data_path)[,-c(1:4)]
+```
+
+## lavaan model
+
+```{r}
+lav_model <- genLavSyn(paperdt, nfac = 1)
+```
+
+## Conduct GRM with WLS and ML
+
+```{r}
+fit.wl <- runGRM(paperdt, lav_model, estimator = "WL")
+fit.ml <- runGRM(paperdt, lav_model, estimator = "ML")
+```
+
+## Results {.tabset}
+
+### Fit
+
+```{r}
+extract_fit(fit.wl)
+extract_fit(fit.ml)
+```
+
+### EStimate
+
+```{r}
+extract_est(fit.wl);
+extract_est(fit.ml);
+```
+
+### GRM parameter
+
+```{r}
+round(fit.wl$grm.par,3)
+round(fit.ml$grm.par,3)
+```
+
+
+## IRT plots
+
+```{r}
+GRShiny::ICCplot(fit.wl, 1:3, plot.ps = F)
+GRShiny::ICCplot(fit.wl, 1:3, plot.ps = T)
+GRShiny::ESplot(fit.wl, 1:3)
+GRShiny::FSplot(fit.wl, type = "histogram")
+GRShiny::infoPlot(fit.wl, 1:3)
+GRShiny::infoPlot(fit.wl, type = "tcc")
+```
+
+
