@@ -6,6 +6,13 @@
 \usage{
 shiny_server(input, output, session)
 }
+\arguments{
+\item{input}{a shiny input}
+
+\item{output}{a shiny output}
+
+\item{session}{a seesion}
+}
 \description{
 The Shiny App Server
 }

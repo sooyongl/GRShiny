@@ -6,6 +6,11 @@
 \usage{
 calInfo(ipar, theta = seq(-4, 4, 0.1))
 }
+\arguments{
+\item{ipar}{a data frame containing estimated GRM parameters}
+
+\item{theta}{a numeric indicating the range of theta}
+}
 \description{
 Calculate item information
 }

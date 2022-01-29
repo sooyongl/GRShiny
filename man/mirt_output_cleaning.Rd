@@ -6,6 +6,9 @@
 \usage{
 mirt_output_cleaning(mirt.fit)
 }
+\arguments{
+\item{mirt.fit}{an obejct from \code{\link{mirt}} package}
+}
 \description{
 clean mirt class
 }

@@ -6,6 +6,9 @@
 \usage{
 trans_to_grm(grm.fit)
 }
+\arguments{
+\item{grm.fit}{a matrix containing the estimates of GRM}
+}
 \description{
 Transform SEM params into GRM params
 }

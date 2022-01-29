@@ -1,4 +1,6 @@
 
+# GRShiny <img src='inst/figures/hextile.png' align="right" height="139" />
+
 ## Overview
 
 Simulation and analysis of graded response data with different types of

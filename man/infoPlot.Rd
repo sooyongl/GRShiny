@@ -28,8 +28,6 @@ infoPlot(
 \item{line_size}{a numeric indicating the size of line}
 
 \item{cal_option}{a character indicating the plot colour}
-
-\item{addlabel}{a logical indicating whether to add the b parameter as labels}
 }
 \description{
 Calculate item information

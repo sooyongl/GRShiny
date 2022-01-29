@@ -1,9 +1,13 @@
+#' @include 0_import.r
+NULL
+
 #' Clean output to look like Mplus
 #'
 #' @param fit an object from \code{\link{runGRM}}
 #'
 #' @export
 extract_est <- function(fit) {
+
   fit <- fit[grep("fit",names(fit))][[1]]
 
   if(class(fit) == "lavaan") {
@@ -44,7 +48,12 @@ extract_fit <- function(fit) {
 
 #' clean mirt class
 #'
+#' @param mirt.fit an obejct from \code{\link{mirt}} package
+#'
 mirt_output_cleaning <- function(mirt.fit) {
+
+  `.` <- varname <- parname <- est <- z <- rhs <- lhs <- op <- se <- NULL
+
   mirt.param <- coef(mirt.fit, simplify = F, printSE=TRUE)
 
   EST <- lapply(mirt.param[-length(mirt.param)], function(x) x["par",]) %>%
@@ -83,7 +92,11 @@ mirt_output_cleaning <- function(mirt.fit) {
 
 #' clean lavaan class
 #'
+#' @param lav.fit an obejct from \code{\link{lavaan}} package
+#'
 lavaan_output_cleaning <- function(lav.fit) {
+  op <- NULL
+
   parameterestimates(lav.fit) %>%
     filter(str_detect(op, "=~|\\|")) %>%
     select(-starts_with("ci"))

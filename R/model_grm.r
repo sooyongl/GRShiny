@@ -1,4 +1,9 @@
+#' @include 0_import.r
+NULL
+
 #' Transform SEM params into GRM params
+#'
+#' @param grm.fit a matrix containing the estimates of GRM
 #'
 trans_to_grm <- function(grm.fit) {
 
@@ -99,9 +104,9 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
   } else {
     # ML
-    lav.syntax <- str_replace_all(lav.syntax, "\\+l[0-9]\\*|\\+l[0-9][0-9]\\*|\\+l[0-9][0-9][0-9]\\*", "+")
+    lav.syntax <- stringr::str_replace_all(lav.syntax, "\\+l[0-9]\\*|\\+l[0-9][0-9]\\*|\\+l[0-9][0-9][0-9]\\*", "+")
 
-    lav.syntax <- str_remove_all(lav.syntax, " t[0-9][0-9]\\*| t[0-9][0-9][0-9]\\*| t[0-9][0-9][0-9][0-9]\\*")
+    lav.syntax <- stringr::str_remove_all(lav.syntax, " t[0-9][0-9]\\*| t[0-9][0-9][0-9]\\*| t[0-9][0-9][0-9][0-9]\\*")
 
     grm.sirt <- lavaan2mirt(dat,
                             lav.syntax,
@@ -119,7 +124,7 @@ runGRM <- function(dat, lav.syntax, estimator) {
     if(ncol(grm.fit@Fit$F) == 1) {
 
       grm.par <- trans_to_grm(grm.fit = grm.fit)
-
+      rownames(grm.par) <- varname
     } else {
 
       print(grm.par)

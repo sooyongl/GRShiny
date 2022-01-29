@@ -54,13 +54,26 @@
 <span class="op">)</span></code></pre></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>fit</dt>
+<dd><p>an object from <code><a href="runGRM.html">runGRM</a></code></p></dd>
+<dt>type</dt>
+<dd><p>a character indicating the type of plots</p></dd>
+<dt>hist_bins</dt>
+<dd><p>a numeric indicating the number of bins for the histogram</p></dd>
+<dt>fill_colour</dt>
+<dd><p>a character indicating the color</p></dd>
+<dt>base_size</dt>
+<dd><p>a numeric indicating the base font size</p></dd>
+</dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">FSplot</span><span class="op">(</span><span class="va">fs_scores</span>, type <span class="op">=</span> <span class="st">"histogram"</span>, hist_bins <span class="op">=</span> <span class="fl">20</span>, base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in calFS(fit):</span> object 'fs_scores' not found</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu">FSplot</span><span class="op">(</span><span class="va">fs_scores</span>, type <span class="op">=</span> <span class="st">"histogram"</span>, hist_bins <span class="op">=</span> <span class="fl">20</span>, base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">FSplot</span><span class="op">(</span><span class="va">fs_scores</span>, type <span class="op">=</span> <span class="st">"density"</span>, hist_bins <span class="op">=</span> <span class="fl">20</span>, base_size <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in calFS(fit):</span> object 'fs_scores' not found</span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -68,7 +81,7 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p><p>Developed by Sooyong Lee.</p>
+  <p></p><p>Developed by Sooyong Lee, Tiffany Whittaker, Laura Stapleton.</p>
 </div>
 
 <div class="pkgdown-footer-right">

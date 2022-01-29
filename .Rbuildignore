@@ -8,3 +8,5 @@
 ^docs$
 ^pkgdown$
 ^rsconnect$
+^cran-comments\.md$
+^README.rmd$

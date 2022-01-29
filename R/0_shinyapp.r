@@ -1,3 +1,6 @@
+#' @include 0_import.r
+NULL
+
 #' The Shiny App UI
 #'
 shiny_ui <- function() {
@@ -130,6 +133,10 @@ shiny_ui <- function() {
 
 #' The Shiny App Server
 #'
+#' @param input a shiny input
+#' @param output a shiny output
+#' @param session a seesion
+#'
 shiny_server <- function(input, output, session) {
   #
   # Data part ------------------------------------------
@@ -228,7 +235,7 @@ shiny_server <- function(input, output, session) {
       paste("simulated_data", ".csv", sep = "")
     },
     content = function(file) {
-      write.csv(imprt_data()$orddata, file, row.names = F)
+      utils::write.csv(imprt_data()$orddata, file, row.names = F)
     }
   )
 

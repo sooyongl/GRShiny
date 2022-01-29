@@ -6,6 +6,9 @@
 \usage{
 calFS(fit)
 }
+\arguments{
+\item{fit}{an object from \code{\link{runGRM}}}
+}
 \description{
 Calculate Factor score
 }

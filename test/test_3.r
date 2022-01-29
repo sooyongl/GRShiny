@@ -1,7 +1,7 @@
 rm(list=ls())
 for (i in sort(fs::dir_ls("R"))) {source(i)}
 
-orddata <- fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
+orddata <- data.table::fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
 
 # write_csv(orddata, "test/paper_data/grm_dt.csv")
 

@@ -4,7 +4,7 @@
 \alias{startGRshiny}
 \title{This function will start GRShiny}
 \usage{
-startGRshiny(...)
+startGRshiny()
 }
 \description{
 An interactive Shiny application for running a GRM analysis.

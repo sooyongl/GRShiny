@@ -1,6 +1,11 @@
+#' @include 0_import.r
+NULL
+
 # ref: https://aidenloe.github.io/irtplots.html
 
 #' Calculate Factor score
+#'
+#' @param fit an object from \code{\link{runGRM}}
 #'
 calFS <- function(fit) {
   res.fit <- fit[grep("fit",names(fit))][[1]]
@@ -27,6 +32,7 @@ calFS <- function(fit) {
 #' }
 #' @export
 FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey70", base_size = 16) {
+  F1 <- NULL
 
   fs_scores <- calFS(fit)
 
@@ -53,6 +59,9 @@ FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey7
 
 
 #' Calculate probability
+#'
+#' @param ipar a data frame containing estimated GRM parameters
+#' @param theta a numeric indicating the range of theta
 #'
 calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 
@@ -100,6 +109,8 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
   # plot.ps=F : Categorical response curve
   # plot.ps=T : operating characteristic curve plot
+
+  iid <- `.` <- score <- item <- val <- `prob+` <- step <- ys <- ye <- xs <- cate <- NULL
 
   ipar <- fit$grm.par
 
@@ -205,6 +216,9 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
 
 #' Calculate expected scores
 #'
+#' @param ipar a data frame containing estimated GRM parameters
+#' @param theta a numeric indicating the range of theta
+#'
 calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
@@ -227,6 +241,8 @@ calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 #'
 #' @export
 ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
+
+  iid <- `.` <- score <- item <- F1 <- NULL
 
   ipar <- fit$grm.par
   selected_id <- rownames(ipar)[selected_item]
@@ -258,6 +274,8 @@ ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, 
 
 #' Calculate item information
 #'
+#' @inheritParams calES
+#'
 calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
@@ -281,7 +299,6 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param selected_item a numeric indicating for what items the function makes plots
 #' @param type a character indicating the type of plots
 #' @param theta a numeric indicating latent traints
-#' @param addlabel a logical indicating whether to add the b parameter as labels
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot colour
@@ -293,6 +310,8 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' }
 #' @export
 infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
+
+  iid <- `.` <- info <- item <- total.info <- NULL
 
   ipar <- fit$grm.par
   varname <- rownames(ipar)

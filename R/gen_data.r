@@ -1,3 +1,6 @@
+#' @include 0_import.r
+NULL
+
 #' Generate Item parameters
 #'
 #' @param nitem a numeric indicating the number of items

@@ -6,6 +6,9 @@
 \usage{
 lavaan_output_cleaning(lav.fit)
 }
+\arguments{
+\item{lav.fit}{an obejct from \code{\link{lavaan}} package}
+}
 \description{
 clean lavaan class
 }

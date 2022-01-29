@@ -1,3 +1,6 @@
+#' @include 0_import.r
+NULL
+
 #' Start GRShiny
 #'
 #' @title This function will start GRShiny
@@ -10,7 +13,7 @@
 #' startGRshiny()
 #' }
 #' @export
-startGRshiny <- function(...) {
+startGRshiny <- function() {
   # shiny_env <- new.env()
   # if(!missing(thedata)) {
   #   print('Setting parameters')
@@ -24,7 +27,7 @@ startGRshiny <- function(...) {
       ui = shiny_ui,
       server = shiny_server
     )
-    shiny::runApp(app, ...)
+    shiny::runApp(app)
 
   } else {
     stop('shiny package is not available. Please install.', call.=FALSE)
