@@ -1,7 +1,8 @@
 #' Start GRShiny
+#'
 #' @title This function will start GRShiny
-#' @description An interactive Shiny application for running a GRM # analysis.
-#' @details This starts the IRT Shiny application on the users local # computer.
+#' @description An interactive Shiny application for running a GRM analysis.
+#' @details This starts the IRT Shiny application on the users local computer.
 #' @keywords IRT
 #' @examples
 #' \dontrun{

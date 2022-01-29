@@ -12,10 +12,23 @@ FSplot(
   base_size = 16
 )
 }
+\arguments{
+\item{fit}{an object from \code{\link{runGRM}}}
+
+\item{type}{a character indicating the type of plots}
+
+\item{hist_bins}{a numeric indicating the number of bins for the histogram}
+
+\item{fill_colour}{a character indicating the color}
+
+\item{base_size}{a numeric indicating the base font size}
+}
 \description{
 Plot Factor score
 }
 \examples{
+\dontrun{
 FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
 FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
+}
 }

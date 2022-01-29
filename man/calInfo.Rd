@@ -4,7 +4,7 @@
 \alias{calInfo}
 \title{Calculate item information}
 \usage{
-calInfo(ipar, theta = seq(-3, 3, 0.1))
+calInfo(ipar, theta = seq(-4, 4, 0.1))
 }
 \description{
 Calculate item information

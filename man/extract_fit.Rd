@@ -6,6 +6,9 @@
 \usage{
 extract_fit(fit)
 }
+\arguments{
+\item{fit}{an object from \code{\link{runGRM}}}
+}
 \description{
 Extract model fit
 }

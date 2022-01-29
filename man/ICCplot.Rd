@@ -7,7 +7,7 @@
 ICCplot(
   fit,
   selected_item,
-  theta = seq(-3, 3, 0.1),
+  theta = seq(-4, 4, 0.1),
   plot.ps = FALSE,
   addlabel = F,
   base_size = 16,
@@ -15,10 +15,29 @@ ICCplot(
   cal_option = "D"
 )
 }
+\arguments{
+\item{fit}{an object from \code{\link{runGRM}}}
+
+\item{selected_item}{a numeric indicating for what items the function makes plots}
+
+\item{theta}{a numeric indicating latent traints}
+
+\item{plot.ps}{a logical indicating the type of plots}
+
+\item{addlabel}{a logical indicating whether to add the b parameter as labels}
+
+\item{base_size}{a numeric indicating the base font size}
+
+\item{line_size}{a numeric indicating the size of line}
+
+\item{cal_option}{a character indicating the plot colour}
+}
 \description{
 Plot ICC or OCC
 }
 \examples{
+\dontrun{
 ICCplot(ipar, 1, seq(-3, 3, .1), plot.ps = FALSE, base_size = 16)
 ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.ps = T, base_size = 16)
+}
 }

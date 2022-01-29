@@ -8,16 +8,35 @@ infoPlot(
   fit,
   selected_item,
   type = "icc",
-  theta = seq(-3, 3, 0.1),
+  theta = seq(-4, 4, 0.1),
   base_size = 16,
   line_size = 1,
   cal_option = "D"
 )
 }
+\arguments{
+\item{fit}{an object from \code{\link{runGRM}}}
+
+\item{selected_item}{a numeric indicating for what items the function makes plots}
+
+\item{type}{a character indicating the type of plots}
+
+\item{theta}{a numeric indicating latent traints}
+
+\item{base_size}{a numeric indicating the base font size}
+
+\item{line_size}{a numeric indicating the size of line}
+
+\item{cal_option}{a character indicating the plot colour}
+
+\item{addlabel}{a logical indicating whether to add the b parameter as labels}
+}
 \description{
 Calculate item information
 }
 \examples{
+\dontrun{
 infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
 infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
+}
 }

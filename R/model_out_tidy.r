@@ -3,7 +3,7 @@
 #' @param fit an object from \code{\link{runGRM}}
 #'
 #' @export
-output_cleaning <- function(fit) {
+extract_est <- function(fit) {
   fit <- fit[grep("fit",names(fit))][[1]]
 
   if(class(fit) == "lavaan") {
@@ -15,6 +15,8 @@ output_cleaning <- function(fit) {
 }
 
 #' Extract model fit
+#'
+#' @param fit an object from \code{\link{runGRM}}
 #'
 #' @export
 extract_fit <- function(fit) {

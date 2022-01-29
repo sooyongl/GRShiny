@@ -4,7 +4,7 @@
 \alias{calProb}
 \title{Calculate probability}
 \usage{
-calProb(ipar, theta = seq(-3, 3, 0.1))
+calProb(ipar, theta = seq(-4, 4, 0.1))
 }
 \description{
 Calculate probability

@@ -283,7 +283,7 @@ shiny_server <- function(input, output, session) {
     })
 
     output$result1 <- renderDT({
-      output_cleaning(final$res) %>%
+      extract_est(final$res) %>%
         mutate_if(is.numeric, ~ round(., 3))
     })
 

@@ -7,12 +7,12 @@
 startGRshiny(...)
 }
 \description{
-An interactive Shiny application for running a GRM # analysis.
+An interactive Shiny application for running a GRM analysis.
 }
 \details{
 Start GRShiny
 
-This starts the IRT Shiny application on the users local # computer.
+This starts the IRT Shiny application on the users local computer.
 }
 \examples{
 \dontrun{

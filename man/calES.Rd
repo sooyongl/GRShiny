@@ -4,7 +4,7 @@
 \alias{calES}
 \title{Calculate expected scores}
 \usage{
-calES(ipar, theta = seq(-3, 3, 0.1))
+calES(ipar, theta = seq(-4, 4, 0.1))
 }
 \description{
 Calculate expected scores

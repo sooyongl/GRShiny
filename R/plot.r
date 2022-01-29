@@ -13,9 +13,18 @@ calFS <- function(fit) {
 }
 
 #' Plot Factor score
+#'
+#' @param fit an object from \code{\link{runGRM}}
+#' @param type a character indicating the type of plots
+#' @param hist_bins a numeric indicating the number of bins for the histogram
+#' @param fill_colour a character indicating the color
+#' @param base_size a numeric indicating the base font size
+#'
 #' @examples
+#' \dontrun{
 #' FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
 #' FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
+#' }
 #' @export
 FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey70", base_size = 16) {
 
@@ -45,7 +54,7 @@ FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey7
 
 #' Calculate probability
 #'
-calProb <- function(ipar, theta = seq(-3, 3, .1)) {
+calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
 
@@ -73,11 +82,22 @@ calProb <- function(ipar, theta = seq(-3, 3, .1)) {
 
 #' Plot ICC or OCC
 #'
+#' @param fit an object from \code{\link{runGRM}}
+#' @param selected_item a numeric indicating for what items the function makes plots
+#' @param theta a numeric indicating latent traints
+#' @param plot.ps a logical indicating the type of plots
+#' @param addlabel a logical indicating whether to add the b parameter as labels
+#' @param base_size a numeric indicating the base font size
+#' @param line_size a numeric indicating the size of line
+#' @param cal_option a character indicating the plot colour
+#'
 #' @examples
+#' \dontrun{
 #' ICCplot(ipar, 1, seq(-3, 3, .1), plot.ps = FALSE, base_size = 16)
 #' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.ps = T, base_size = 16)
+#' }
 #' @export
-ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
+ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
   # plot.ps=F : Categorical response curve
   # plot.ps=T : operating characteristic curve plot
 
@@ -185,7 +205,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-3, 3, .1), plot.ps = FALSE,
 
 #' Calculate expected scores
 #'
-calES = function(ipar,theta = seq(-3, 3, .1)) {
+calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
   a <- unlist(ipar[grep("a", names(ipar))])
@@ -198,8 +218,15 @@ calES = function(ipar,theta = seq(-3, 3, .1)) {
 
 #' Plot expected scores by items
 #'
+#' @param fit an object from \code{\link{runGRM}}
+#' @param selected_item a numeric indicating for what items the function makes plots
+#' @param theta a numeric indicating latent traints
+#' @param base_size a numeric indicating the base font size
+#' @param line_size a numeric indicating the size of line
+#' @param cal_option a character indicating the plot colour
+#'
 #' @export
-ESplot <- function(fit, selected_item, theta, base_size = 16, line_size=1, cal_option = "D") {
+ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
 
   ipar <- fit$grm.par
   selected_id <- rownames(ipar)[selected_item]
@@ -231,7 +258,7 @@ ESplot <- function(fit, selected_item, theta, base_size = 16, line_size=1, cal_o
 
 #' Calculate item information
 #'
-calInfo = function(ipar, theta = seq(-3, 3, .1)) {
+calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
   a <- unlist(ipar[grep("a", names(ipar))])
@@ -250,11 +277,22 @@ calInfo = function(ipar, theta = seq(-3, 3, .1)) {
 
 #' Calculate item information
 #'
+#' @param fit an object from \code{\link{runGRM}}
+#' @param selected_item a numeric indicating for what items the function makes plots
+#' @param type a character indicating the type of plots
+#' @param theta a numeric indicating latent traints
+#' @param addlabel a logical indicating whether to add the b parameter as labels
+#' @param base_size a numeric indicating the base font size
+#' @param line_size a numeric indicating the size of line
+#' @param cal_option a character indicating the plot colour
+#'
 #' @examples
+#' \dontrun{
 #' infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
 #' infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
+#' }
 #' @export
-infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-3, 3, .1), base_size = 16, line_size=1, cal_option = "D") {
+infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
 
   ipar <- fit$grm.par
   varname <- rownames(ipar)

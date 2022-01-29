@@ -17,7 +17,7 @@ Generate IRT data
 \examples{
 
 ipar <- genIRTpar(20, ncat = 3, 2)
-eta <- genTheta(100, 2)
+eta <- genTheta(50, 2)
 genData(eta, ipar)
 
 }
