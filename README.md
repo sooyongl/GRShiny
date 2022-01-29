@@ -1,5 +1,5 @@
 
-# GRShiny <img src='vignettes/hextile.png' align="right" height="139" />
+# GRShiny <img src='man/figures/hextile.png' align="right" height="135" />
 
 ## Overview
 
