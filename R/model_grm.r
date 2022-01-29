@@ -48,7 +48,7 @@ trans_to_grm <- function(grm.fit) {
 
       if (toupper(estimator) == "ML") {
         # if ML
-        Disc[i,j] <- lam*sqrt(fv) # / 1.7
+        Disc[i,j] <- lam*sqrt(fv) / 1.7
       } else {
         # if WL
         Disc[i,j] <- lam*sqrt(fv) / sqrt((1 - (lam)^2))

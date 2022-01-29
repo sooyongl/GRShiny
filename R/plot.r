@@ -158,7 +158,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
 
     p <- prob_dt %>%
       ggplot(aes(x = theta, y = `prob+`)) +
-      geom_line(aes(color = step), size = line_size) +
+      geom_line(aes(color = step, linetype = step), size = line_size) +
       facet_wrap(~item) +
       # geom_vline(xintercept = b) +
       geom_segment(
@@ -185,8 +185,9 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
       labs(title = "Operating characteristic curve",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(p)),
-           colour = "") + #expression(italic(p)(y==1))) +
-    scale_x_continuous(breaks = x_breaks)
+           colour = "",
+           linetype = "") + #expression(italic(p)(y==1))) +
+      scale_x_continuous(breaks = x_breaks)
 
   } else {
     prob_dt <- prob_dt %>%
@@ -200,14 +201,15 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
     p <- prob_dt %>%
       data.frame(theta = theta) %>%
       ggplot(aes(x = theta, y = p)) +
-      geom_line(aes(color = cate), size = line_size) +
+      geom_line(aes(color = cate, linetype = cate), size = line_size) +
       scale_color_viridis_d(option = cal_option) +
       facet_wrap(~item) +
       labs(title = "ICC",
            # subtitle = "Each curve is for the probs of each category",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(p)),
-           colour = "") +
+           colour = "",
+           linetype = "") +
       scale_x_continuous(breaks = x_breaks)
   }
 
@@ -314,6 +316,12 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
   iid <- `.` <- info <- item <- total.info <- NULL
 
   ipar <- fit$grm.par
+
+  if(class(fit[[1]]) != "lavaan") {
+    ipar[,grep("a",names(ipar))] <-
+      ipar[,grep("a",names(ipar))]*1.7
+  }
+
   varname <- rownames(ipar)
 
   if(tolower(type) == "icc") {
