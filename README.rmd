@@ -9,14 +9,14 @@ library(GRShiny)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "inst/figures",
+  fig.path = "vignettes",
   out.width = "100%"
 )
 
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
-# GRShiny <img src='inst/figures/hextile.png' align="right" height="139" />
+# GRShiny <img src='vignettes/hextile.png' align="right" height="139" />
 
 ## Overview
 
