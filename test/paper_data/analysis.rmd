@@ -20,6 +20,8 @@ library(data.table)
 
 ```{r import-data}
 paperdt <- data.table::fread(data_path)[,-c(1:4)]
+
+names(paperdt)[c(9,20)] <- c("somatization","hopelessness")
 ```
 
 ## lavaan model
@@ -62,12 +64,19 @@ round(fit.ml$grm.par,3)
 ## IRT plots
 
 ```{r}
-GRShiny::ICCplot(fit.wl, 1:3, plot.ps = F)
-GRShiny::ICCplot(fit.wl, 1:3, plot.ps = T)
-GRShiny::ESplot(fit.wl, 1:3)
-GRShiny::FSplot(fit.wl, type = "histogram")
-GRShiny::infoPlot(fit.wl, 1:3)
-GRShiny::infoPlot(fit.wl, type = "tcc")
+GRShiny::ICCplot(fit.ml, 9, plot.ps = F)
+
+GRShiny::ICCplot(fit.ml, 20, plot.ps = F)
+
+GRShiny::infoPlot(fit.ml, 9)
+
+GRShiny::infoPlot(fit.ml, 20)
+
+GRShiny::infoPlot(fit.ml, type = "tcc")
+
+GRShiny::FSplot(fit.ml, type = "histogram")
+
+
 ```
 
 
