@@ -27,3 +27,4 @@ p1 <- p1 + theme(legend.position = "none")
 p <- sticker(p1, package="GRShiny",
         p_size=10, s_x=1, s_y=.8, s_width=1, s_height=1,
         filename="man/figures/hextile.png")
+200x 200

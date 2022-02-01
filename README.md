@@ -1,5 +1,5 @@
 
-# GRShiny <img src='https://raw.githubusercontent.com/sooyongl/GRShiny/main/man/figures/hextile.png?raw=true' align="right" height="135" />
+# GRShiny <img src='https://raw.githubusercontent.com/sooyongl/GRShiny/main/man/figures/hextile.png?raw=true' align="right" height="30" />
 
 ## Overview
 

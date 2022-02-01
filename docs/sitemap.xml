@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/404.html</loc>
   </url>
   <url>
-    <loc>/articles/GRShiny.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/articles/GRShiny.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/index.html</loc>
   </url>
   <url>
-    <loc>/reference/calES.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/calES.html</loc>
   </url>
   <url>
-    <loc>/reference/calFS.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/calFS.html</loc>
   </url>
   <url>
-    <loc>/reference/calInfo.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/calInfo.html</loc>
   </url>
   <url>
-    <loc>/reference/calProb.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/calProb.html</loc>
   </url>
   <url>
-    <loc>/reference/ESplot.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/ESplot.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_est.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/extract_est.html</loc>
   </url>
   <url>
-    <loc>/reference/extract_fit.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/extract_fit.html</loc>
   </url>
   <url>
-    <loc>/reference/FSplot.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/FSplot.html</loc>
   </url>
   <url>
-    <loc>/reference/genData.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/genData.html</loc>
   </url>
   <url>
-    <loc>/reference/genIRTpar.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/genIRTpar.html</loc>
   </url>
   <url>
-    <loc>/reference/genLavSyn.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/genLavSyn.html</loc>
   </url>
   <url>
-    <loc>/reference/genTheta.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/genTheta.html</loc>
   </url>
   <url>
-    <loc>/reference/ICCplot.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/ICCplot.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/infoPlot.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/infoPlot.html</loc>
   </url>
   <url>
-    <loc>/reference/lavaan_output_cleaning.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/lavaan_output_cleaning.html</loc>
   </url>
   <url>
-    <loc>/reference/mirt_output_cleaning.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/mirt_output_cleaning.html</loc>
   </url>
   <url>
-    <loc>/reference/output_cleaning.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/output_cleaning.html</loc>
   </url>
   <url>
-    <loc>/reference/runGRM.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/runGRM.html</loc>
   </url>
   <url>
-    <loc>/reference/shiny_server.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/shiny_server.html</loc>
   </url>
   <url>
-    <loc>/reference/shiny_ui.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/shiny_ui.html</loc>
   </url>
   <url>
-    <loc>/reference/startGRshiny.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/startGRshiny.html</loc>
   </url>
   <url>
-    <loc>/reference/trans_to_grm.html</loc>
+    <loc>https://github.com/sooyongl/GRShiny/reference/trans_to_grm.html</loc>
   </url>
 </urlset>
