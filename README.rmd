@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
-# GRShiny <img src='man/figures/hextile.png' align="right" height="135" />
+# GRShiny <img src='https://raw.githubusercontent.com/sooyongl/GRShiny/main/man/figures/hextile.png?raw=true' align="right" height="135" />
 
 ## Overview
 
