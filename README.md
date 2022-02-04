@@ -1,5 +1,5 @@
 
-# GRShiny <img src='https://raw.githubusercontent.com/sooyongl/GRShiny/main/man/figures/hextile.png?raw=true' align="right" height="30" />
+# GRShiny <img src='https://raw.githubusercontent.com/sooyongl/GRShiny/main/man/figures/hextile.png?raw=true' align="right" height="135" />
 
 ## Overview
 
@@ -23,23 +23,19 @@ The documentation is available at
 ### Item parameters for graded response model
 
 ``` r
-item_pars <- genIRTpar(nitem = 10,
-                       ncat = 3,
-                       nfac = 1)
+item_pars <- genIRTpar(nitem = 10, ncat = 3, nfac = 1)
 ```
 
 ### Individual true latent traits
 
 ``` r
-true_theta <- genTheta(nsample = 500,
-                       nfac = 1)
+true_theta <- genTheta(nsample = 500, nfac = 1)
 ```
 
 ### GRM data
 
 ``` r
-grm_dt <- genData(eta = true_theta,
-                  ipar = item_pars)
+grm_dt <- genData(eta = true_theta, ipar = item_pars)
 ```
 
 ## GRM data simulation
@@ -53,11 +49,9 @@ lav_syn <- genLavSyn(dat = grm_dt, nfac = 1)
 ### Conduct GRM with two different estimators
 
 ``` r
-runGRM(dat = grm_dt, lav.syntax = lav_syn,
-       estimator = "WL")
+runGRM(dat = grm_dt, lav.syntax = lav_syn, estimator = "WL")
 
-runGRM(dat = grm_dt, lav.syntax = lav_syn,
-       estimator = "ML")
+runGRM(dat = grm_dt, lav.syntax = lav_syn, estimator = "ML")
 ```
 
 ## Launch app
