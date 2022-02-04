@@ -30,7 +30,11 @@ ICCplot(
 
 \item{line_size}{a numeric indicating the size of line}
 
-\item{cal_option}{a character indicating the plot colour}
+\item{cal_option}{a character indicating the plot color specified in
+\code{\link{scale_color_viridis_d}} (default = \code{D})}
+}
+\value{
+a \code{\link{ggplot}} object.
 }
 \description{
 Plot ICC or OCC

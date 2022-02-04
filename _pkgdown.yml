@@ -1,4 +1,36 @@
 url: https://github.com/sooyongl/GRShiny
 template:
-  bootstrap: 5
+  params:
+    bootswatch: cosmo
 
+navbar:
+  bg: primary
+
+reference:
+  - title: "Simulation GRM data"
+    desc: "Functions for simulating GRM data"
+    contents:
+      - genIRTpar
+      - genTheta
+      - genData
+  - title: "Run GRM"
+    desc: "Functions for conducting GRM"
+    contents:
+      - genLavSyn
+      - runGRM
+  - title: "Tidy results"
+    desc: "Functions for tidying GRM results"
+    contents:
+      - extract_est
+      - extract_fit
+  - title: "Make IRT plots"
+    desc: "Functions for plotting GRM"
+    contents:
+      - ICCplot
+      - ESplot
+      - infoPlot
+      - FSplot
+  - title: "Launch Shiny App"
+    desc: "Functions for locally running Shiny application"
+    contents:
+      - startGRshiny

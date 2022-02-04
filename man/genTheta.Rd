@@ -13,6 +13,9 @@ genTheta(nsample, nfac, l.cov = NULL)
 
 \item{l.cov}{a matrix containing latent covariances}
 }
+\value{
+a matrix containing individual latent scores
+}
 \description{
 Generate individual true latent traits
 }

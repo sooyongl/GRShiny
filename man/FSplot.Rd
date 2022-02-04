@@ -15,13 +15,20 @@ FSplot(
 \arguments{
 \item{fit}{an object from \code{\link{runGRM}}}
 
-\item{type}{a character indicating the type of plots}
+\item{type}{a character indicating the type of plots
+\itemize{
+\item{\code{histogram}} Histogram plot
+\item{\code{density}} Density plot
+}}
 
 \item{hist_bins}{a numeric indicating the number of bins for the histogram}
 
-\item{fill_colour}{a character indicating the color}
+\item{fill_colour}{a character indicating the color (default = \code{grey70})}
 
 \item{base_size}{a numeric indicating the base font size}
+}
+\value{
+a \code{\link{ggplot}} object.
 }
 \description{
 Plot Factor score

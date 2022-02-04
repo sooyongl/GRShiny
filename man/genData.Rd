@@ -11,6 +11,9 @@ genData(eta, ipar)
 
 \item{ipar}{a dataframe containing item parameters}
 }
+\value{
+a data frame containing graded response model data
+}
 \description{
 Generate IRT data
 }

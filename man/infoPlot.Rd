@@ -11,7 +11,8 @@ infoPlot(
   theta = seq(-4, 4, 0.1),
   base_size = 16,
   line_size = 1,
-  cal_option = "D"
+  cal_option = "D",
+  facet = F
 )
 }
 \arguments{
@@ -19,7 +20,11 @@ infoPlot(
 
 \item{selected_item}{a numeric indicating for what items the function makes plots}
 
-\item{type}{a character indicating the type of plots}
+\item{type}{a character indicating the type of plots
+\itemize{
+\item{\code{icc}} Test information
+\item{\code{tcc}} Total Test information
+}}
 
 \item{theta}{a numeric indicating latent traints}
 
@@ -27,7 +32,14 @@ infoPlot(
 
 \item{line_size}{a numeric indicating the size of line}
 
-\item{cal_option}{a character indicating the plot colour}
+\item{cal_option}{a character indicating the plot colour  specified in
+\code{\link{scale_color_viridis_d}} (default = \code{D})}
+
+\item{facept}{a logical. If TRUE, the plot is faceted by items.
+(efault = \code{FALSE}).}
+}
+\value{
+a \code{\link{ggplot}} object.
 }
 \description{
 Calculate item information

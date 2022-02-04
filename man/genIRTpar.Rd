@@ -13,6 +13,9 @@ genIRTpar(nitem = 25, ncat = 4, nfac = 3)
 
 \item{nfac}{a numeric indicating the number of factors}
 }
+\value{
+a data frame containing graded response item parameters
+}
 \description{
 Generate Item parameters
 }
