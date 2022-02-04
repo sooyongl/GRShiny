@@ -9,8 +9,10 @@ vignette: >
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-  eval = F,
+  eval = T,
   collapse = TRUE,
+  out.width = "50%",
+  fig.width = 7,
   comment = "#>"
 )
 ```
@@ -24,23 +26,19 @@ library(GRShiny)
 ### Item parameters for graded response model
 
 ```{r}
-item_pars <- genIRTpar(nitem = 10,
-                       ncat = 3,
-                       nfac = 1)
+item_pars <- genIRTpar(nitem = 10, ncat = 3, nfac = 1)
 ```
 
 ### Individual true latent traits
 
 ```{r}
-true_theta <- genTheta(nsample = 500,
-                       nfac = 1)
+true_theta <- genTheta(nsample = 500, nfac = 1)
 ```
 
 ### GRM data
 
 ```{r}
-grm_dt <- genData(eta = true_theta,
-                  ipar = item_pars)
+grm_dt <- genData(eta = true_theta, ipar = item_pars)
 ```
 
 ## GRM data simulation
@@ -54,15 +52,29 @@ lav_syn <- genLavSyn(dat = grm_dt, nfac = 1)
 ### Conduct GRM with two different estimators
 
 ```{r}
-runGRM(dat = grm_dt, lav.syntax = lav_syn,
-       estimator = "WL")
-
-runGRM(dat = grm_dt, lav.syntax = lav_syn,
-       estimator = "ML")
+grm.fit <- runGRM(dat = grm_dt, lav.syntax = lav_syn, estimator = "WL")
 ```
+
+## Results
+
+### parameter estimates
+
+```{r}
+extract_est(grm.fit)
+```
+
+### IRT plots
+
+```{r}
+ICCplot(grm.fit, 1)
+ESplot(grm.fit , 1)
+infoPlot(grm.fit, 1)
+FSplot(grm.fit)
+```
+
 
 ## Launch app
 
-```{r}
+```{r eval = F}
 startGRshiny()
 ```
