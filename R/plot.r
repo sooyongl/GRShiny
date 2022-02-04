@@ -1,4 +1,4 @@
-#' @include 0_import.r
+#' @include GRShiny-package.r
 NULL
 
 # ref: https://aidenloe.github.io/irtplots.html
@@ -6,7 +6,7 @@ NULL
 #' Calculate Factor score
 #'
 #' @param fit an object from \code{\link{runGRM}}
-#'
+#' @noRd
 calFS <- function(fit) {
   res.fit <- fit[grep("fit",names(fit))][[1]]
   if(class(res.fit) == "lavaan") {
@@ -21,9 +21,15 @@ calFS <- function(fit) {
 #'
 #' @param fit an object from \code{\link{runGRM}}
 #' @param type a character indicating the type of plots
+#' \itemize{
+#' \item{\code{histogram}} Histogram plot
+#' \item{\code{density}} Density plot
+#' }
 #' @param hist_bins a numeric indicating the number of bins for the histogram
-#' @param fill_colour a character indicating the color
+#' @param fill_colour a character indicating the color (default = \code{grey70})
 #' @param base_size a numeric indicating the base font size
+#'
+#' @return a \code{\link{ggplot}} object.
 #'
 #' @examples
 #' \dontrun{
@@ -62,7 +68,7 @@ FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey7
 #'
 #' @param ipar a data frame containing estimated GRM parameters
 #' @param theta a numeric indicating the range of theta
-#'
+#' @noRd
 calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
@@ -98,7 +104,10 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param addlabel a logical indicating whether to add the b parameter as labels
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
-#' @param cal_option a character indicating the plot colour
+#' @param cal_option a character indicating the plot color specified in
+#'  \code{\link{scale_color_viridis_d}} (default = \code{D})
+#'
+#' @return a \code{\link{ggplot}} object.
 #'
 #' @examples
 #' \dontrun{
@@ -213,6 +222,9 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
       scale_x_continuous(breaks = x_breaks)
   }
 
+  if(length(selected_item) == 1)
+    p <- p + facet_null()
+
   p + theme_bw(base_size = base_size)
 }
 
@@ -220,7 +232,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
 #'
 #' @param ipar a data frame containing estimated GRM parameters
 #' @param theta a numeric indicating the range of theta
-#'
+#' @noRd
 calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
@@ -239,7 +251,10 @@ calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 #' @param theta a numeric indicating latent traints
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
-#' @param cal_option a character indicating the plot colour
+#' @param cal_option a character indicating the plot color specified in
+#'  \code{\link{scale_color_viridis_d}} (default = \code{D})
+#'
+#' @return a \code{\link{ggplot}} object.
 #'
 #' @export
 ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
@@ -277,7 +292,7 @@ ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, 
 #' Calculate item information
 #'
 #' @inheritParams calES
-#'
+#' @noRd
 calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 
   ipar <- data.frame(ipar)
@@ -300,10 +315,19 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param fit an object from \code{\link{runGRM}}
 #' @param selected_item a numeric indicating for what items the function makes plots
 #' @param type a character indicating the type of plots
+#' \itemize{
+#' \item{\code{icc}} Test information
+#' \item{\code{tcc}} Total Test information
+#' }
 #' @param theta a numeric indicating latent traints
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
-#' @param cal_option a character indicating the plot colour
+#' @param cal_option a character indicating the plot colour  specified in
+#'  \code{\link{scale_color_viridis_d}} (default = \code{D})
+#' @param facept a logical. If TRUE, the plot is faceted by items.
+#' (efault = \code{FALSE}).
+#'
+#' @return a \code{\link{ggplot}} object.
 #'
 #' @examples
 #' \dontrun{
@@ -311,7 +335,7 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
 #' }
 #' @export
-infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
+infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D", facet = F) {
 
   iid <- `.` <- info <- item <- total.info <- NULL
 
@@ -354,6 +378,10 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(I)~(theta)),
            colour = "")
+
+    if(facet)
+      p + facet_wrap(item)
+
   } else {
 
     p <- info_dt %>%

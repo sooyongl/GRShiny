@@ -1,4 +1,4 @@
-#' @include 0_import.r
+#' @include GRShiny-package.r
 NULL
 
 #' Clean output to look like Mplus
@@ -49,7 +49,7 @@ extract_fit <- function(fit) {
 #' clean mirt class
 #'
 #' @param mirt.fit an obejct from \code{\link{mirt}} package
-#'
+#' @noRd
 mirt_output_cleaning <- function(mirt.fit) {
 
   `.` <- varname <- parname <- est <- z <- rhs <- lhs <- op <- se <- NULL
@@ -93,7 +93,7 @@ mirt_output_cleaning <- function(mirt.fit) {
 #' clean lavaan class
 #'
 #' @param lav.fit an obejct from \code{\link{lavaan}} package
-#'
+#' @noRd
 lavaan_output_cleaning <- function(lav.fit) {
   op <- NULL
 

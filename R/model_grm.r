@@ -1,77 +1,23 @@
-#' @include 0_import.r
+#' @include GRShiny-package.r
 NULL
-
-#' Transform SEM params into GRM params
-#'
-#' @param grm.fit a matrix containing the estimates of GRM
-#'
-trans_to_grm <- function(grm.fit) {
-
-  if(class(grm.fit) != "lavaan") {
-    est.mirt <- coef(grm.fit, simplify = T, IRTpars = F)
-
-    item.est <- data.frame(est.mirt$items)
-    Lam  <- item.est[grep("a", names(item.est))]
-    Thre <- -item.est[grep("d", names(item.est))]
-    FV <- est.mirt$cov
-    FM <- est.mirt$means
-    estimator = "ML"
-
-  } else {
-    est.lav <- lavInspect(grm.fit, what = "est")
-
-    Lam <- data.frame(est.lav$lambda)
-    Thre <- est.lav$tau
-    n_thre <- nrow(Thre)/nrow(Lam)
-    Thre <- data.frame(matrix(Thre, ncol = n_thre, byrow = T))
-
-    FV <- est.lav$psi
-    FM <- est.lav$alpha
-    estimator = "WL"
-  }
-
-  Lam <- matrix(rowSums(Lam), byrow = T)
-  FM <- c(FM)
-  FV <- diag(FV)
-
-  Disc <- matrix(rep(0, nrow(Lam)*ncol(Lam)), ncol = ncol(Lam))
-  Diff <- matrix(rep(0, nrow(Lam)*ncol(Thre)), ncol = ncol(Thre))
-  for(i in 1:nrow(Lam)) {
-
-    lam <- Lam[i,]
-    thre <- Thre[i,]
-
-    for(j in 1:ncol(Lam)) {
-
-      fv <- FV[j]
-      fm <- FM[j]
-
-      if (toupper(estimator) == "ML") {
-        # if ML
-        Disc[i,j] <- lam*sqrt(fv) / 1.7
-      } else {
-        # if WL
-        Disc[i,j] <- lam*sqrt(fv) / sqrt((1 - (lam)^2))
-      }
-    }
-
-    for(j in 1:ncol(Thre)) {
-      Diff[i,j] <- (thre[,j] - lam*fm) / lam*sqrt(fv)
-    }
-  }
-  if(class(grm.fit) == "lavaan") {
-    Diff <- Diff
-  }
-  colnames(Disc) <- paste0("a", 1:ncol(Disc))
-  colnames(Diff) <- paste0("b", 1:ncol(Diff))
-  data.frame(Disc, Diff)
-}
 
 #' Run graded response model
 #'
-#' @param dat a data frame containing graded response model
-#' @param lav.syntax a character indicating lavvan syntax
-#' @param estimator a character indicating the type of estimator
+#' @param dat a data frame containing graded response model data
+#' @param lav.syntax a character indicating \code{\link{lavaan}} syntax
+#' @param estimator a character indicating the type of estimator.
+#' \itemize{
+#' \item{\code{ML}} Maximum likelihood estimation
+#' \item{\code{WL}} Weighted least squares mean and variance
+#' }
+#'
+#' @return a list containing GRM results as follows:
+#' \itemize{
+#'   \item{\code{fit}} an object from either \code{\linkS4class{SingleGroupClass}}
+#'    from \code{\link{mirt}} or code{\linkS4class{lavaan}} from from
+#'     \code{\link{lavaan}}.
+#'   \item{\code{grm.par}} a data frame indicating graded response parameters.
+#' }
 #'
 #' @export runGRM
 runGRM <- function(dat, lav.syntax, estimator) {
@@ -146,6 +92,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
 #' @param dat a data frame containing graded response data
 #' @param nfac a numeric indicating the number of factors
 #'
+#' @return a string indicating \code{\link{lavaan}} syntax.
+#'
 #' @export genLavSyn
 genLavSyn <- function(dat, nfac=1) {
 
@@ -214,4 +162,70 @@ genLavSyn <- function(dat, nfac=1) {
   cat(lav_syn)
 
   lav_syn
+}
+
+#' Transform SEM params into GRM params
+#'
+#' @param grm.fit a matrix containing the estimates of GRM
+#' @noRd
+trans_to_grm <- function(grm.fit) {
+
+  if(class(grm.fit) != "lavaan") {
+    est.mirt <- coef(grm.fit, simplify = T, IRTpars = F)
+
+    item.est <- data.frame(est.mirt$items)
+    Lam  <- item.est[grep("a", names(item.est))]
+    Thre <- -item.est[grep("d", names(item.est))]
+    FV <- est.mirt$cov
+    FM <- est.mirt$means
+    estimator = "ML"
+
+  } else {
+    est.lav <- lavInspect(grm.fit, what = "est")
+
+    Lam <- data.frame(est.lav$lambda)
+    Thre <- est.lav$tau
+    n_thre <- nrow(Thre)/nrow(Lam)
+    Thre <- data.frame(matrix(Thre, ncol = n_thre, byrow = T))
+
+    FV <- est.lav$psi
+    FM <- est.lav$alpha
+    estimator = "WL"
+  }
+
+  Lam <- matrix(rowSums(Lam), byrow = T)
+  FM <- c(FM)
+  FV <- diag(FV)
+
+  Disc <- matrix(rep(0, nrow(Lam)*ncol(Lam)), ncol = ncol(Lam))
+  Diff <- matrix(rep(0, nrow(Lam)*ncol(Thre)), ncol = ncol(Thre))
+  for(i in 1:nrow(Lam)) {
+
+    lam <- Lam[i,]
+    thre <- Thre[i,]
+
+    for(j in 1:ncol(Lam)) {
+
+      fv <- FV[j]
+      fm <- FM[j]
+
+      if (toupper(estimator) == "ML") {
+        # if ML
+        Disc[i,j] <- lam*sqrt(fv) / 1.7
+      } else {
+        # if WL
+        Disc[i,j] <- lam*sqrt(fv) / sqrt((1 - (lam)^2))
+      }
+    }
+
+    for(j in 1:ncol(Thre)) {
+      Diff[i,j] <- (thre[,j] - lam*fm) / lam*sqrt(fv)
+    }
+  }
+  if(class(grm.fit) == "lavaan") {
+    Diff <- Diff
+  }
+  colnames(Disc) <- paste0("a", 1:ncol(Disc))
+  colnames(Diff) <- paste0("b", 1:ncol(Diff))
+  data.frame(Disc, Diff)
 }

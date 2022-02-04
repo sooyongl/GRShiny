@@ -1,4 +1,4 @@
-#' @include 0_import.r
+#' @include GRShiny-package.r
 NULL
 
 #' Generate Item parameters
@@ -6,6 +6,8 @@ NULL
 #' @param nitem a numeric indicating the number of items
 #' @param ncat  a numeric indicating the number of categories
 #' @param nfac  a numeric indicating the number of factors
+#'
+#' @return a data frame containing graded response item parameters
 #'
 #' @examples
 #' genIRTpar(20, 4, 3)
@@ -50,6 +52,9 @@ genIRTpar <- function(nitem=25, ncat=4, nfac=3) {
 #' @param nsample a numeric indicating the number of people
 #' @param nfac a numeric indicating the number of factors
 #' @param l.cov a matrix containing latent covariances
+#'
+#' @return a matrix containing individual latent scores
+#'
 #' @export
 genTheta <- function(nsample, nfac, l.cov = NULL) {
 
@@ -67,6 +72,8 @@ genTheta <- function(nsample, nfac, l.cov = NULL) {
 #'
 #' @param eta a matrix indicating individual true latent traits
 #' @param ipar a dataframe containing item parameters
+#'
+#' @return a data frame containing graded response model data
 #'
 #' @examples
 #'

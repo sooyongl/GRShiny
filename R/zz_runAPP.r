@@ -1,7 +1,9 @@
-#' @include 0_import.r
+#' @include GRShiny-package.r
 NULL
 
 #' Start GRShiny
+#'
+#' \code{\link{startGRshiny}} is a caller function to open the Shiny interface of GRM.
 #'
 #' @title This function will start GRShiny
 #' @description An interactive Shiny application for running a GRM analysis.
@@ -9,8 +11,9 @@ NULL
 #' @keywords IRT
 #' @examples
 #' \dontrun{
-#' library(shiny)
-#' startGRshiny()
+#' if (interactive()) {
+#'   startGRshiny()
+#' }
 #' }
 #' @export
 startGRshiny <- function() {

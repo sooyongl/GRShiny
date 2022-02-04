@@ -1,8 +1,9 @@
-#' @include 0_import.r
+#' @include GRShiny-package.r
 NULL
 
 #' The Shiny App UI
 #'
+#' @noRd
 shiny_ui <- function() {
   fluidPage(
     # useShinydashboard(),
@@ -136,7 +137,7 @@ shiny_ui <- function() {
 #' @param input a shiny input
 #' @param output a shiny output
 #' @param session a seesion
-#'
+#' @noRd
 shiny_server <- function(input, output, session) {
   #
   # Data part ------------------------------------------
