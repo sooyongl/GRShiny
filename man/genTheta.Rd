@@ -19,3 +19,6 @@ a matrix containing individual latent scores
 \description{
 Generate individual true latent traits
 }
+\details{
+This generates individual latent scores
+}

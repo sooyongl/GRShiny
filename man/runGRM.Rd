@@ -29,3 +29,7 @@ a list containing GRM results as follows:
 \description{
 Run graded response model
 }
+\details{
+This conducts GRM. The second element of the return indicats
+the graded response parameters converted from the CFA parameters
+}

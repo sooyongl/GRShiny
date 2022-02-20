@@ -55,7 +55,7 @@ test_that("extract_ tidies restuls", {
   grm.fit <- runGRM(res.data, lavaan.syntax, "WL")
   res1 <- is.data.frame(extract_est(grm.fit))
   res2 <- is.data.frame(extract_fit(grm.fit))
-  expect_true(res & res2)
+  expect_true(res1 & res2)
 })
 
 test_that("Plotting functions work", {

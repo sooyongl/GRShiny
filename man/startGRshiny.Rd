@@ -2,7 +2,7 @@
 % Please edit documentation in R/zz_runAPP.r
 \name{startGRshiny}
 \alias{startGRshiny}
-\title{This function will start GRShiny}
+\title{Start GRShiny}
 \usage{
 startGRshiny()
 }
@@ -10,11 +10,9 @@ startGRshiny()
 An interactive Shiny application for running a GRM analysis.
 }
 \details{
-Start GRShiny
-
 \code{\link{startGRshiny}} is a caller function to open the Shiny interface of GRM.
 
-This starts the IRT Shiny application on the users local computer.
+This starts the IRT Shiny application on the user's local computer.
 }
 \examples{
 \dontrun{

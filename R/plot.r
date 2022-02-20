@@ -31,6 +31,9 @@ calFS <- function(fit) {
 #'
 #' @return a \code{\link{ggplot}} object.
 #'
+#' @details This makes either histogram or density plot for individual factor
+#'  scores.
+#'
 #' @examples
 #' \dontrun{
 #' FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
@@ -76,18 +79,13 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
   a <- unlist(ipar[grep("a", names(ipar))])
   b <- unlist(ipar[grep("^b", names(ipar))])
 
-  nq = length(theta)
-  ncat = length(b) + 1
-  prob = matrix(NA, nq, ncat)
-  ps = matrix(NA, nq, ncat + 1)
-  ps[, 1] = 1
-  ps[, ncat + 1] = 0
-  for (k in 1:(ncat - 1)) {
-    ps[, k + 1] = (1 + exp(-a * (theta - b[k])))^-1
-  }
-  for (k in 1:ncat) {
-    prob[, k] = ps[, k] - ps[, k + 1]
-  }
+  nq   <- length(theta)
+  ncat <- length(b) + 1
+
+  ps <- sapply(1:(ncat - 1), function(k) {(1 + exp(-a * (theta - b[k])))^-1})
+  ps   <- cbind(1, ps ,0)
+
+  prob <- sapply(1:(ncat), function(k) {ps[, k] - ps[, k + 1]})
 
   colnames(prob) <- paste0("k", 1:ncol(prob))
   colnames(ps) <- c("z",paste0("b", 1:(ncol(ps)-2)),"zz")
@@ -100,7 +98,7 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param fit an object from \code{\link{runGRM}}
 #' @param selected_item a numeric indicating for what items the function makes plots
 #' @param theta a numeric indicating latent traints
-#' @param plot.ps a logical indicating the type of plots
+#' @param plot.occ a logical. If TURE, OCC is made instead of ICC
 #' @param addlabel a logical indicating whether to add the b parameter as labels
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
@@ -109,15 +107,18 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #'
 #' @return a \code{\link{ggplot}} object.
 #'
+#' @details This makes either item characteristic curve plots or
+#' operating characteristic curve plots
+#'
 #' @examples
 #' \dontrun{
-#' ICCplot(ipar, 1, seq(-3, 3, .1), plot.ps = FALSE, base_size = 16)
-#' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.ps = T, base_size = 16)
+#' ICCplot(ipar, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
+#' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = T, base_size = 16)
 #' }
 #' @export
-ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
-  # plot.ps=F : Categorical response curve
-  # plot.ps=T : operating characteristic curve plot
+ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
+  # plot.occ=F : Categorical response curve
+  # plot.occ=T : operating characteristic curve plot
 
   iid <- `.` <- score <- item <- val <- `prob+` <- step <- ys <- ye <- xs <- cate <- NULL
 
@@ -136,7 +137,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.ps = FALSE
     map(., ~ calProb(.x, theta)) %>%
     set_names(selected_id)
 
-  if (plot.ps) {
+  if (plot.occ) {
 
     selected_ipar <- selected_ipar %>%
       mutate_if(is.numeric, ~ round(., 2)) %>%
@@ -256,6 +257,8 @@ calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 #'
 #' @return a \code{\link{ggplot}} object.
 #'
+#' @details This makes a expected score plot
+#'
 #' @export
 ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
 
@@ -299,14 +302,15 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
   a <- unlist(ipar[grep("a", names(ipar))])
   b <- unlist(ipar[grep("^b", names(ipar))])
 
-  nq = length(theta)
-  ncat = length(b) + 1
-  ps = calProb(ipar, theta = theta)$ps
-  info = numeric(nq)
-  for (k in 1:ncat) {
-    info = info + (ps[, k] - ps[, k + 1]) * (1 - ps[, k] - ps[, k + 1])^2
-  }
-  info = a^2 * info
+  nq   <- length(theta)
+  ncat <- length(b) + 1
+  ps   <- calProb(ipar, theta = theta)$ps
+
+  info <- rowSums(
+    sapply(1:ncat, function(k) {
+      (ps[, k] - ps[, k + 1]) * (1 - ps[, k] - ps[, k + 1])^2 }))
+
+  info <- a^2 * info
   return(info)
 }
 
@@ -324,10 +328,13 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot colour  specified in
 #'  \code{\link{scale_color_viridis_d}} (default = \code{D})
-#' @param facept a logical. If TRUE, the plot is faceted by items.
+#' @param facet a logical. If TRUE, the plot is faceted by items.
 #' (efault = \code{FALSE}).
 #'
 #' @return a \code{\link{ggplot}} object.
+#'
+#' @details This makes either item information plots or
+#' total information plot
 #'
 #' @examples
 #' \dontrun{

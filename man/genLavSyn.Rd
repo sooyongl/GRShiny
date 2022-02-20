@@ -17,3 +17,6 @@ a string indicating \code{\link{lavaan}} syntax.
 \description{
 Generate lavaan syntax
 }
+\details{
+This generates \code{\link{lavaan}}  syntax
+}

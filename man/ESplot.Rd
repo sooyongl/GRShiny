@@ -33,3 +33,6 @@ a \code{\link{ggplot}} object.
 \description{
 Plot expected scores by items
 }
+\details{
+This makes a expected score plot
+}

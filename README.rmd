@@ -20,7 +20,9 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 
 ## Overview
 
-Simulation and analysis of graded response data with different types of estimator. Also, interactive shiny application is provided with graphics for characteristic and information curves.
+This package is for someone who is familiar with confirmatory factor analysis (CFA), but not with item response theory (IRT). Although CFA is differently developed as opposed to IRT, both methods provide measurement tools to validate the structure of an inventory in the scale development. However, CFA is underutilized, mainly because applied researchers tend not to recognize that CFA and IRT are equivalent with certain types of indicators, such as graded response. To address this underutilization, this package can take and provide `lavaan` syntax to conduct graded response model under the confirmatory factor analysis framework. 
+
+Simulation and analysis of graded response data with different types of estimator can be done with this package. Also, interactive shiny application is provided with graphics for characteristic and information curves.
 
 ## Install
 

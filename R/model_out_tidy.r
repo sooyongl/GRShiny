@@ -5,6 +5,8 @@ NULL
 #'
 #' @param fit an object from \code{\link{runGRM}}
 #'
+#' @details This tidies the results in the CFA framework.
+#'
 #' @export
 extract_est <- function(fit) {
 
@@ -21,6 +23,8 @@ extract_est <- function(fit) {
 #' Extract model fit
 #'
 #' @param fit an object from \code{\link{runGRM}}
+#'
+#' @details This extacts model fit.
 #'
 #' @export
 extract_fit <- function(fit) {

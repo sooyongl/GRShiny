@@ -466,7 +466,7 @@ shiny_server <- function(input, output, session) {
           res,
           selected_item = itemchoice,
           theta = theta_range,
-          plot.ps = FALSE,
+          plot.occ = FALSE,
           base_size = basesize,
           line_size = linesize,
           cal_option = pickcolor
@@ -480,7 +480,7 @@ shiny_server <- function(input, output, session) {
           res,
           selected_item = itemchoice,
           theta = theta_range,
-          plot.ps = T,
+          plot.occ = T,
           base_size = basesize,
           line_size = linesize,
           cal_option = pickcolor,

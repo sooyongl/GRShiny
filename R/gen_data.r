@@ -9,6 +9,8 @@ NULL
 #'
 #' @return a data frame containing graded response item parameters
 #'
+#' @details This generates item parameters for graded response models
+#'
 #' @examples
 #' genIRTpar(20, 4, 3)
 #' @export
@@ -55,6 +57,8 @@ genIRTpar <- function(nitem=25, ncat=4, nfac=3) {
 #'
 #' @return a matrix containing individual latent scores
 #'
+#' @details This generates individual latent scores
+#'
 #' @export
 genTheta <- function(nsample, nfac, l.cov = NULL) {
 
@@ -74,6 +78,8 @@ genTheta <- function(nsample, nfac, l.cov = NULL) {
 #' @param ipar a dataframe containing item parameters
 #'
 #' @return a data frame containing graded response model data
+#'
+#' @details This generates GRM response data
 #'
 #' @examples
 #'

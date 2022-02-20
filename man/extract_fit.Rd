@@ -12,3 +12,6 @@ extract_fit(fit)
 \description{
 Extract model fit
 }
+\details{
+This extacts model fit.
+}

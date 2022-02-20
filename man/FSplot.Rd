@@ -33,6 +33,10 @@ a \code{\link{ggplot}} object.
 \description{
 Plot Factor score
 }
+\details{
+This makes either histogram or density plot for individual factor
+ scores.
+}
 \examples{
 \dontrun{
 FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)

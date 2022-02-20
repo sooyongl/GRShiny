@@ -19,6 +19,9 @@ a data frame containing graded response item parameters
 \description{
 Generate Item parameters
 }
+\details{
+This generates item parameters for graded response models
+}
 \examples{
 genIRTpar(20, 4, 3)
 }

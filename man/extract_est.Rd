@@ -12,3 +12,6 @@ extract_est(fit)
 \description{
 Clean output to look like Mplus
 }
+\details{
+This tidies the results in the CFA framework.
+}

@@ -5,9 +5,8 @@ NULL
 #'
 #' \code{\link{startGRshiny}} is a caller function to open the Shiny interface of GRM.
 #'
-#' @title This function will start GRShiny
 #' @description An interactive Shiny application for running a GRM analysis.
-#' @details This starts the IRT Shiny application on the users local computer.
+#' @details This starts the IRT Shiny application on the user's local computer.
 #' @keywords IRT
 #' @examples
 #' \dontrun{

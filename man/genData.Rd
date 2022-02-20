@@ -17,6 +17,9 @@ a data frame containing graded response model data
 \description{
 Generate IRT data
 }
+\details{
+This generates GRM response data
+}
 \examples{
 
 ipar <- genIRTpar(20, ncat = 3, 2)

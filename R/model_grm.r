@@ -19,6 +19,9 @@ NULL
 #'   \item{\code{grm.par}} a data frame indicating graded response parameters.
 #' }
 #'
+#' @details This conducts GRM. The second element of the return indicats
+#' the graded response parameters converted from the CFA parameters
+#'
 #' @export runGRM
 runGRM <- function(dat, lav.syntax, estimator) {
 
@@ -50,21 +53,15 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
   } else {
     # ML
-    lav.syntax <- stringr::str_replace_all(lav.syntax, "\\+l[0-9]\\*|\\+l[0-9][0-9]\\*|\\+l[0-9][0-9][0-9]\\*", "+")
+    lav.syntax <- str_replace_all(lav.syntax, "\\+l[0-9]\\*|\\+l[0-9][0-9]\\*|\\+l[0-9][0-9][0-9]\\*", "+")
 
-    lav.syntax <- stringr::str_remove_all(lav.syntax, " t[0-9][0-9]\\*| t[0-9][0-9][0-9]\\*| t[0-9][0-9][0-9][0-9]\\*")
+    lav.syntax <- str_remove_all(lav.syntax, " t[0-9][0-9]\\*| t[0-9][0-9][0-9]\\*| t[0-9][0-9][0-9][0-9]\\*")
 
     grm.sirt <- lavaan2mirt(dat,
                             lav.syntax,
                             est.mirt = T,
                             poly.itemtype = "graded",
                             SE = T, verbose = F)
-
-    # grm.fit <-
-    #   mirt::mirt(grm.sirt$dat,
-    #              model = grm.sirt$mirt.model,
-    #              pars = grm.sirt$mirt.pars,
-    #              itemtype = "graded", SE = T, verbose = F)
 
     grm.fit <- grm.sirt$mirt
     if(ncol(grm.fit@Fit$F) == 1) {
@@ -93,6 +90,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
 #' @param nfac a numeric indicating the number of factors
 #'
 #' @return a string indicating \code{\link{lavaan}} syntax.
+#'
+#' @details This generates \code{\link{lavaan}}  syntax
 #'
 #' @export genLavSyn
 genLavSyn <- function(dat, nfac=1) {

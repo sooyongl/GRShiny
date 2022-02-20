@@ -35,7 +35,7 @@ infoPlot(
 \item{cal_option}{a character indicating the plot colour  specified in
 \code{\link{scale_color_viridis_d}} (default = \code{D})}
 
-\item{facept}{a logical. If TRUE, the plot is faceted by items.
+\item{facet}{a logical. If TRUE, the plot is faceted by items.
 (efault = \code{FALSE}).}
 }
 \value{
@@ -43,6 +43,10 @@ a \code{\link{ggplot}} object.
 }
 \description{
 Calculate item information
+}
+\details{
+This makes either item information plots or
+total information plot
 }
 \examples{
 \dontrun{
