@@ -1,4 +1,6 @@
 library(GRShiny)
+library(lavaan)
+library(tidyverse)
 rm(list=ls())
 for (i in sort(fs::dir_ls("R"))) {source(i)}
 
@@ -9,7 +11,7 @@ orddata <- data.table::fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
 lav.model <- genLavSyn(orddata)
 cat(lav.model)
 
-a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "ML")
+a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "WLS")
 coef(a1$mirt.fit, simplify = T, IRTpars = F)$items
 coef(a1$mirt.fit, simplify = T, IRTpars = T)$items
 extract_est(a1)
@@ -18,6 +20,7 @@ a1$grm.par
 
 a1 <- runGRM(orddata, lav.model, "WL")
 summary(a1$lav.fit)
+extract_fit(a1)
 output_cleaning(a1)
 a1$grm.par
 

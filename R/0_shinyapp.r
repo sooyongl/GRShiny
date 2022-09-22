@@ -288,12 +288,13 @@ shiny_server <- function(input, output, session) {
 
     output$result0 <- renderDT({
       fit.dt <- extract_fit(final$res)
-      fit.dt
+      datatable(fit.dt, rownames= FALSE)
     })
 
     output$result1 <- renderDT({
       extract_est(final$res) %>%
-        mutate_if(is.numeric, ~ round(., 3))
+        mutate_if(is.numeric, ~ round(., 3)) %>%
+        datatable(., rownames= FALSE)
     })
 
     output$result2 <- renderDT({

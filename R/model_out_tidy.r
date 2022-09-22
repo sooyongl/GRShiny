@@ -35,16 +35,32 @@ extract_fit <- function(fit) {
     Fit <- fitMeasures(fit)
 
     fit.dt <- data.frame(
-      fname = c("chisq","df","CFI","TLI","RMSEA"),
-      value = c(Fit["chisq"],Fit["df"],Fit["cfi"],Fit["tli"],Fit["rmsea"]))
+      FixIndex = c("chisq","df","chisq_p","CFI","TLI","RMSEA","RMSE.ci.lower","RMSE.ci.upper","RMSE_p","SRMR"),
+
+      value = c(Fit["chisq"],
+                Fit["df"],
+                Fit["pvalue"],
+
+                Fit["cfi"],Fit["tli"],
+                Fit["rmsea"],
+                Fit["rmsea.ci.lower"],
+                Fit["rmsea.ci.upper"],
+                Fit["rmsea.pvalue"],
+                Fit["srmr"]
+
+                ))
+
+    rownames(fit.dt)<-NULL
+
   } else {
     Fit <- fit@Fit
     fit.dt <- data.frame(
-      fname = c("logLik","df","AIC","BIC","SABIC"),
+      FixIndex = c("logLik","df","AIC","BIC","SABIC"),
       value= c(Fit$logLik,Fit$df,Fit$AIC,Fit$BIC,Fit$SABIC))
   }
 
   fit.dt$value <- round(fit.dt$value, 3)
+  rownames(fit.dt)<-NULL
 
   return(fit.dt)
 }
