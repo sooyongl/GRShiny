@@ -219,7 +219,7 @@ shiny_server <- function(input, output, session) {
       npeople <- input$npeople
       nitem   <- input$nitem
       ncate   <- input$ncate
-      nfac    <- input$nfac
+      nfac    <- 1 # input$nfac
 
       ipar <- genIRTpar(nitem, ncat = ncate, nfac)
       ipar <- round(ipar, 3)
@@ -246,12 +246,15 @@ shiny_server <- function(input, output, session) {
 
   # Analysis part -----------------------------------------------------------
   output$what_syn <- renderUI({
-    nfac    <- input$nfac
+    nfac    <- 1 # input$nfac
 
     orddata <- imprt_data()$orddata
     lav.model <- genLavSyn(orddata, nfac)
 
-    if(input$cus_syn) {
+    if(!input$cus_syn) {
+      textAreaInput("syntax", "Syntax",width = '100%',height = '600px',value=lav.model)
+    } else {
+
       column(12,
              prettyRadioButtons("mplus", label = "Mplus?",
                                 choices = c("mplus", "lavaan"),
@@ -259,15 +262,13 @@ shiny_server <- function(input, output, session) {
                                 inline = T, bigger = TRUE),
              textAreaInput("syntax", "Syntax",width = '100%',height = '600px')
       )
-    } else {
-      textAreaInput("syntax", "Syntax",width = '100%',height = '600px',value=lav.model)
     }
   })
 
   ## run analysis -----------------------------------------------------------
   final <- reactiveValues()
   observeEvent(input$grmrun, {
-    nfac    <- input$nfac
+    nfac    <- 1 # input$nfac
     estimator <- input$estimator
     orddata <- imprt_data()$orddata
 
@@ -307,7 +308,7 @@ shiny_server <- function(input, output, session) {
 
   observeEvent(input$grmrun, {
 
-    nfac <- input$nfac
+    nfac    <- 1 # input$nfac
 
     output$plotinfo <- renderUI({
 
