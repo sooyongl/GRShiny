@@ -37,18 +37,19 @@ extract_fit <- function(fit) {
     fit.dt <- data.frame(
       FixIndex = c("chisq","df","chisq_p","CFI","TLI","RMSEA","RMSE.ci.lower","RMSE.ci.upper","RMSE_p","SRMR"),
 
-      value = c(Fit["chisq"],
-                Fit["df"],
-                Fit["pvalue"],
+      value = c(Fit["chisq.scaled"],
+                Fit["df.scaled"],
+                Fit["pvalue.scaled"],
 
-                Fit["cfi"],Fit["tli"],
-                Fit["rmsea"],
-                Fit["rmsea.ci.lower"],
-                Fit["rmsea.ci.upper"],
-                Fit["rmsea.pvalue"],
+                Fit["cfi.scaled"],
+                Fit["tli.scaled"],
+                Fit["rmsea.scaled"],
+                Fit["rmsea.ci.lower.scaled"],
+                Fit["rmsea.ci.upper.scaled"],
+                Fit["rmsea.pvalue.scaled"],
                 Fit["srmr"]
 
-                ))
+      ))
 
     rownames(fit.dt)<-NULL
 

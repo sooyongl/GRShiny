@@ -1,0 +1,83 @@
+VERSION 1.1.0
+INPUT
+TITLE:
+      GRADED RESPONSE MODEL WITH BECK YOUTH INVENTORY FOR
+              DEPRESSION-WLSMV ESTIMATION
+
+DATA:
+       FILE IS ITEMS.DAT;
+VARIABLE:
+   NAMES ARE I1-I20;
+              USEVARIABLES ARE I1-I20;
+              CATEGORICAL ARE I1-I20;
+              MISSING= ;
+ANALYSIS:
+  ESTIMATOR = WLSMV;
+MODEL:
+              F BY I1-I20* (L1-L20);
+              F* (FVAR);
+              [F] (FMEAN);
+          [I1$1-I20$1] (T1I1-T1I20);
+          [I1$2-I20$2] (T2I1-T2I20);
+          [I1$3-I20$3] (T3I1-T3I20);
+INPUT_END
+2
+0
+0
+0
+WLSMV
+1
+GENERAL
+0
+20
+1
+0
+i1 i2 i3 i4 i5 i6 i7 i8 i9 i10 i11 i12 i13 i14 i15 i16 i17 i18 i19 i20 f
+1
+-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 0
+0
+1
+f
+i1 i2 i3 i4 i5 i6 i7 i8 i9 i10 i11 i12 i13 i14 i15 i16 i17 i18 i19 i20
+1 1 f i1 0.769 0.013
+91 1 f i1 l1
+1 1 f i2 0.528 0.020
+91 1 f i2 l2
+1 1 f i3 0.677 0.017
+91 1 f i3 l3
+1 1 f i4 0.773 0.015
+91 1 f i4 l4
+1 1 f i5 0.466 0.021
+91 1 f i5 l5
+1 1 f i6 0.709 0.017
+91 1 f i6 l6
+1 1 f i7 0.737 0.014
+91 1 f i7 l7
+1 1 f i8 0.683 0.015
+91 1 f i8 l8
+1 1 f i9 0.433 0.021
+91 1 f i9 l9
+1 1 f i10 0.769 0.012
+91 1 f i10 l10
+1 1 f i11 0.742 0.015
+91 1 f i11 l11
+1 1 f i12 0.655 0.018
+91 1 f i12 l12
+1 1 f i13 0.680 0.015
+91 1 f i13 l13
+1 1 f i14 0.699 0.016
+91 1 f i14 l14
+1 1 f i15 0.837 0.011
+91 1 f i15 l15
+1 1 f i16 0.509 0.020
+91 1 f i16 l16
+1 1 f i17 0.739 0.013
+91 1 f i17 l17
+1 1 f i18 0.760 0.013
+91 1 f i18 l18
+1 1 f i19 0.778 0.012
+91 1 f i19 l19
+1 1 f i20 0.831 0.011
+91 1 f i20 l20
+5 1 f 1.000 0.000
+95 1 f fvar
