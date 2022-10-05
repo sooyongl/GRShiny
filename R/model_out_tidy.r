@@ -120,5 +120,5 @@ lavaan_output_cleaning <- function(lav.fit) {
 
   parameterestimates(lav.fit) %>%
     filter(str_detect(op, "=~|\\|")) %>%
-    select(-starts_with("ci"))
+    dplyr::select(-matches("^ci"))
 }

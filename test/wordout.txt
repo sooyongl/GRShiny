@@ -1,0 +1,40 @@
+library(officer)
+library(flextable)
+
+
+
+fluidRow(
+             actionButton("run_tab4", "Render doc"),
+             downloadButton("report", "Download")
+           )
+
+
+### downloading data -------------------------------------------
+    output$report <- downloadHandler(
+      filename = function() {
+          paste("Report_",Sys.Date(), ".docx", sep = "")
+      },
+      
+      content = function(file) {
+        shiny::withProgress(
+          message = paste0("Downloading", " the document"),
+          value = 0,
+          {
+            incProgress(1/10);Sys.sleep(1);incProgress(5/10)
+            
+             file_docx <- tempfile(fileext = ".docx")
+              
+              word_out3(
+                filename = file_docx,
+                reportTables = reportTables)
+              
+              file.rename( from = file_docx, to = file )
+              
+            Sys.sleep(1);incProgress(4/10);Sys.sleep(1)
+          }
+        )
+      }
+    )
+	
+	
+	

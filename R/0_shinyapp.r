@@ -34,8 +34,8 @@ shiny_ui <- function() {
                fluidRow(
                  column(2,
                         prettyRadioButtons("empirical",
-                                           label = "Empiricial or Simulated",
-                                           choices = c("empirical", "simulated"),
+                                           label = "Empiricial", # or Simulated",
+                                           choices = c("empirical"),#, "simulated"),
                                            selected = "empirical",
                                            status = "danger",
                                            icon = icon("check"),
@@ -74,15 +74,18 @@ shiny_ui <- function() {
                  column(2,
                         prettyRadioButtons("estimator","Type of estimator",
                                            # inline = T,
-                                           choiceNames = c("WLS","MLE"),
+                                           choiceNames = c("WLSMV","FIML"),
                                            choiceValues = c("WL", "ML"),
-                                           selected = "WLS"),
+                                           selected = "WLSMV"),
 
                         actionButton("grmrun", "Run")
 
                  ),
                  column(7,
-                        # verbatimTextOutput("results")
+                        fluidRow(
+                          downloadButton("rdsreport", "Download RDS"),
+                          downloadButton("report", "Download Word")
+                        ),
                         tabsetPanel(
                           tabPanel("Model Fit",DTOutput("result0")),
                           tabPanel("Param Est",DTOutput("result1")),
@@ -114,7 +117,7 @@ shiny_ui <- function() {
 
                           )
                  ),
-                 tabPanel("EXpected Score",
+                 tabPanel("Expected Score",
                           plotOutput("p_exs")),
                  # tabPanel("Prob+", plotOutput("p_probp")),
                  tabPanel("Information",
@@ -147,7 +150,10 @@ shiny_server <- function(input, output, session) {
         column(4,
                fileInput("setups", "Choose csv or dat file for Setup",
                          multiple = FALSE, accept = c("csv", "dat")),
-               numericInput("missing","Missing",value = -99,step = 1),
+
+               checkboxInput("headery", "Header", F),
+               textInput("missing","Missing",value = "-99"),
+
                textInput("chovar","Choose variables (type the column numbers)"),
                actionButton("import", "IMPORT")
         ),
@@ -159,28 +165,28 @@ shiny_server <- function(input, output, session) {
                ))
       )
     } else {
-      fluidRow(
-        column(2,
-               numericInput(inputId = "npeople", label = "Number of people",
-                            value = 300, min = 100, max = 2000, step = 1),
-               numericInput(inputId = "nitem",label = "Number of items",
-                            value = 10, min = 4, max = 50, step = 1),
-               numericInput(inputId = "ncate",label = "Number of categories",
-                            value = 3, min = 2, max = 5, step = 1),
-               numericInput(inputId = "nfac",label = "Number of factors (not yet)",
-                            value = 1, min = 1, max = 3, step = 1),
-
-               actionButton("import", "Import data")),
-
-        column(10,
-               downloadButton("sim_data_down", "Download"),
-               tabsetPanel(
-                 tabPanel("Item parameters",DTOutput("ipar")),
-                 tabPanel("Individual FS",DTOutput("indi_fs")),
-                 tabPanel("Generated data",DTOutput("gen_data"))
-               )
-        )
-      )
+      # fluidRow(
+      #   column(2,
+      #          numericInput(inputId = "npeople", label = "Number of people",
+      #                       value = 300, min = 100, max = 2000, step = 1),
+      #          numericInput(inputId = "nitem",label = "Number of items",
+      #                       value = 10, min = 4, max = 50, step = 1),
+      #          numericInput(inputId = "ncate",label = "Number of categories",
+      #                       value = 3, min = 2, max = 5, step = 1),
+      #          numericInput(inputId = "nfac",label = "Number of factors (not yet)",
+      #                       value = 1, min = 1, max = 3, step = 1),
+      #
+      #          actionButton("import", "Import data")),
+      #
+      #   column(10,
+      #          # downloadButton("sim_data_down", "Download"),
+      #          tabsetPanel(
+      #            tabPanel("Item parameters",DTOutput("ipar")),
+      #            tabPanel("Individual FS",DTOutput("indi_fs")),
+      #            tabPanel("Generated data",DTOutput("gen_data"))
+      #          )
+      #   )
+      # )
     }
   })
 
@@ -189,7 +195,15 @@ shiny_server <- function(input, output, session) {
 
     if(input$empirical == "empirical"){
 
-      orddata <- fread(input$setups$datapath)
+      # if(input$headery == "Yes") {
+      #   headery == T
+      # } else {
+      #   headery == F
+      # }
+      orddata <- fread(input$setups$datapath, header = input$headery)
+
+      # orddata <- fread(input$setups$datapath)
+
       # if(existsFunction("imprt_data")) {
       #
       #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
@@ -207,7 +221,13 @@ shiny_server <- function(input, output, session) {
 
       selected_items <- eval(parse(text = paste0("c(",str_replace_all(chovar, "-", ":"),")")))
 
-      orddata <- fread(input$setups$datapath) %>% mutate_all(~na_if(.,mis_val))
+      if(mis_val != "NA") {
+        orddata <- fread(input$setups$datapath) %>% mutate_all(~na_if(.,mis_val))
+      } else {
+        orddata <- fread(input$setups$datapath)
+      }
+
+
       orddata <- data.frame(orddata)[, selected_items]
 
       eta <- data.frame(x = "not given")
@@ -231,14 +251,14 @@ shiny_server <- function(input, output, session) {
     }
   })
 
-  output$sim_data_down <- downloadHandler(
-    filename = function() {
-      paste("simulated_data", ".csv", sep = "")
-    },
-    content = function(file) {
-      utils::write.csv(imprt_data()$orddata, file, row.names = F)
-    }
-  )
+  # output$sim_data_down <- downloadHandler(
+  #   filename = function() {
+  #     paste("simulated_data", ".csv", sep = "")
+  #   },
+  #   content = function(file) {
+  #     utils::write.csv(imprt_data()$orddata, file, row.names = F)
+  #   }
+  # )
 
   output$ipar     <- renderDT({imprt_data()$ipar})
   output$indi_fs  <- renderDT({imprt_data()$eta})
@@ -285,14 +305,19 @@ shiny_server <- function(input, output, session) {
     }
 
     final$res <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = estimator)
+    final$fit.dt <- extract_fit(final$res)
+    final$est.dt <- extract_est(final$res)
+    final$grmest.dt <- final$res$grm.par
 
     output$result0 <- renderDT({
-      fit.dt <- extract_fit(final$res)
+      # fit.dt <- extract_fit(final$res)
+      fit.dt <- final$fit.dt
+
       datatable(fit.dt, rownames= FALSE)
     })
 
     output$result1 <- renderDT({
-      extract_est(final$res) %>%
+      final$est.dt %>%
         mutate_if(is.numeric, ~ round(., 3)) %>%
         datatable(., rownames= FALSE)
     })
@@ -302,6 +327,60 @@ shiny_server <- function(input, output, session) {
       if(!is.character(final$res$grm.par))
         round(final$res$grm.par,3)
     })
+
+
+    ### downloading data -------------------------------------------
+    output$rdsreport <- downloadHandler(
+      filename = function() {
+        paste("Report_",Sys.Date(), ".rds", sep = "")
+      },
+
+      content = function(file) {
+        shiny::withProgress(
+          message = paste0("Downloading", " the document"),
+          value = 0,
+          {
+            incProgress(1/10);Sys.sleep(1);incProgress(5/10)
+            outlist <- ls()
+            outlist$fit <- final$fit.dt
+            outlist$est <- final$est.dt
+            outlist$grmest <- final$grmest.dt
+
+            saveRDS(outlist, file)
+
+            Sys.sleep(1);incProgress(4/10);Sys.sleep(1)
+          }
+        )
+      }
+    )
+
+    output$report <- downloadHandler(
+      filename = function() {
+        paste("Report_",Sys.Date(), ".docx", sep = "")
+      },
+
+      content = function(file) {
+        shiny::withProgress(
+          message = paste0("Downloading", " the document"),
+          value = 0,
+          {
+            incProgress(1/10);Sys.sleep(1);incProgress(5/10)
+
+            file_docx <- tempfile(fileext = ".docx")
+
+            word_out3(
+              filename = file_docx,
+              reportTables = final)
+
+            file.rename( from = file_docx, to = file )
+
+            Sys.sleep(1);incProgress(4/10);Sys.sleep(1)
+          }
+        )
+      }
+    )
+
+
 
   })
 

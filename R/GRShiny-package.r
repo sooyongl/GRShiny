@@ -22,6 +22,8 @@
 #' @import dplyr
 #' @import tidyr
 #' @import stringr
+#' @import officer
+#' @import flextable
 #' @importFrom magrittr %>%
 #' @importFrom purrr set_names
 #' @importFrom purrr map

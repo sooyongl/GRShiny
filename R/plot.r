@@ -149,7 +149,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
     prob_dt <- prob_dt %>%
       map(., ~ .x$ps %>%
             data.frame(theta = theta) %>%
-            select(-z, -zz) %>%
+            dplyr::select(-z, -zz) %>%
             gather("step","prob+", -theta)) %>%
       bind_rows(.id = "item")
 
