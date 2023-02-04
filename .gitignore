@@ -6,5 +6,4 @@
 *.log
 docs
 rsconnect
-ui.r
-server.r
+test/
