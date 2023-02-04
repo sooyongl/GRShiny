@@ -31,6 +31,7 @@
 #' @importFrom MASS mvrnorm
 #' @importFrom DT renderDT
 #' @importFrom DT DTOutput
+#' @importFrom DT datatable
 #' @importFrom stats pnorm rlnorm runif step
 #' @importFrom utils write.csv
 #' @importFrom readr parse_number

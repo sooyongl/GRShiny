@@ -47,7 +47,7 @@ Suggests:
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.2
 VignetteBuilder: knitr
 Collate: 
     'GRShiny-package.r'
@@ -56,6 +56,7 @@ Collate:
     'model_grm.r'
     'model_out_tidy.r'
     'plot.r'
+    'word_table.r'
     'zz_runAPP.r'
 URL: https://github.com/sooyongl/GRShiny
 Config/testthat/edition: 3
