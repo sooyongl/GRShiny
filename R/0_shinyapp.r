@@ -34,8 +34,8 @@ shiny_ui <- function() {
                fluidRow(
                  column(2,
                         prettyRadioButtons("empirical",
-                                           label = "Empiricial", # or Simulated",
-                                           choices = c("empirical"),#, "simulated"),
+                                           label = "Empiricial or Test data", # or Simulated",
+                                           choices = c("empirical", "test"),#, "simulated"),
                                            selected = "empirical",
                                            status = "danger",
                                            icon = icon("check"),
@@ -165,8 +165,8 @@ shiny_server <- function(input, output, session) {
                ))
       )
     } else {
-      # fluidRow(
-      #   column(2,
+      fluidRow(
+        column(2,
       #          numericInput(inputId = "npeople", label = "Number of people",
       #                       value = 300, min = 100, max = 2000, step = 1),
       #          numericInput(inputId = "nitem",label = "Number of items",
@@ -176,17 +176,17 @@ shiny_server <- function(input, output, session) {
       #          numericInput(inputId = "nfac",label = "Number of factors (not yet)",
       #                       value = 1, min = 1, max = 3, step = 1),
       #
-      #          actionButton("import", "Import data")),
+               actionButton("import", "Import data")),
       #
-      #   column(10,
-      #          # downloadButton("sim_data_down", "Download"),
-      #          tabsetPanel(
-      #            tabPanel("Item parameters",DTOutput("ipar")),
-      #            tabPanel("Individual FS",DTOutput("indi_fs")),
-      #            tabPanel("Generated data",DTOutput("gen_data"))
-      #          )
-      #   )
-      # )
+        column(10,
+               downloadButton("sim_data_down", "Download"),
+               tabsetPanel(
+                 tabPanel("Item parameters",DTOutput("ipar")),
+                 tabPanel("Individual FS",DTOutput("indi_fs")),
+                 tabPanel("Generated data",DTOutput("gen_data"))
+               )
+        )
+      )
     }
   })
 
@@ -236,9 +236,9 @@ shiny_server <- function(input, output, session) {
       list(orddata = orddata, varname = names(orddata), eta = eta, ipar = ipar)
 
     } else {
-      npeople <- input$npeople
-      nitem   <- input$nitem
-      ncate   <- input$ncate
+      npeople <- 300 # input$npeople
+      nitem   <- 20  # input$nitem
+      ncate   <- 4   # input$ncate
       nfac    <- 1 # input$nfac
 
       ipar <- genIRTpar(nitem, ncat = ncate, nfac)
@@ -251,14 +251,14 @@ shiny_server <- function(input, output, session) {
     }
   })
 
-  # output$sim_data_down <- downloadHandler(
-  #   filename = function() {
-  #     paste("simulated_data", ".csv", sep = "")
-  #   },
-  #   content = function(file) {
-  #     utils::write.csv(imprt_data()$orddata, file, row.names = F)
-  #   }
-  # )
+  output$sim_data_down <- downloadHandler(
+    filename = function() {
+      paste("simulated_data", ".csv", sep = "")
+    },
+    content = function(file) {
+      utils::write.csv(imprt_data()$orddata, file, row.names = F)
+    }
+  )
 
   output$ipar     <- renderDT({imprt_data()$ipar})
   output$indi_fs  <- renderDT({imprt_data()$eta})
