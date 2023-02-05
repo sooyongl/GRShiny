@@ -56,8 +56,8 @@ extract_fit <- function(fit) {
   } else {
     Fit <- fit@Fit
     fit.dt <- data.frame(
-      FixIndex = c("logLik","df","AIC","BIC","SABIC"),
-      value= c(Fit$logLik,Fit$df,Fit$AIC,Fit$BIC,Fit$SABIC))
+      FixIndex = c("logLik","value","df","pvalue","AIC","BIC","SABIC"),
+      value= c(Fit$logLik,Fit$G2,Fit$df,Fit$p,Fit$AIC,Fit$BIC,Fit$SABIC))
   }
 
   fit.dt$value <- round(fit.dt$value, 3)
