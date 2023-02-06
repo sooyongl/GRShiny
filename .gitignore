@@ -5,5 +5,5 @@
 .log
 *.log
 docs
-rsconnect
+rsconnect/
 test/
