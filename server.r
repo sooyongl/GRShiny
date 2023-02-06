@@ -3,17 +3,23 @@ shinyServer(
     #
     # Data part ------------------------------------------
     output$data_import <- renderUI({
-      if(input$empirical == "empirical") {
+      # if(input$empirical == "empirical") {
+        if(TRUE){
         fluidRow(
           column(4,
                  fileInput("setups", "Choose csv or dat file for Setup",
                            multiple = FALSE, accept = c("csv", "dat")),
 
-                 checkboxInput("headery", "Header", F),
+                 checkboxInput("headery", "Variable Names", F),
                  textInput("missing","Missing",value = "-99"),
 
                  textInput("chovar","Choose variables (type the column numbers)"),
-                 actionButton("import", "IMPORT")
+                 actionButton("import", "IMPORT"),
+                 div(
+                   checkboxInput("test_data", "Import Test Data", F),
+                   style = "font-size: 10px !important; padding-top: 0px;
+                   text-align:right;"
+                 )
           ),
 
           column(8,
@@ -52,8 +58,8 @@ shinyServer(
     # imprt_data <- reactiveValues()
     observeEvent(input$import, {
 
-      if(input$empirical == "empirical"){
-
+      # if(input$empirical == "empirical"){
+      if(input$test_data == F){
         # if(input$headery == "Yes") {
         #   headery == T
         # } else {
@@ -62,7 +68,6 @@ shinyServer(
         orddata <- fread(input$setups$datapath, header = input$headery)
 
         # orddata <- fread(input$setups$datapath)
-
         # if(existsFunction("imprt_data")) {
         #
         #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
@@ -74,7 +79,8 @@ shinyServer(
     })
 
     imprt_data <- eventReactive(input$import, {
-      if(input$empirical == "empirical") {
+      if(input$test_data == F){
+      # if(input$empirical == "empirical") {
         mis_val <- input$missing
         chovar <- input$chovar
 
@@ -96,7 +102,7 @@ shinyServer(
 
       } else {
         npeople <- 300 # input$npeople
-        nitem   <- 20  # input$nitem
+        nitem   <- 5  # input$nitem
         ncate   <- 4   # input$ncate
         nfac    <- 1 # input$nfac
 
@@ -168,23 +174,36 @@ shinyServer(
       final$est.dt <- extract_est(final$res)
       final$grmest.dt <- final$res$grm.par
 
-      output$result0 <- renderDT({
+
+      output$freq_table <- render_gt({ # renderDT({
+
+        freqtable <- apply(orddata, 2, table)
+        cate_name <- rownames(freqtable)
+        freqtable <- data.frame(freqtable)
+
+        freqtable %>% mutate(category = cate_name) %>%
+          dplyr::select(category, dplyr::everything())
+
+      })
+
+      output$result0 <-render_gt({# renderDT({
         # fit.dt <- extract_fit(final$res)
         fit.dt <- final$fit.dt
 
-        datatable(fit.dt, rownames= FALSE)
+        # datatable(fit.dt, rownames= FALSE)
+        fit.dt
       })
 
-      output$result1 <- renderDT({
+      output$result1 <- render_gt({ #renderDT({
         final$est.dt %>%
-          mutate_if(is.numeric, ~ round(., 3)) %>%
-          datatable(., rownames= FALSE)
+          mutate_if(is.numeric, ~ round(., 3)) #%>%
+          # datatable(., rownames= FALSE)
       })
 
-      output$result2 <- renderDT({
+      output$result2 <- render_gt({  #renderDT({
 
         if(!is.character(final$res$grm.par))
-          round(final$res$grm.par,3)
+          round(final$res$grm.par,3) %>% data.frame()
       })
 
 

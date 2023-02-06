@@ -87,7 +87,7 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 
   prob <- sapply(1:(ncat), function(k) {ps[, k] - ps[, k + 1]})
 
-  colnames(prob) <- paste0("k", 1:ncol(prob))
+  colnames(prob) <- paste0("c", 1:ncol(prob))
   colnames(ps) <- c("z",paste0("b", 1:(ncol(ps)-2)),"zz")
 
   return(list(prob = prob, ps = ps))

@@ -15,6 +15,9 @@ library(shinycssloaders)
 library(bslib)
 library(DT)
 library(data.table)
+library(officer)
+library(flextable)
+library(gt)
 
 fluidPage(
   # useShinydashboard(),
@@ -44,14 +47,14 @@ fluidPage(
     tabPanel("Data Import",
              fluidRow(
                column(2,
-                      prettyRadioButtons("empirical",
-                                         label = "Empiricial or Test data", # or Simulated",
-                                         choices = c("empirical", "test"),#, "simulated"),
-                                         selected = "empirical",
-                                         status = "danger",
-                                         icon = icon("check"),
-                                         bigger = TRUE,
-                                         animation = 'smooth')
+               #        prettyRadioButtons("empirical",
+               #                           label = "Empiricial or Test data", # or Simulated",
+               #                           choices = c("empirical", "test"),#, "simulated"),
+               #                           selected = "empirical",
+               #                           status = "danger",
+               #                           icon = icon("check"),
+               #                           bigger = TRUE,
+               #                           animation = 'smooth')
                ),
                column(10,
                       uiOutput("data_import")
@@ -98,9 +101,22 @@ fluidPage(
                         downloadButton("report", "Download Word")
                       ),
                       tabsetPanel(
-                        tabPanel("Model Fit",DTOutput("result0")),
-                        tabPanel("Param Est",DTOutput("result1")),
-                        tabPanel("GRM Param",DTOutput("result2"))
+                        tabPanel("Frequency Table",
+                                 # DTOutput("freq_table")
+                                 gt_output("freq_table")
+                                 ),
+                        tabPanel("Model Fit",
+                                 # DTOutput("result0")
+                                 gt_output("result0")
+                                 ),
+                        tabPanel("Param Est",
+                                 # DTOutput("result1")
+                                 gt_output("result1")
+                                 ),
+                        tabPanel("GRM Param",
+                                 # DTOutput("result2")
+                                 gt_output("result2")
+                                 )
                       )
                )
              )
@@ -144,3 +160,4 @@ fluidPage(
 
   )
 )##########################  shiny UI last line  #######################
+

@@ -35,7 +35,8 @@ extract_fit <- function(fit) {
     Fit <- fitMeasures(fit)
 
     fit.dt <- data.frame(
-      FixIndex = c("chisq","df","chisq_p","CFI","TLI","RMSEA","RMSE.ci.lower","RMSE.ci.upper","RMSE_p","SRMR"),
+      FixIndex =
+        c("chi.square","df","pvalue","CFI","TLI","RMSEA","RMSE.lower.bound","RMSE.upper.bound","RMSE_pvalue","SRMR"),
 
       value = c(Fit["chisq.scaled"],
                 Fit["df.scaled"],
