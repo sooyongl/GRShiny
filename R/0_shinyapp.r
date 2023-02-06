@@ -33,14 +33,14 @@ shiny_ui <- function() {
       tabPanel("Data Import",
                fluidRow(
                  column(2,
-                        prettyRadioButtons("empirical",
-                                           label = "Empiricial or Test data", # or Simulated",
-                                           choices = c("empirical", "test"),#, "simulated"),
-                                           selected = "empirical",
-                                           status = "danger",
-                                           icon = icon("check"),
-                                           bigger = TRUE,
-                                           animation = 'smooth')
+                        #        prettyRadioButtons("empirical",
+                        #                           label = "Empiricial or Test data", # or Simulated",
+                        #                           choices = c("empirical", "test"),#, "simulated"),
+                        #                           selected = "empirical",
+                        #                           status = "danger",
+                        #                           icon = icon("check"),
+                        #                           bigger = TRUE,
+                        #                           animation = 'smooth')
                  ),
                  column(10,
                         uiOutput("data_import")
@@ -87,9 +87,28 @@ shiny_ui <- function() {
                           downloadButton("report", "Download Word")
                         ),
                         tabsetPanel(
-                          tabPanel("Model Fit",DTOutput("result0")),
-                          tabPanel("Param Est",DTOutput("result1")),
-                          tabPanel("GRM Param",DTOutput("result2"))
+                          tabPanel("Frequency Table",
+                                   # DTOutput("freq_table")
+                                   gt_output("freq_table")
+                          ),
+                          tabPanel("Model Fit",
+                                   # DTOutput("result0")
+                                   gt_output("result0")
+                          ),
+                          tabPanel("Param Est",
+                                   # DTOutput("result1")
+                                   fluidRow(
+                                     column(6,
+                                            gt_output("result1_fl")),
+                                     column(6,
+                                            gt_output("result1_thre")
+                                     )
+                                   )
+                          ),
+                          tabPanel("GRM Param",
+                                   # DTOutput("result2")
+                                   gt_output("result2")
+                          )
                         )
                  )
                )
@@ -139,23 +158,29 @@ shiny_ui <- function() {
 #'
 #' @param input a shiny input
 #' @param output a shiny output
-#' @param session a seesion
+#' @param session a session
 #' @noRd
 shiny_server <- function(input, output, session) {
   #
   # Data part ------------------------------------------
   output$data_import <- renderUI({
-    if(input$empirical == "empirical") {
+    # if(input$empirical == "empirical") {
+    if(TRUE){
       fluidRow(
         column(4,
                fileInput("setups", "Choose csv or dat file for Setup",
                          multiple = FALSE, accept = c("csv", "dat")),
 
-               checkboxInput("headery", "Header", F),
+               checkboxInput("headery", "Variable Names", F),
                textInput("missing","Missing",value = "-99"),
 
                textInput("chovar","Choose variables (type the column numbers)"),
-               actionButton("import", "IMPORT")
+               actionButton("import", "IMPORT"),
+               div(
+                 checkboxInput("test_data", "Import Test Data", F),
+                 style = "font-size: 10px !important; padding-top: 0px;
+                   text-align:right;"
+               )
         ),
 
         column(8,
@@ -167,17 +192,18 @@ shiny_server <- function(input, output, session) {
     } else {
       fluidRow(
         column(2,
-      #          numericInput(inputId = "npeople", label = "Number of people",
-      #                       value = 300, min = 100, max = 2000, step = 1),
-      #          numericInput(inputId = "nitem",label = "Number of items",
-      #                       value = 10, min = 4, max = 50, step = 1),
-      #          numericInput(inputId = "ncate",label = "Number of categories",
-      #                       value = 3, min = 2, max = 5, step = 1),
-      #          numericInput(inputId = "nfac",label = "Number of factors (not yet)",
-      #                       value = 1, min = 1, max = 3, step = 1),
-      #
+               #          numericInput(inputId = "npeople", label = "Number of people",
+               #                       value = 300, min = 100, max = 2000, step = 1),
+               #          numericInput(inputId = "nitem",label = "Number of items",
+               #                       value = 10, min = 4, max = 50, step = 1),
+               #          numericInput(inputId = "ncate",label = "Number of categories",
+               #                       value = 3, min = 2, max = 5, step = 1),
+               #          numericInput(inputId = "nfac",label = "Number of factors (not yet)",
+               #                       value = 1, min = 1, max = 3, step = 1),
+               #
+
                actionButton("import", "Import data")),
-      #
+        #
         column(10,
                downloadButton("sim_data_down", "Download"),
                tabsetPanel(
@@ -193,8 +219,8 @@ shiny_server <- function(input, output, session) {
   # imprt_data <- reactiveValues()
   observeEvent(input$import, {
 
-    if(input$empirical == "empirical"){
-
+    # if(input$empirical == "empirical"){
+    if(input$test_data == F){
       # if(input$headery == "Yes") {
       #   headery == T
       # } else {
@@ -203,7 +229,6 @@ shiny_server <- function(input, output, session) {
       orddata <- fread(input$setups$datapath, header = input$headery)
 
       # orddata <- fread(input$setups$datapath)
-
       # if(existsFunction("imprt_data")) {
       #
       #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
@@ -215,7 +240,8 @@ shiny_server <- function(input, output, session) {
   })
 
   imprt_data <- eventReactive(input$import, {
-    if(input$empirical == "empirical") {
+    if(input$test_data == F){
+      # if(input$empirical == "empirical") {
       mis_val <- input$missing
       chovar <- input$chovar
 
@@ -237,7 +263,7 @@ shiny_server <- function(input, output, session) {
 
     } else {
       npeople <- 300 # input$npeople
-      nitem   <- 20  # input$nitem
+      nitem   <- 5  # input$nitem
       ncate   <- 4   # input$ncate
       nfac    <- 1 # input$nfac
 
@@ -309,23 +335,211 @@ shiny_server <- function(input, output, session) {
     final$est.dt <- extract_est(final$res)
     final$grmest.dt <- final$res$grm.par
 
-    output$result0 <- renderDT({
+
+    output$freq_table <- render_gt({ # renderDT({
+
+      freqtable <- apply(orddata, 2, table)
+      cate_name <- rownames(freqtable)
+      freqtable <- data.frame(freqtable)
+
+      freqtable %>% mutate(category = cate_name) %>%
+        dplyr::select(category, dplyr::everything())
+
+    })
+
+    output$result0 <-render_gt({# renderDT({
       # fit.dt <- extract_fit(final$res)
       fit.dt <- final$fit.dt
 
-      datatable(fit.dt, rownames= FALSE)
+      # datatable(fit.dt, rownames= FALSE)
+      fittable <- fit.dt
+
+      if(any(str_detect(fittable[[1]], "SABIC"))) {
+        gt_out <- fittable %>%
+          gt() %>%
+          tab_header(
+            title = md("**MODEL FIT INFORMATION**")
+          ) %>%
+          tab_row_group(
+            label = md("**Information Criteria**"),
+            rows = c(5:7)
+          ) %>%
+          tab_row_group(
+            label = md("**Chi-Square Test of Model Fit**"),
+            rows = c(2:4)
+          ) %>%
+          tab_row_group(
+            label = md("**Loglikelihood**"),
+            rows = 1
+          )
+
+      } else {
+        gt_out <- fittable %>%
+          gt() %>%
+          tab_header(
+            title = md("**MODEL FIT INFORMATION**")
+          ) %>%
+          tab_row_group(
+            label = md("**SRMR (Standardized Root Mean Square Residual)**"),
+            rows = c(10)
+          ) %>%
+          tab_row_group(
+            label = md("**RMSE**"),
+            rows = c(6:9)
+          ) %>%
+          tab_row_group(
+            label = md("**CFI/TLI**"),
+            rows = 4:5
+          ) %>%
+          tab_row_group(
+            label = md("**Chi-Square Test of Model Fit**"),
+            rows = c(1:3)
+          )
+      }
+
+      gt_out %>%
+        opt_all_caps() %>%
+        #Use the Chivo font
+        #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+        opt_table_font(
+          font = list(
+            google_font("Chivo"),
+            default_fonts()
+          )
+        ) %>%
+        tab_style(
+          locations = cells_column_labels(columns = gt::everything()),
+          style     = list(
+            #Give a thick border below
+            cell_borders(sides = "bottom", weight = px(3)),
+            #Make text bold
+            cell_text(weight = "bold")
+          )
+        ) %>%
+        tab_options(row_group.background.color = "orange")
+
     })
 
-    output$result1 <- renderDT({
-      final$est.dt %>%
+    output$result1_fl <- render_gt({ #renderDT({
+      est_results <- final$est.dt %>%
         mutate_if(is.numeric, ~ round(., 3)) %>%
-        datatable(., rownames= FALSE)
+        filter(str_detect(op, "=~"))
+      # datatable(., rownames= FALSE)
+
+      # est_results <- extract_est(a1) %>%
+      #   mutate_if(is.numeric, ~ round(., 3))
+
+      fl <- str_which(est_results$op, "=~")
+      thre <- str_which(est_results$rhs, "^t")
+
+      est_results %>%
+        gt() %>%
+        opt_all_caps() %>%
+        #Use the Chivo font
+        #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+        opt_table_font(
+          font = list(
+            google_font("Chivo"),
+            default_fonts()
+          )
+        ) %>%
+        tab_style(
+          locations = cells_column_labels(columns = gt::everything()),
+          style     = list(
+            #Give a thick border below
+            cell_borders(sides = "bottom", weight = px(3)),
+            #Make text bold
+            cell_text(weight = "bold")
+          )
+        ) %>%
+        tab_header(
+          title = md("**MODEL RESULTS**")
+        ) %>%
+        tab_row_group(
+          label = md("**Item Slope**"),
+          rows = c(fl)
+        ) %>%
+        tab_options(row_group.background.color = "orange")
     })
 
-    output$result2 <- renderDT({
 
-      if(!is.character(final$res$grm.par))
-        round(final$res$grm.par,3)
+    output$result1_thre <- render_gt({ #renderDT({
+      est_results <- final$est.dt %>%
+        mutate_if(is.numeric, ~ round(., 3)) %>%
+        filter(str_detect(rhs, "^t"))
+      # datatable(., rownames= FALSE)
+
+      # est_results <- extract_est(a1) %>%
+      #   mutate_if(is.numeric, ~ round(., 3))
+
+      fl <- str_which(est_results$op, "=~")
+      thre <- str_which(est_results$rhs, "^t")
+
+      est_results %>%
+        gt() %>%
+        opt_all_caps() %>%
+        #Use the Chivo font
+        #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+        opt_table_font(
+          font = list(
+            google_font("Chivo"),
+            default_fonts()
+          )
+        ) %>%
+        tab_style(
+          locations = cells_column_labels(columns = gt::everything()),
+          style     = list(
+            #Give a thick border below
+            cell_borders(sides = "bottom", weight = px(3)),
+            #Make text bold
+            cell_text(weight = "bold")
+          )
+        ) %>%
+        tab_header(
+          title = md("**MODEL RESULTS**")
+        ) %>%
+        tab_row_group(
+          label = md("**Thresholds**"),
+          rows = c(thre)
+        ) %>%
+        tab_options(row_group.background.color = "orange")
+    })
+
+
+    output$result2 <- render_gt({  #renderDT({
+
+      varname <- final$est.dt %>% filter(str_detect(op, "=~")) %>% pull(rhs)
+
+      # if(!is.character(final$res$grm.par))
+      out_gt <- final$res$grm.par %>% data.frame() %>%
+        mutate_if(is.numeric, ~ round(.x,3)) %>%
+        mutate(indicator = varname) %>%
+        dplyr::select(indicator, dplyr::everything())
+
+      out_gt %>%
+        gt() %>%
+        tab_header(
+          title = md("**GRM PARAMETERS**")
+        ) %>%
+        tab_style(
+          locations = cells_column_labels(columns = gt::everything()),
+          style     = list(
+            #Give a thick border below
+            cell_borders(sides = "bottom", weight = px(3)),
+            #Make text bold
+            cell_text(weight = "bold")
+          )
+        ) %>%
+        opt_all_caps() %>%
+        #Use the Chivo font
+        #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+        opt_table_font(
+          font = list(
+            google_font("Chivo"),
+            default_fonts()
+          )
+        ) %>%
+        tab_options(row_group.background.color = "orange")
     })
 
 
@@ -641,3 +855,4 @@ shiny_server <- function(input, output, session) {
 
 
 }##################  Shiny Server last line   ############################
+

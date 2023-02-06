@@ -40,7 +40,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
     if(grm.fit@pta$nfac == 1) {
 
       grm.par <- trans_to_grm(grm.fit = grm.fit)
-      rownames(grm.par) <- varname
+      # grm.par <- grm.par %>%
+      #   mutate(variable = varname, .before = a1)
 
     } else {
 
@@ -48,7 +49,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
       print(grm.par)
 
       grm.par <- trans_to_grm(grm.fit = grm.fit)
-      rownames(grm.par) <- varname
+      # grm.par <- grm.par %>%
+      #   mutate(variable = varname, .before = a1)
     }
 
   } else {
@@ -68,8 +70,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
 
       grm.par <- trans_to_grm(grm.fit = grm.fit)
       # rownames(grm.par) <- varname
-      grm.par <- grm.par %>%
-        mutate(variable = varname, .before = a1)
+      # grm.par <- grm.par %>%
+      #   mutate(variable = varname, .before = a1)
 
     } else {
 
@@ -78,8 +80,8 @@ runGRM <- function(dat, lav.syntax, estimator) {
       grm.par <- trans_to_grm(grm.fit = grm.fit)
       # rownames(grm.par) <- varname
 
-      grm.par <- grm.par %>%
-        mutate(variable = varname, .before = a1)
+      # grm.par <- grm.par %>%
+      #   mutate(variable = varname, .before = a1)
     }
   }
 

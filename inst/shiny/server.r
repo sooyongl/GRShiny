@@ -347,8 +347,13 @@ shinyServer(
 
       output$result2 <- render_gt({  #renderDT({
 
-        if(!is.character(final$res$grm.par))
-          out_gt <- round(final$res$grm.par,3) %>% data.frame()
+        varname <- final$est.dt %>% filter(str_detect(op, "=~")) %>% pull(rhs)
+
+        # if(!is.character(final$res$grm.par))
+          out_gt <- final$res$grm.par %>% data.frame() %>%
+            mutate_if(is.numeric, ~ round(.x,3)) %>%
+            mutate(indicator = varname) %>%
+            dplyr::select(indicator, dplyr::everything())
 
         out_gt %>%
           gt() %>%
