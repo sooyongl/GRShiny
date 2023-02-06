@@ -14,6 +14,7 @@ library(MASS)
 library(DT)
 library(officer)
 library(flextable)
+library(gt)
 
 for (i in sort(fs::dir_ls("R"))) {source(i)}
 
@@ -21,21 +22,113 @@ orddata <- data.table::fread("test/paper_data/BYI_DEMO.DAT")[,-c(1:4)]
 names(orddata) <- LETTERS[1:20]
 # write_csv(orddata, "test/paper_data/grm_dt.csv")
 
-orddata <- data.table::fread("test/BYI1.DAT",header = T)
+# orddata <- data.table::fread("test/BYI1.DAT",header = T)
+orddata <- data.table::fread("test/grm_dt.csv",header = F)
+# orddata <- data.table::fread("test/ITEMS.DAT",header = F)
 
 unique(orddata$V5)
 
-startGRshiny()
+# startGRshiny()
 
 lav.model <- genLavSyn(orddata)
 cat(lav.model)
 
-a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "WLS")
+rownames(a1$grm.par)
+
+a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "ML")
 coef(a1$mirt.fit, simplify = T, IRTpars = F)$items
 coef(a1$mirt.fit, simplify = T, IRTpars = T)$items
-extract_est(a1)
-extract_fit(a1)
-a1$grm.par
+
+fittable <- extract_fit(a1)
+
+if(any(str_detect(fittable[[1]], "SABIC"))) {
+  fittable %>%
+    gt() %>%
+    tab_header(
+      title = md("**MODEL FIT INFORMATION**")
+    ) %>%
+    tab_row_group(
+      label = md("**Information Criteria**"),
+      rows = c(5:7)
+    ) %>%
+    tab_row_group(
+      label = md("**Chi-Square Test of Model Fit**"),
+      rows = c(2:4)
+    ) %>%
+    tab_row_group(
+      label = md("**Loglikelihood**"),
+      rows = 1
+    )
+
+} else {
+  fittable %>%
+    gt() %>%
+    tab_header(
+      title = md("**MODEL FIT INFORMATION**")
+    ) %>%
+    tab_row_group(
+      label = md("**SRMR (Standardized Root Mean Square Residual)**"),
+      rows = c(10)
+    ) %>%
+    tab_row_group(
+      label = md("**RMSE**"),
+      rows = c(6:9)
+    ) %>%
+    tab_row_group(
+      label = md("**CFI/TLI**"),
+      rows = 4:5
+    ) %>%
+    tab_row_group(
+      label = md("**Chi-Square Test of Model Fit**"),
+      rows = c(1:3)
+    )
+}
+
+
+
+est_results <- extract_est(a1) %>%
+  mutate_if(is.numeric, ~ round(., 3))
+
+fl <- str_which(est_results$op, "=~")
+thre <- str_which(est_results$rhs, "^t")
+
+est_results %>%
+  gt() %>%
+  tab_header(
+    title = md("**MODEL RESULTS**")
+  ) %>%
+  tab_row_group(
+    label = md("**Thresholds**"),
+    rows = c(thre)
+  ) %>%
+  tab_row_group(
+    label = md("**Item Slope**"),
+    rows = c(fl)
+  )
+
+
+a1$grm.par %>%
+  gt() %>%
+  tab_style(
+    locations = cells_column_labels(columns = gt::everything()),
+    style     = list(
+      #Give a thick border below
+      cell_borders(sides = "bottom", weight = px(3)),
+      #Make text bold
+      cell_text(weight = "bold")
+    )
+  ) %>%
+  opt_all_caps() %>%
+  #Use the Chivo font
+  #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+  opt_table_font(
+    font = list(
+      google_font("Chivo"),
+      default_fonts()
+    )
+  )
+
+
 
 a1 <- runGRM(orddata, lav.model, "WL")
 summary(a1$lav.fit)
@@ -87,16 +180,17 @@ plot(a1$mirt.fit,type = 'score',
      which.items = 1,
      theta_lim =c(-4,4), facet_items = FALSE)
 
-infoPlot(a1,selected_item = 1,
+infoPlot(a1,selected_item = c(9,20),
          theta = seq(-4, 4, .1),
          type = "icc")
 plot(
   a1$mirt.fit,
   type = 'infotrace',
-  which.items = 1,
+  which.items = c(9,20),
   theta_lim = c(-4, 4),
   facet_items = FALSE
 )
+
 plot(
   a1$mirt.fit,
   type = 'info',
@@ -106,7 +200,8 @@ plot(
 )
 
 
-
+infoPlot(a1,selected_item = 1,
+         type = "icc",theta = seq(-4, 4, .1))
 
 infoPlot(a1,type = "tcc",theta = seq(-4, 4, .1))
 

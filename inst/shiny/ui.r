@@ -47,14 +47,14 @@ fluidPage(
     tabPanel("Data Import",
              fluidRow(
                column(2,
-               #        prettyRadioButtons("empirical",
-               #                           label = "Empiricial or Test data", # or Simulated",
-               #                           choices = c("empirical", "test"),#, "simulated"),
-               #                           selected = "empirical",
-               #                           status = "danger",
-               #                           icon = icon("check"),
-               #                           bigger = TRUE,
-               #                           animation = 'smooth')
+                      #        prettyRadioButtons("empirical",
+                      #                           label = "Empiricial or Test data", # or Simulated",
+                      #                           choices = c("empirical", "test"),#, "simulated"),
+                      #                           selected = "empirical",
+                      #                           status = "danger",
+                      #                           icon = icon("check"),
+                      #                           bigger = TRUE,
+                      #                           animation = 'smooth')
                ),
                column(10,
                       uiOutput("data_import")
@@ -104,19 +104,25 @@ fluidPage(
                         tabPanel("Frequency Table",
                                  # DTOutput("freq_table")
                                  gt_output("freq_table")
-                                 ),
+                        ),
                         tabPanel("Model Fit",
                                  # DTOutput("result0")
                                  gt_output("result0")
-                                 ),
+                        ),
                         tabPanel("Param Est",
                                  # DTOutput("result1")
-                                 gt_output("result1")
-                                 ),
+                                 fluidRow(
+                                   column(6,
+                                          gt_output("result1_fl")),
+                                   column(6,
+                                          gt_output("result1_thre")
+                                   )
+                                 )
+                        ),
                         tabPanel("GRM Param",
                                  # DTOutput("result2")
                                  gt_output("result2")
-                                 )
+                        )
                       )
                )
              )

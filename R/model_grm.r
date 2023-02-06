@@ -67,14 +67,19 @@ runGRM <- function(dat, lav.syntax, estimator) {
     if(ncol(grm.fit@Fit$F) == 1) {
 
       grm.par <- trans_to_grm(grm.fit = grm.fit)
-      rownames(grm.par) <- varname
+      # rownames(grm.par) <- varname
+      grm.par <- grm.par %>%
+        mutate(variable = varname, .before = a1)
+
     } else {
 
       print(grm.par)
 
       grm.par <- trans_to_grm(grm.fit = grm.fit)
-      rownames(grm.par) <- varname
+      # rownames(grm.par) <- varname
 
+      grm.par <- grm.par %>%
+        mutate(variable = varname, .before = a1)
     }
   }
 
@@ -172,6 +177,8 @@ trans_to_grm <- function(grm.fit) {
   if(class(grm.fit) != "lavaan") {
     est.mirt <- coef(grm.fit, simplify = T, IRTpars = F)
 
+    # varname <- rownames(est.mirt$items)
+
     item.est <- data.frame(est.mirt$items)
     Lam  <- item.est[grep("a", names(item.est))]
     Thre <- -item.est[grep("d", names(item.est))]
@@ -181,6 +188,8 @@ trans_to_grm <- function(grm.fit) {
 
   } else {
     est.lav <- lavInspect(grm.fit, what = "est")
+
+    # varname <- rownames(est.lav$lambda)
 
     Lam <- data.frame(est.lav$lambda)
     Thre <- est.lav$tau
@@ -226,5 +235,9 @@ trans_to_grm <- function(grm.fit) {
   }
   colnames(Disc) <- paste0("a", 1:ncol(Disc))
   colnames(Diff) <- paste0("b", 1:ncol(Diff))
-  data.frame(Disc, Diff)
+  out <- data.frame(Disc, Diff)
+
+  # row_name <- rownames(out)
+
+  out
 }

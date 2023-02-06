@@ -191,19 +191,189 @@ shinyServer(
         fit.dt <- final$fit.dt
 
         # datatable(fit.dt, rownames= FALSE)
-        fit.dt
+        fittable <- fit.dt
+
+        if(any(str_detect(fittable[[1]], "SABIC"))) {
+          gt_out <- fittable %>%
+            gt() %>%
+            tab_header(
+              title = md("**MODEL FIT INFORMATION**")
+            ) %>%
+            tab_row_group(
+              label = md("**Information Criteria**"),
+              rows = c(5:7)
+            ) %>%
+            tab_row_group(
+              label = md("**Chi-Square Test of Model Fit**"),
+              rows = c(2:4)
+            ) %>%
+            tab_row_group(
+              label = md("**Loglikelihood**"),
+              rows = 1
+            )
+
+        } else {
+          gt_out <- fittable %>%
+            gt() %>%
+            tab_header(
+              title = md("**MODEL FIT INFORMATION**")
+            ) %>%
+            tab_row_group(
+              label = md("**SRMR (Standardized Root Mean Square Residual)**"),
+              rows = c(10)
+            ) %>%
+            tab_row_group(
+              label = md("**RMSE**"),
+              rows = c(6:9)
+            ) %>%
+            tab_row_group(
+              label = md("**CFI/TLI**"),
+              rows = 4:5
+            ) %>%
+            tab_row_group(
+              label = md("**Chi-Square Test of Model Fit**"),
+              rows = c(1:3)
+            )
+        }
+
+        gt_out %>%
+          opt_all_caps() %>%
+          #Use the Chivo font
+          #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+          opt_table_font(
+            font = list(
+              google_font("Chivo"),
+              default_fonts()
+            )
+          ) %>%
+          tab_style(
+            locations = cells_column_labels(columns = gt::everything()),
+            style     = list(
+              #Give a thick border below
+              cell_borders(sides = "bottom", weight = px(3)),
+              #Make text bold
+              cell_text(weight = "bold")
+            )
+          ) %>%
+          tab_options(row_group.background.color = "orange")
+
       })
 
-      output$result1 <- render_gt({ #renderDT({
-        final$est.dt %>%
-          mutate_if(is.numeric, ~ round(., 3)) #%>%
+      output$result1_fl <- render_gt({ #renderDT({
+        est_results <- final$est.dt %>%
+          mutate_if(is.numeric, ~ round(., 3)) %>%
+          filter(str_detect(op, "=~"))
           # datatable(., rownames= FALSE)
+
+        # est_results <- extract_est(a1) %>%
+        #   mutate_if(is.numeric, ~ round(., 3))
+
+        fl <- str_which(est_results$op, "=~")
+        thre <- str_which(est_results$rhs, "^t")
+
+        est_results %>%
+          gt() %>%
+          opt_all_caps() %>%
+          #Use the Chivo font
+          #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+          opt_table_font(
+            font = list(
+              google_font("Chivo"),
+              default_fonts()
+            )
+          ) %>%
+          tab_style(
+            locations = cells_column_labels(columns = gt::everything()),
+            style     = list(
+              #Give a thick border below
+              cell_borders(sides = "bottom", weight = px(3)),
+              #Make text bold
+              cell_text(weight = "bold")
+            )
+          ) %>%
+          tab_header(
+            title = md("**MODEL RESULTS**")
+          ) %>%
+          tab_row_group(
+            label = md("**Item Slope**"),
+            rows = c(fl)
+          ) %>%
+          tab_options(row_group.background.color = "orange")
       })
+
+
+      output$result1_thre <- render_gt({ #renderDT({
+        est_results <- final$est.dt %>%
+          mutate_if(is.numeric, ~ round(., 3)) %>%
+          filter(str_detect(rhs, "^t"))
+        # datatable(., rownames= FALSE)
+
+        # est_results <- extract_est(a1) %>%
+        #   mutate_if(is.numeric, ~ round(., 3))
+
+        fl <- str_which(est_results$op, "=~")
+        thre <- str_which(est_results$rhs, "^t")
+
+        est_results %>%
+          gt() %>%
+          opt_all_caps() %>%
+          #Use the Chivo font
+          #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+          opt_table_font(
+            font = list(
+              google_font("Chivo"),
+              default_fonts()
+            )
+          ) %>%
+          tab_style(
+            locations = cells_column_labels(columns = gt::everything()),
+            style     = list(
+              #Give a thick border below
+              cell_borders(sides = "bottom", weight = px(3)),
+              #Make text bold
+              cell_text(weight = "bold")
+            )
+          ) %>%
+          tab_header(
+            title = md("**MODEL RESULTS**")
+          ) %>%
+          tab_row_group(
+            label = md("**Thresholds**"),
+            rows = c(thre)
+          ) %>%
+          tab_options(row_group.background.color = "orange")
+      })
+
 
       output$result2 <- render_gt({  #renderDT({
 
         if(!is.character(final$res$grm.par))
-          round(final$res$grm.par,3) %>% data.frame()
+          out_gt <- round(final$res$grm.par,3) %>% data.frame()
+
+        out_gt %>%
+          gt() %>%
+          tab_header(
+            title = md("**GRM PARAMETERS**")
+          ) %>%
+          tab_style(
+            locations = cells_column_labels(columns = gt::everything()),
+            style     = list(
+              #Give a thick border below
+              cell_borders(sides = "bottom", weight = px(3)),
+              #Make text bold
+              cell_text(weight = "bold")
+            )
+          ) %>%
+          opt_all_caps() %>%
+          #Use the Chivo font
+          #Note the great 'google_font' function in 'gt' that removes the need to pre-load fonts
+          opt_table_font(
+            font = list(
+              google_font("Chivo"),
+              default_fonts()
+            )
+          ) %>%
+          tab_options(row_group.background.color = "orange")
       })
 
 

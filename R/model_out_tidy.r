@@ -24,7 +24,7 @@ extract_est <- function(fit) {
 #'
 #' @param fit an object from \code{\link{runGRM}}
 #'
-#' @details This extacts model fit.
+#' @details This extracts model fit.
 #'
 #' @export
 extract_fit <- function(fit) {
@@ -99,7 +99,7 @@ mirt_output_cleaning <- function(mirt.fit) {
       rhs = if_else(str_detect(parname, "a"), varname, parname),
       rhs = str_replace(rhs, "d","t")
     ) %>%
-    select(lhs, op, rhs, everything()) %>%
+    dplyr::select(lhs, op, rhs, dplyr::everything()) %>%
     # select(-varname, -parname) %>%
     mutate_if(is.numeric, ~ round(., 3))
 

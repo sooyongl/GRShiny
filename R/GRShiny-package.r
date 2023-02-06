@@ -24,6 +24,7 @@
 #' @import stringr
 #' @import officer
 #' @import flextable
+#' @import gt
 #' @importFrom magrittr %>%
 #' @importFrom purrr set_names
 #' @importFrom purrr map

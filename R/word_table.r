@@ -18,16 +18,19 @@ word_out3 <- function(filename,
   fit.dt <- flextable(fit.dt) %>%
     width(width = 1.5) %>%
     height(height = .3, part = "body") %>%
+    padding(padding = 0.1) %>%
     hrule(., rule = "exact") %>%
     set_caption(caption = "Table. Fix indices")
 
   est.dt <- flextable(est.dt) %>%
     height(height = .3, part = "body") %>%
+    padding(padding = 0.1) %>%
     hrule(., rule = "exact") %>%
     set_caption(caption = "Table. Parameter estimates (SEM specification)")
 
   grmest.dt <- flextable(grmest.dt) %>%
     height(height = .3, part = "body") %>%
+    padding(padding = 0.1) %>%
     hrule(., rule = "exact") %>%
     set_caption(caption = "Table. Parameter estimates (GRM specification)")
 
