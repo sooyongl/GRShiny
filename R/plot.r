@@ -122,14 +122,28 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
 
   iid <- `.` <- score <- item <- val <- `prob+` <- step <- ys <- ye <- xs <- cate <- NULL
 
+  if(class(fit[[1]]) =="SingleGroupClass") {
+    vname <- names(coef(fit$mirt.fit))
+    vname <- vname[-length(vname)]
+  } else {
+
+    vname <- rownames(lavInspect(fit$lav.fit)$lambda)
+  }
+
   ipar <- fit$grm.par
+  rownames(ipar) <- vname
+  # ipar <- fit$grm.par
 
   ipar <- data.frame(ipar)
   b <- ipar[grep("^b", names(ipar))]
 
   selected_ipar <- ipar %>%
     data.frame(iid = rownames(ipar)) %>%
-    slice(selected_item)
+    slice(selected_item) #%>%
+
+  selected_ipar <- selected_ipar %>%
+    mutate(iid = factor(iid, levels = unique(selected_ipar$iid)))
+    # arrange(iid)
   selected_id <- selected_ipar$iid
 
   prob_dt <- selected_ipar %>%
@@ -145,7 +159,6 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
       gather("b", "val", -item) %>%
       filter(str_detect(b, "b"))
 
-
     prob_dt <- prob_dt %>%
       map(., ~ .x$ps %>%
             data.frame(theta = theta) %>%
@@ -158,6 +171,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
 
     used_b <- round(b[selected_item,],2)
     used_b$item <- selected_id
+
     used_b <- used_b %>% gather("b","val", -item)
     used_b <- used_b %>% mutate(ye = 0.5, ys = 0, xs = 0)
 
@@ -169,8 +183,6 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
     p <- prob_dt %>%
       ggplot(aes(x = theta, y = `prob+`)) +
       geom_line(aes(color = step, linetype = step), size = line_size) +
-      facet_wrap(~item) +
-      # geom_vline(xintercept = b) +
       geom_segment(
         data = used_b,
         aes(x=val, xend = val, y = ys, yend = ye),
@@ -182,7 +194,8 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
         aes(x=xs, xend = val, y = ys, yend = ye),
         lty = "dashed",
         colour = "grey30"
-      )
+      ) +
+      facet_wrap(~item)
 
     if(addlabel) {
       p <- p +
@@ -264,7 +277,18 @@ ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, 
 
   iid <- `.` <- score <- item <- F1 <- NULL
 
+  if(class(fit[[1]]) =="SingleGroupClass") {
+    vname <- names(coef(fit$mirt.fit))
+    vname <- vname[-length(vname)]
+  } else {
+
+    vname <- rownames(lavInspect(fit$lav.fit)$lambda)
+
+  }
+
   ipar <- fit$grm.par
+  rownames(ipar) <- vname
+
   selected_id <- rownames(ipar)[selected_item]
 
   ipar <- data.frame(ipar)
@@ -346,7 +370,15 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
 
   iid <- `.` <- info <- item <- total.info <- NULL
 
+  if(class(fit[[1]]) =="SingleGroupClass") {
+    vname <- names(coef(fit$mirt.fit))
+    vname <- vname[-length(vname)]
+  } else {
+    vname <- rownames(lavInspect(fit$lav.fit)$lambda)
+  }
+
   ipar <- fit$grm.par
+  rownames(ipar) <- vname
 
   if(class(fit[[1]]) != "lavaan") {
     ipar[,grep("a",names(ipar))] <-
@@ -359,10 +391,18 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
     ipar <- data.frame(ipar) %>%
       data.frame(iid = varname) %>%
       slice(selected_item)
+
+    ipar <- ipar %>%
+      mutate(iid = factor(iid, levels = unique(ipar$iid)))
+
     selected_id <- ipar$iid
   } else {
     ipar <- data.frame(ipar) %>%
       data.frame(iid = varname)
+
+    ipar <- ipar %>%
+      mutate(iid = factor(iid, levels = unique(ipar$iid)))
+
     selected_item <- 1:nrow(ipar)
     selected_id <- ipar$iid
   }

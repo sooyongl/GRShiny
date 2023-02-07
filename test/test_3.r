@@ -23,8 +23,8 @@ names(orddata) <- LETTERS[1:20]
 # write_csv(orddata, "test/paper_data/grm_dt.csv")
 
 # orddata <- data.table::fread("test/BYI1.DAT",header = T)
-orddata <- data.table::fread("test/grm_dt.csv",header = F)
-# orddata <- data.table::fread("test/ITEMS.DAT",header = F)
+# orddata <- data.table::fread("test/grm_dt.csv",header = F)
+orddata <- data.table::fread("test/ITEMS.DAT",header = F)
 
 unique(orddata$V5)
 
@@ -36,6 +36,7 @@ cat(lav.model)
 rownames(a1$grm.par)
 
 a1 <- runGRM(dat = orddata, lav.syntax = lav.model, estimator = "ML")
+
 coef(a1$mirt.fit, simplify = T, IRTpars = F)$items
 coef(a1$mirt.fit, simplify = T, IRTpars = T)$items
 
@@ -142,8 +143,11 @@ linesize = 2
 colour_option = "D"
 
 
-ICCplot(fit = a1, selected_item = 1, theta = seq(-2, 6, .1),
-        plot.occ = FALSE,base_size = font_size, line_size = linesize, cal_option = "D")
+ICCplot(fit = a1,
+        selected_item = c(9, 19, 20),
+        theta = seq(-2, 6, .1),
+        plot.occ = FALSE,
+        base_size = font_size, line_size = linesize, cal_option = "D")
 
 theta_range <- seq(-4, 4, .1)
 
@@ -151,7 +155,7 @@ res     <- a1
 
 ICCplot(
   fit = res,
-  selected_item = c(1),
+  selected_item = c(9,19,20),
   theta = theta_range,
   plot.occ = T,
   base_size = 10,
@@ -180,7 +184,8 @@ plot(a1$mirt.fit,type = 'score',
      which.items = 1,
      theta_lim =c(-4,4), facet_items = FALSE)
 
-infoPlot(a1,selected_item = c(9,20),
+infoPlot(fit = a1,
+         selected_item = c(9,20),
          theta = seq(-4, 4, .1),
          type = "icc")
 plot(
