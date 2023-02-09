@@ -25,6 +25,8 @@
 #' @import officer
 #' @import flextable
 #' @import gt
+#' @import openxlsx
+#' @import readxl
 #' @importFrom magrittr %>%
 #' @importFrom purrr set_names
 #' @importFrom purrr map

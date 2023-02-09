@@ -429,7 +429,7 @@ shinyServer(
               file_excel <- tempfile(fileext = ".xlsx")
               file_xlxs <- excel_out3(
                 filename = file_excel,
-                reportTables = reportTables)
+                reportTables = final)
 
               saveWorkbook(file_xlxs, file=file, overwrite = T)
 
