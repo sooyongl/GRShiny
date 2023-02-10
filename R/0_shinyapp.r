@@ -570,7 +570,8 @@ shiny_server <- function(input, output, session) {
 
     output$report <- downloadHandler(
       filename = function() {
-        paste("Report_",Sys.Date(), ".docx", sep = "")
+        # paste("Report_",Sys.Date(), ".docx", sep = "")
+        paste("Report_",Sys.Date(), ".xlsx", sep = "")
       },
 
       content = function(file) {
@@ -580,13 +581,18 @@ shiny_server <- function(input, output, session) {
           {
             incProgress(1/10);Sys.sleep(1);incProgress(5/10)
 
-            file_docx <- tempfile(fileext = ".docx")
+            # file_docx <- tempfile(fileext = ".docx")
+            # word_out3(
+            #   filename = file_docx,
+            #   reportTables = final)
+            # file.rename( from = file_docx, to = file )
 
-            word_out3(
-              filename = file_docx,
+            file_excel <- tempfile(fileext = ".xlsx")
+            file_xlxs <- excel_out3(
+              filename = file_excel,
               reportTables = final)
 
-            file.rename( from = file_docx, to = file )
+            saveWorkbook(file_xlxs, file=file, overwrite = T)
 
             Sys.sleep(1);incProgress(4/10);Sys.sleep(1)
           }
