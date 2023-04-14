@@ -12,7 +12,7 @@ extract_est <- function(fit) {
 
   fit <- fit[grep("fit",names(fit))][[1]]
 
-  if(class(fit) == "lavaan") {
+  if(inherits(fit, "lavaan")) {
     cleaned_out <- lavaan_output_cleaning(fit)
   } else {
     cleaned_out <- mirt_output_cleaning(fit)
@@ -31,7 +31,7 @@ extract_fit <- function(fit) {
   # fit = a1
   fit <- fit[grep("fit",names(fit))][[1]]
 
-  if(class(fit) == "lavaan") {
+  if(inherits(fit, "lavaan")) {
     Fit <- fitMeasures(fit)
 
     fit.dt <- data.frame(

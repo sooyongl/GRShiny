@@ -30,6 +30,6 @@ a list containing GRM results as follows:
 Run graded response model
 }
 \details{
-This conducts GRM. The second element of the return indicats
+This conducts GRM. The second element of the return indicates
 the graded response parameters converted from the CFA parameters
 }

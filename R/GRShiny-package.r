@@ -11,10 +11,8 @@
 #' @title Full information maximum likelihood estimation of IRT models.
 #' @author Sooyong Lee \email{sooyongl09@utexas.edu}
 #' @import shiny
-#' @import shinythemes
-#' @import shinyWidgets
-#' @import shinydashboard
-#' @import bslib
+#' @importFrom shinyWidgets prettyRadioButtons sliderTextInput pickerInput switchInput materialSwitch
+#' @importFrom bslib bs_theme
 #' @import lavaan
 #' @import mirt
 #' @import sirt
@@ -25,8 +23,7 @@
 #' @import officer
 #' @import flextable
 #' @import gt
-#' @import openxlsx
-#' @import readxl
+#' @importFrom openxlsx saveWorkbook writeDataTable writeData createWorkbook addWorksheet
 #' @importFrom magrittr %>%
 #' @importFrom purrr set_names
 #' @importFrom purrr map

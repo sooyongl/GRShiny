@@ -9,7 +9,9 @@ NULL
 #' @noRd
 calFS <- function(fit) {
   res.fit <- fit[grep("fit",names(fit))][[1]]
-  if(class(res.fit) == "lavaan") {
+
+
+  if(inherits(res.fit, "lavaan")) {
     fs_scores <- lavaan::lavPredict(res.fit)
   } else {
     fs_scores <- mirt::fscores(res.fit)
@@ -97,7 +99,7 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #'
 #' @param fit an object from \code{\link{runGRM}}
 #' @param selected_item a numeric indicating for what items the function makes plots
-#' @param theta a numeric indicating latent traints
+#' @param theta a numeric indicating latent traits
 #' @param plot.occ a logical. If TURE, OCC is made instead of ICC
 #' @param addlabel a logical indicating whether to add the b parameter as labels
 #' @param base_size a numeric indicating the base font size
@@ -122,7 +124,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
 
   iid <- `.` <- score <- item <- val <- `prob+` <- step <- ys <- ye <- xs <- cate <- NULL
 
-  if(class(fit[[1]]) =="SingleGroupClass") {
+  if(inherits(fit[[1]], "SingleGroupClass")) {
     vname <- names(coef(fit$mirt.fit))
     vname <- vname[-length(vname)]
   } else {
@@ -182,7 +184,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
 
     p <- prob_dt %>%
       ggplot(aes(x = theta, y = `prob+`)) +
-      geom_line(aes(color = step, linetype = step), size = line_size) +
+      geom_line(aes(color = step, linetype = step), linewidth = line_size) +
       geom_segment(
         data = used_b,
         aes(x=val, xend = val, y = ys, yend = ye),
@@ -224,7 +226,7 @@ ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALS
     p <- prob_dt %>%
       data.frame(theta = theta) %>%
       ggplot(aes(x = theta, y = p)) +
-      geom_line(aes(color = cate, linetype = cate), size = line_size) +
+      geom_line(aes(color = cate, linetype = cate), linewidth = line_size) +
       scale_color_viridis_d(option = cal_option) +
       facet_wrap(~item) +
       labs(title = "ICC",
@@ -262,7 +264,7 @@ calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 #'
 #' @param fit an object from \code{\link{runGRM}}
 #' @param selected_item a numeric indicating for what items the function makes plots
-#' @param theta a numeric indicating latent traints
+#' @param theta a numeric indicating latent traits
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot color specified in
@@ -277,7 +279,7 @@ ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, 
 
   iid <- `.` <- score <- item <- F1 <- NULL
 
-  if(class(fit[[1]]) =="SingleGroupClass") {
+  if(inherits(fit[[1]], "SingleGroupClass")) {
     vname <- names(coef(fit$mirt.fit))
     vname <- vname[-length(vname)]
   } else {
@@ -306,7 +308,7 @@ ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, 
 
   exscore_dt %>%
     ggplot(aes(x = theta, y = score, colour = item)) +
-    geom_line(size = line_size) +
+    geom_line(linewidth = line_size) +
     scale_color_viridis_d(option = cal_option) +
     labs(title = "Expected score",
          x = expression(theta~('ability on the logit scale')),
@@ -347,13 +349,13 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' \item{\code{icc}} Test information
 #' \item{\code{tcc}} Total Test information
 #' }
-#' @param theta a numeric indicating latent traints
+#' @param theta a numeric indicating latent traits
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot colour  specified in
 #'  \code{\link{scale_color_viridis_d}} (default = \code{D})
 #' @param facet a logical. If TRUE, the plot is faceted by items.
-#' (efault = \code{FALSE}).
+#' (default = \code{FALSE}).
 #'
 #' @return a \code{\link{ggplot}} object.
 #'
@@ -370,7 +372,7 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
 
   iid <- `.` <- info <- item <- total.info <- NULL
 
-  if(class(fit[[1]]) =="SingleGroupClass") {
+  if(inherits(fit[[1]], "SingleGroupClass")) {
     vname <- names(coef(fit$mirt.fit))
     vname <- vname[-length(vname)]
   } else {
@@ -380,7 +382,7 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
   ipar <- fit$grm.par
   rownames(ipar) <- vname
 
-  if(class(fit[[1]]) != "lavaan") {
+  if(!inherits(fit[[1]], "lavaan")) {
     ipar[,grep("a",names(ipar))] <-
       ipar[,grep("a",names(ipar))]*1.7
   }
@@ -420,7 +422,7 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
   if(tolower(type) == "icc") {
     p <- info_dt %>%
       ggplot(aes(x = theta, y = info, colour = item)) +
-      geom_line(size = line_size) +
+      geom_line(linewidth = line_size) +
       labs(title = "Information",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(I)~(theta)),
@@ -435,7 +437,7 @@ infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), 
       group_by(theta) %>%
       summarise(total.info = sum(info)) %>%
       ggplot(aes(x = theta, y = total.info)) +
-      geom_line(size = line_size) +
+      geom_line(linewidth = line_size) +
       labs(title = "Total Information",
            x = expression(theta~('ability on the logit scale')),
            y = expression(italic(TI)~(theta)),

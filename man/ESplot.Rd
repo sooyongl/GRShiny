@@ -18,7 +18,7 @@ ESplot(
 
 \item{selected_item}{a numeric indicating for what items the function makes plots}
 
-\item{theta}{a numeric indicating latent traints}
+\item{theta}{a numeric indicating latent traits}
 
 \item{base_size}{a numeric indicating the base font size}
 

@@ -19,7 +19,7 @@ NULL
 #'   \item{\code{grm.par}} a data frame indicating graded response parameters.
 #' }
 #'
-#' @details This conducts GRM. The second element of the return indicats
+#' @details This conducts GRM. The second element of the return indicates
 #' the graded response parameters converted from the CFA parameters
 #'
 #' @export runGRM
@@ -176,7 +176,7 @@ genLavSyn <- function(dat, nfac=1) {
 #' @noRd
 trans_to_grm <- function(grm.fit) {
 
-  if(class(grm.fit) != "lavaan") {
+  if(!inherits(grm.fit, "lavaan")) {
     est.mirt <- coef(grm.fit, simplify = T, IRTpars = F)
 
     # varname <- rownames(est.mirt$items)
@@ -232,7 +232,9 @@ trans_to_grm <- function(grm.fit) {
       Diff[i,j] <- (thre[,j] - lam*fm) / lam*sqrt(fv)
     }
   }
-  if(class(grm.fit) == "lavaan") {
+
+
+  if(inherits(grm.fit, "lavaan")) {
     Diff <- Diff
   }
   colnames(Disc) <- paste0("a", 1:ncol(Disc))

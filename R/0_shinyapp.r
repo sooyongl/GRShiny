@@ -14,7 +14,7 @@ shiny_ui <- function() {
     theme=bs_theme(version = 4,
                    bootswatch = "journal",
                    primary = "#ED79F9",
-                   base_font = font_google("Work Sans") #
+                   base_font = gt::font_google("Work Sans") #
     ),
 
     navbarPage(

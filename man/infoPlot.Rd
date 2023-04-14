@@ -26,7 +26,7 @@ infoPlot(
 \item{\code{tcc}} Total Test information
 }}
 
-\item{theta}{a numeric indicating latent traints}
+\item{theta}{a numeric indicating latent traits}
 
 \item{base_size}{a numeric indicating the base font size}
 
@@ -36,7 +36,7 @@ infoPlot(
 \code{\link{scale_color_viridis_d}} (default = \code{D})}
 
 \item{facet}{a logical. If TRUE, the plot is faceted by items.
-(efault = \code{FALSE}).}
+(default = \code{FALSE}).}
 }
 \value{
 a \code{\link{ggplot}} object.

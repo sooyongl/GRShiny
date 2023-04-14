@@ -20,7 +20,7 @@ ICCplot(
 
 \item{selected_item}{a numeric indicating for what items the function makes plots}
 
-\item{theta}{a numeric indicating latent traints}
+\item{theta}{a numeric indicating latent traits}
 
 \item{plot.occ}{a logical. If TURE, OCC is made instead of ICC}
 
