@@ -10,3 +10,4 @@
 ^rsconnect$
 ^cran-comments\.md$
 ^README.rmd$
+^CRAN-SUBMISSION$
