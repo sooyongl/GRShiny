@@ -1,3 +1,5 @@
+#' Excel output
+#' @noRd
 excel_out3 <-
   function(filename="", reportTables) {
 
@@ -6,9 +8,9 @@ excel_out3 <-
 
     fit.dt    <- reportTables$fit.dt %>% mutate_if(is.numeric, ~ round(.x, 3))
     est.dt    <- reportTables$est.dt %>% mutate_if(is.numeric, ~ round(.x, 3)) %>%
-      dplyr::select(lhs, op, rhs, est,se, pvalue)
+      dplyr::select(.data$lhs, .data$op, .data$rhs, .data$est,.data$se, .data$pvalue)
     grmest.dt <- reportTables$grmest.dt %>% mutate_if(is.numeric, ~ round(.x, 3)) %>%
-      mutate(Variable = rownames(reportTables$grmest.dt), .before = a1)
+      mutate(Variable = rownames(reportTables$grmest.dt), .before = .data$a1)
 
     temp_wb <- createWorkbook("temp_wb")
 

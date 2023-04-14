@@ -4,7 +4,7 @@ shinyServer(
     # Data part ------------------------------------------
     output$data_import <- renderUI({
       # if(input$empirical == "empirical") {
-        if(TRUE){
+      if(TRUE){
         fluidRow(
           column(4,
                  fileInput("setups", "Choose csv or dat file for Setup",
@@ -80,7 +80,7 @@ shinyServer(
 
     imprt_data <- eventReactive(input$import, {
       if(input$test_data == F){
-      # if(input$empirical == "empirical") {
+        # if(input$empirical == "empirical") {
         mis_val <- input$missing
         chovar <- input$chovar
 
@@ -263,7 +263,7 @@ shinyServer(
         est_results <- final$est.dt %>%
           mutate_if(is.numeric, ~ round(., 3)) %>%
           filter(str_detect(op, "=~"))
-          # datatable(., rownames= FALSE)
+        # datatable(., rownames= FALSE)
 
         # est_results <- extract_est(a1) %>%
         #   mutate_if(is.numeric, ~ round(., 3))
@@ -350,10 +350,10 @@ shinyServer(
         varname <- final$est.dt %>% filter(str_detect(op, "=~")) %>% pull(rhs)
 
         # if(!is.character(final$res$grm.par))
-          out_gt <- final$res$grm.par %>% data.frame() %>%
-            mutate_if(is.numeric, ~ round(.x,3)) %>%
-            mutate(indicator = varname) %>%
-            dplyr::select(indicator, dplyr::everything())
+        out_gt <- final$res$grm.par %>% data.frame() %>%
+          mutate_if(is.numeric, ~ round(.x,3)) %>%
+          mutate(indicator = varname) %>%
+          dplyr::select(indicator, dplyr::everything())
 
         out_gt %>%
           gt() %>%
@@ -394,7 +394,7 @@ shinyServer(
             value = 0,
             {
               incProgress(1/10);Sys.sleep(1);incProgress(5/10)
-              outlist <- ls()
+              outlist <- list()
               outlist$fit <- final$fit.dt
               outlist$est <- final$est.dt
               outlist$grmest <- final$grmest.dt

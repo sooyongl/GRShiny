@@ -30,7 +30,7 @@ fluidPage(
   theme=bs_theme(version = 4,
                  bootswatch = "journal",
                  primary = "#ED79F9",
-                 base_font = font_google("Work Sans") #
+                 base_font = sass::font_google("Work Sans") #
   ),
 
   navbarPage(
@@ -100,7 +100,7 @@ fluidPage(
                column(7,
                       fluidRow(
                         downloadButton("rdsreport", "Download RDS"),
-                        downloadButton("report", "Download Word")
+                        # downloadButton("report", "Download Word")
                       ),
                       tabsetPanel(
                         tabPanel("Frequency Table",

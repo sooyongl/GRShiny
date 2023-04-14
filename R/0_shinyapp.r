@@ -14,7 +14,7 @@ shiny_ui <- function() {
     theme=bs_theme(version = 4,
                    bootswatch = "journal",
                    primary = "#ED79F9",
-                   base_font = gt::font_google("Work Sans") #
+                   base_font = sass::font_google("Work Sans") #
     ),
 
     navbarPage(
@@ -84,7 +84,7 @@ shiny_ui <- function() {
                  column(7,
                         fluidRow(
                           downloadButton("rdsreport", "Download RDS"),
-                          downloadButton("report", "Download Word")
+                          # downloadButton("report", "Download Word")
                         ),
                         tabsetPanel(
                           tabPanel("Frequency Table",
@@ -343,7 +343,7 @@ shiny_server <- function(input, output, session) {
       freqtable <- data.frame(freqtable)
 
       freqtable %>% mutate(category = cate_name) %>%
-        dplyr::select(category, dplyr::everything())
+        dplyr::select(.data$category, dplyr::everything())
 
     })
 
@@ -423,7 +423,7 @@ shiny_server <- function(input, output, session) {
     output$result1_fl <- render_gt({ #renderDT({
       est_results <- final$est.dt %>%
         mutate_if(is.numeric, ~ round(., 3)) %>%
-        filter(str_detect(op, "=~"))
+        filter(str_detect(.data$op, "=~"))
       # datatable(., rownames= FALSE)
 
       # est_results <- extract_est(a1) %>%
@@ -466,7 +466,7 @@ shiny_server <- function(input, output, session) {
     output$result1_thre <- render_gt({ #renderDT({
       est_results <- final$est.dt %>%
         mutate_if(is.numeric, ~ round(., 3)) %>%
-        filter(str_detect(rhs, "^t"))
+        filter(str_detect(.data$rhs, "^t"))
       # datatable(., rownames= FALSE)
 
       # est_results <- extract_est(a1) %>%
@@ -508,13 +508,13 @@ shiny_server <- function(input, output, session) {
 
     output$result2 <- render_gt({  #renderDT({
 
-      varname <- final$est.dt %>% filter(str_detect(op, "=~")) %>% pull(rhs)
+      varname <- final$est.dt %>% filter(str_detect(.data$op, "=~")) %>% pull(.data$rhs)
 
       # if(!is.character(final$res$grm.par))
       out_gt <- final$res$grm.par %>% data.frame() %>%
         mutate_if(is.numeric, ~ round(.x,3)) %>%
         mutate(indicator = varname) %>%
-        dplyr::select(indicator, dplyr::everything())
+        dplyr::select(.data$indicator, dplyr::everything())
 
       out_gt %>%
         gt() %>%
@@ -555,7 +555,7 @@ shiny_server <- function(input, output, session) {
           value = 0,
           {
             incProgress(1/10);Sys.sleep(1);incProgress(5/10)
-            outlist <- ls()
+            outlist <- list()
             outlist$fit <- final$fit.dt
             outlist$est <- final$est.dt
             outlist$grmest <- final$grmest.dt

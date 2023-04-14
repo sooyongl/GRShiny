@@ -23,6 +23,7 @@
 #' @import officer
 #' @import flextable
 #' @import gt
+#' @importFrom sass font_google
 #' @importFrom openxlsx saveWorkbook writeDataTable writeData createWorkbook addWorksheet
 #' @importFrom magrittr %>%
 #' @importFrom purrr set_names

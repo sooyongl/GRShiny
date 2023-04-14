@@ -41,7 +41,8 @@ Imports:
     flextable,
     gt,
     officer,
-    openxlsx
+    openxlsx,
+    sass
 Suggests: 
     testthat (>= 3.0.0),
     knitr,

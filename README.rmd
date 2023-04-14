@@ -75,3 +75,4 @@ runGRM(dat = grm_dt, lav.syntax = lav_syn, estimator = "ML")
 ```{r}
 startGRshiny()
 ```
+
