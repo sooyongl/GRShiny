@@ -3,8 +3,8 @@ shinyServer(
     #
     # Data part ------------------------------------------
     output$data_import <- renderUI({
-      # if(input$empirical == "empirical") {
-      if(TRUE){
+      if(input$empirical == "empirical") {
+      # if(TRUE){
         fluidRow(
           column(4,
                  fileInput("setups", "Choose csv or dat file for Setup",
@@ -31,15 +31,14 @@ shinyServer(
       } else {
         fluidRow(
           column(2,
-                 #          numericInput(inputId = "npeople", label = "Number of people",
-                 #                       value = 300, min = 100, max = 2000, step = 1),
-                 #          numericInput(inputId = "nitem",label = "Number of items",
-                 #                       value = 10, min = 4, max = 50, step = 1),
-                 #          numericInput(inputId = "ncate",label = "Number of categories",
-                 #                       value = 3, min = 2, max = 5, step = 1),
-                 #          numericInput(inputId = "nfac",label = "Number of factors (not yet)",
-                 #                       value = 1, min = 1, max = 3, step = 1),
-                 #
+                 numericInput(inputId = "npeople", label = "Number of people",
+                              value = 300, min = 100, max = 2000, step = 1),
+                 numericInput(inputId = "nitem",label = "Number of items",
+                              value = 10, min = 4, max = 50, step = 1),
+                 numericInput(inputId = "ncate",label = "Number of categories",
+                              value = 3, min = 2, max = 5, step = 1),
+                 numericInput(inputId = "nfac",label = "Number of factors (not yet)",
+                              value = 1, min = 1, max = 3, step = 1),
 
                  actionButton("import", "Import data")),
           #
@@ -58,53 +57,71 @@ shinyServer(
     # imprt_data <- reactiveValues()
     observeEvent(input$import, {
 
-      # if(input$empirical == "empirical"){
-      if(input$test_data == F){
-        # if(input$headery == "Yes") {
-        #   headery == T
-        # } else {
-        #   headery == F
-        # }
-        orddata <- fread(input$setups$datapath, header = input$headery)
+      if(input$empirical == "empirical"){
+        if(input$test_data == F){
+          # if(input$headery == "Yes") {
+          #   headery == T
+          # } else {
+          #   headery == F
+          # }
+          orddata <- fread(input$setups$datapath, header = input$headery)
 
-        # orddata <- fread(input$setups$datapath)
-        # if(existsFunction("imprt_data")) {
-        #
-        #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
-        # } else {
-        picked <- paste0("1-", ncol(orddata))
-        # }
-        updateTextInput(session, "chovar", value = picked)
+          # orddata <- fread(input$setups$datapath)
+          # if(existsFunction("imprt_data")) {
+          #
+          #   picked <- paste(which(names(orddata) %in% imprt_data()$varname), collapse = ",")
+          # } else {
+          picked <- paste0("1-", ncol(orddata))
+          # }
+          updateTextInput(session, "chovar", value = picked)
+        }
       }
     })
 
     imprt_data <- eventReactive(input$import, {
-      if(input$test_data == F){
-        # if(input$empirical == "empirical") {
-        mis_val <- input$missing
-        chovar <- input$chovar
 
-        selected_items <- eval(parse(text = paste0("c(",str_replace_all(chovar, "-", ":"),")")))
+      if(input$empirical == "empirical") {
+        if(input$test_data == F){
 
-        if(mis_val != "NA") {
-          orddata <- fread(input$setups$datapath) %>% mutate_all(~na_if(.,mis_val))
+          mis_val <- input$missing
+          chovar <- input$chovar
+
+          selected_items <- eval(parse(text = paste0("c(",str_replace_all(chovar, "-", ":"),")")))
+
+          if(mis_val != "NA") {
+            orddata <- fread(input$setups$datapath) %>% mutate_all(~na_if(.,mis_val))
+          } else {
+            orddata <- fread(input$setups$datapath)
+          }
+
+
+          orddata <- data.frame(orddata)[, selected_items]
+
+          eta <- data.frame(x = "not given")
+          ipar <- data.frame(x = "not given")
+
+          list(orddata = orddata, varname = names(orddata), eta = eta, ipar = ipar)
         } else {
-          orddata <- fread(input$setups$datapath)
+          npeople <- 300 #input$npeople
+          nitem   <- 10  #input$nitem
+          ncate   <- 3 #input$ncate
+          nfac    <- 1 #input$nfac
+
+          ipar <- genIRTpar(nitem, ncat = ncate, nfac)
+          ipar <- round(ipar, 3)
+          eta <- genTheta(npeople, nfac)
+          eta <- round(eta, 3)
+          orddata <- genData(eta, ipar)
+
+          list(ipar=ipar, eta=eta, orddata=orddata, varname = names(orddata))
+
         }
 
-
-        orddata <- data.frame(orddata)[, selected_items]
-
-        eta <- data.frame(x = "not given")
-        ipar <- data.frame(x = "not given")
-
-        list(orddata = orddata, varname = names(orddata), eta = eta, ipar = ipar)
-
       } else {
-        npeople <- 300 # input$npeople
-        nitem   <- 5  # input$nitem
-        ncate   <- 4   # input$ncate
-        nfac    <- 1 # input$nfac
+        npeople <- input$npeople
+        nitem   <- input$nitem
+        ncate   <- input$ncate
+        nfac    <- input$nfac
 
         ipar <- genIRTpar(nitem, ncat = ncate, nfac)
         ipar <- round(ipar, 3)

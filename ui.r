@@ -49,14 +49,14 @@ fluidPage(
     tabPanel("Data Import",
              fluidRow(
                column(2,
-                      #        prettyRadioButtons("empirical",
-                      #                           label = "Empiricial or Test data", # or Simulated",
-                      #                           choices = c("empirical", "test"),#, "simulated"),
-                      #                           selected = "empirical",
-                      #                           status = "danger",
-                      #                           icon = icon("check"),
-                      #                           bigger = TRUE,
-                      #                           animation = 'smooth')
+                             prettyRadioButtons("empirical",
+                                                label = "Simulated or Empiricial data", # or Simulated",
+                                                choices = c("simulated", "empirical"),#, "simulated"),
+                                                selected = "simulated",
+                                                status = "danger",
+                                                icon = icon("check"),
+                                                bigger = TRUE,
+                                                animation = 'smooth')
                ),
                column(10,
                       uiOutput("data_import")
