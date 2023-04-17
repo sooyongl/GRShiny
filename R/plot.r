@@ -37,7 +37,7 @@ calFS <- function(fit) {
 #'  scores.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
 #' FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
 #' }
@@ -113,9 +113,9 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' operating characteristic curve plots
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' ICCplot(ipar, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
-#' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = T, base_size = 16)
+#' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = TRUE, base_size = 16)
 #' }
 #' @export
 ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
@@ -363,12 +363,12 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' total information plot
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
 #' infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
 #' }
 #' @export
-infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D", facet = F) {
+infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D", facet = FALSE) {
 
   iid <- `.` <- info <- item <- total.info <- NULL
 

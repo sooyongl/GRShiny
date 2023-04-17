@@ -9,10 +9,8 @@ NULL
 #' @details This starts the IRT Shiny application on the user's local computer.
 #' @keywords IRT
 #' @examples
-#' \dontrun{
 #' if (interactive()) {
 #'   startGRshiny()
-#' }
 #' }
 #' @export
 startGRshiny <- function() {
