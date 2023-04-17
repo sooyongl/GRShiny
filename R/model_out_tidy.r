@@ -7,6 +7,8 @@ NULL
 #'
 #' @details This tidies the results in the CFA framework.
 #'
+#' @return a list of IRT parameter estimates
+#'
 #' @export
 extract_est <- function(fit) {
 
@@ -25,6 +27,8 @@ extract_est <- function(fit) {
 #' @param fit an object from \code{\link{runGRM}}
 #'
 #' @details This extracts model fit.
+#'
+#' @return a list of IRT fit information
 #'
 #' @export
 extract_fit <- function(fit) {

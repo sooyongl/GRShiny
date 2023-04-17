@@ -1,7 +1,7 @@
 Package: GRShiny
 Version: 1.0.0
 Type: Package
-Title: Graded Response Model in R
+Title: Graded Response Model
 Authors@R: 
     c(person(given = "Sooyong",
              family = "Lee",
@@ -17,6 +17,9 @@ Authors@R:
 Description: Simulation and analysis of graded response data 
     with different types of estimators. Also, an interactive shiny application
 	is provided with graphics for characteristic and information curves.
+	
+	Samejima (2018) <doi:10.1007/978-1-4757-2691-6_5>
+	
 Depends:
     R (>= 3.6.0)
 Imports: 
