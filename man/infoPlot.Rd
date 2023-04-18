@@ -12,7 +12,7 @@ infoPlot(
   base_size = 16,
   line_size = 1,
   cal_option = "D",
-  facet = F
+  facet = FALSE
 )
 }
 \arguments{
@@ -49,7 +49,7 @@ This makes either item information plots or
 total information plot
 }
 \examples{
-\dontrun{
+\donttest{
 infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
 infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
 }

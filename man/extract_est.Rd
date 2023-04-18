@@ -9,6 +9,9 @@ extract_est(fit)
 \arguments{
 \item{fit}{an object from \code{\link{runGRM}}}
 }
+\value{
+a list of IRT parameter estimates
+}
 \description{
 Clean output to look like Mplus
 }

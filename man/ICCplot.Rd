@@ -44,8 +44,8 @@ This makes either item characteristic curve plots or
 operating characteristic curve plots
 }
 \examples{
-\dontrun{
+\donttest{
 ICCplot(ipar, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
-ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = T, base_size = 16)
+ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = TRUE, base_size = 16)
 }
 }

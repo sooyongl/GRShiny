@@ -49,14 +49,14 @@ fluidPage(
     tabPanel("Data Import",
              fluidRow(
                column(2,
-                      #        prettyRadioButtons("empirical",
-                      #                           label = "Empiricial or Test data", # or Simulated",
-                      #                           choices = c("empirical", "test"),#, "simulated"),
-                      #                           selected = "empirical",
-                      #                           status = "danger",
-                      #                           icon = icon("check"),
-                      #                           bigger = TRUE,
-                      #                           animation = 'smooth')
+                             prettyRadioButtons("empirical",
+                                                label = "Simulated or Empiricial data", # or Simulated",
+                                                choices = c("simulated", "empirical"),#, "simulated"),
+                                                selected = "simulated",
+                                                status = "danger",
+                                                icon = icon("check"),
+                                                bigger = TRUE,
+                                                animation = 'smooth')
                ),
                column(10,
                       uiOutput("data_import")
@@ -67,10 +67,11 @@ fluidPage(
     tabPanel("Analysis",
              fluidRow(
                column(3,
+                      h3(""),
                       switchInput(
                         inputId = "cus_syn",
                         label = "Custom Syntax",
-                        value = T,
+                        value = F,
                         onStatus = "danger",
                         offStatus = "sucess",
                         labelWidth = "100px"),
@@ -92,7 +93,7 @@ fluidPage(
                                          # inline = T,
                                          choiceNames = c("WLSMV","FIML"),
                                          choiceValues = c("WL", "ML"),
-                                         selected = "WLSMV"),
+                                         selected = "WL"),
 
                       actionButton("grmrun", "Run")
 
