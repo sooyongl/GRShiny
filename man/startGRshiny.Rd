@@ -15,10 +15,8 @@ An interactive Shiny application for running a GRM analysis.
 This starts the IRT Shiny application on the user's local computer.
 }
 \examples{
-\dontrun{
 if (interactive()) {
   startGRshiny()
-}
 }
 }
 \keyword{IRT}

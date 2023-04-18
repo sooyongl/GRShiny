@@ -38,7 +38,7 @@ This makes either histogram or density plot for individual factor
  scores.
 }
 \examples{
-\dontrun{
+\donttest{
 FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
 FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
 }

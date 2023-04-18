@@ -9,6 +9,9 @@ extract_fit(fit)
 \arguments{
 \item{fit}{an object from \code{\link{runGRM}}}
 }
+\value{
+a list of IRT fit information
+}
 \description{
 Extract model fit
 }

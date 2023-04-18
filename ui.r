@@ -67,10 +67,11 @@ fluidPage(
     tabPanel("Analysis",
              fluidRow(
                column(3,
+                      h3(""),
                       switchInput(
                         inputId = "cus_syn",
                         label = "Custom Syntax",
-                        value = T,
+                        value = F,
                         onStatus = "danger",
                         offStatus = "sucess",
                         labelWidth = "100px"),
@@ -92,7 +93,7 @@ fluidPage(
                                          # inline = T,
                                          choiceNames = c("WLSMV","FIML"),
                                          choiceValues = c("WL", "ML"),
-                                         selected = "WLSMV"),
+                                         selected = "WL"),
 
                       actionButton("grmrun", "Run")
 
