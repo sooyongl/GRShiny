@@ -199,7 +199,7 @@ shinyServer(
         freqtable <- data.frame(freqtable)
 
         freqtable %>% mutate(category = cate_name) %>%
-          dplyr::select(category, dplyr::everything())
+          dplyr::select(.data$category, dplyr::everything())
 
       })
 
@@ -279,7 +279,7 @@ shinyServer(
       output$result1_fl <- render_gt({ #renderDT({
         est_results <- final$est.dt %>%
           mutate_if(is.numeric, ~ round(., 3)) %>%
-          filter(str_detect(op, "=~"))
+          filter(str_detect(.data$op, "=~"))
         # datatable(., rownames= FALSE)
 
         # est_results <- extract_est(a1) %>%
@@ -322,7 +322,7 @@ shinyServer(
       output$result1_thre <- render_gt({ #renderDT({
         est_results <- final$est.dt %>%
           mutate_if(is.numeric, ~ round(., 3)) %>%
-          filter(str_detect(rhs, "^t"))
+          filter(str_detect(.data$rhs, "^t"))
         # datatable(., rownames= FALSE)
 
         # est_results <- extract_est(a1) %>%
@@ -364,13 +364,13 @@ shinyServer(
 
       output$result2 <- render_gt({  #renderDT({
 
-        varname <- final$est.dt %>% filter(str_detect(op, "=~")) %>% pull(rhs)
+        varname <- final$est.dt %>% filter(str_detect(.data$op, "=~")) %>% pull(.data$rhs)
 
         # if(!is.character(final$res$grm.par))
         out_gt <- final$res$grm.par %>% data.frame() %>%
           mutate_if(is.numeric, ~ round(.x,3)) %>%
           mutate(indicator = varname) %>%
-          dplyr::select(indicator, dplyr::everything())
+          dplyr::select(.data$indicator, dplyr::everything())
 
         out_gt %>%
           gt() %>%

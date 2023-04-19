@@ -37,10 +37,14 @@ calFS <- function(fit) {
 #'  scores.
 #'
 #' @examples
-#' \donttest{
-#' FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
-#' FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
-#' }
+#' grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+#'                  ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+#'
+#' fit <- runGRM(dat = grm_dt,
+#'             lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+#'             estimator = "WL")
+#' FSplot(fit, type = "histogram", hist_bins = 20, base_size = 16)
+#'
 #' @export
 FSplot <- function(fit, type = "histogram", hist_bins = 20, fill_colour = "grey70", base_size = 16) {
   F1 <- NULL
@@ -113,10 +117,15 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' operating characteristic curve plots
 #'
 #' @examples
-#' \donttest{
-#' ICCplot(ipar, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
-#' ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = TRUE, base_size = 16)
-#' }
+#'
+#' grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+#'                  ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+#'
+#' fit <- runGRM(dat = grm_dt,
+#'             lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+#'             estimator = "WL")
+#' ICCplot(fit, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
+#'
 #' @export
 ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
   # plot.occ=F : Categorical response curve
@@ -274,6 +283,16 @@ calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 #'
 #' @details This makes a expected score plot
 #'
+#' @examples
+#'
+#' grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+#'                  ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+#'
+#' fit <- runGRM(dat = grm_dt,
+#'             lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+#'             estimator = "WL")
+#' ESplot(fit, 1)
+#'
 #' @export
 ESplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D") {
 
@@ -363,10 +382,15 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' total information plot
 #'
 #' @examples
-#' \donttest{
-#' infoPlot(ipar, selected_item=1:4, type = "icc", base_size = 16)
-#' infoPlot(ipar, selected_item=1:2, type = "tcc", base_size = 16)
-#' }
+#'
+#' grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+#'                  ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+#'
+#' fit <- runGRM(dat = grm_dt,
+#'             lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+#'             estimator = "WL")
+#' infoPlot(fit, selected_item=1:4, type = "icc", base_size = 16)
+#'
 #' @export
 infoPlot <- function(fit, selected_item, type = "icc", theta = seq(-4, 4, 0.1), base_size = 16, line_size=1, cal_option = "D", facet = FALSE) {
 

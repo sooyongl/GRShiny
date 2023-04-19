@@ -38,8 +38,12 @@ This makes either histogram or density plot for individual factor
  scores.
 }
 \examples{
-\donttest{
-FSplot(fs_scores, type = "histogram", hist_bins = 20, base_size = 16)
-FSplot(fs_scores, type = "density", hist_bins = 20, base_size = 16)
-}
+grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+                 ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+
+fit <- runGRM(dat = grm_dt,
+            lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+            estimator = "WL")
+FSplot(fit, type = "histogram", hist_bins = 20, base_size = 16)
+
 }

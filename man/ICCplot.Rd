@@ -44,8 +44,13 @@ This makes either item characteristic curve plots or
 operating characteristic curve plots
 }
 \examples{
-\donttest{
-ICCplot(ipar, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
-ICCplot(ipar, selected_item=2:4, theta=seq(-3, 3, .1), plot.occ = TRUE, base_size = 16)
-}
+
+grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+                 ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+
+fit <- runGRM(dat = grm_dt,
+            lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+            estimator = "WL")
+ICCplot(fit, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
+
 }

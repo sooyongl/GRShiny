@@ -59,6 +59,7 @@ genIRTpar <- function(nitem=25, ncat=4, nfac=3) {
 #'
 #' @details This generates individual latent scores
 #'
+#'
 #' @export
 genTheta <- function(nsample, nfac, l.cov = NULL) {
 

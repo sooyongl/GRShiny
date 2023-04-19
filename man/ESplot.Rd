@@ -36,3 +36,14 @@ Plot expected scores by items
 \details{
 This makes a expected score plot
 }
+\examples{
+
+grm_dt <- genData(eta = genTheta(nsample = 500, nfac = 1),
+                 ipar = genIRTpar(nitem = 10, ncat = 3, nfac = 1))
+
+fit <- runGRM(dat = grm_dt,
+            lav.syntax = genLavSyn(dat = grm_dt, nfac = 1),
+            estimator = "WL")
+ESplot(fit, 1)
+
+}
