@@ -104,7 +104,7 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param fit an object from \code{\link{runGRM}}
 #' @param selected_item a numeric indicating for what items the function makes plots
 #' @param theta a numeric indicating latent traits
-#' @param plot.occ a logical. If TURE, OCC is made instead of ICC
+#' @param plot.occ a logical. If TRUE, OCC is made instead of ICC
 #' @param addlabel a logical indicating whether to add the b parameter as labels
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
@@ -127,7 +127,7 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' ICCplot(fit, 1, seq(-3, 3, .1), plot.occ = FALSE, base_size = 16)
 #'
 #' @export
-ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALSE, addlabel = F, base_size = 16, line_size = 1, cal_option = "D") {
+ICCplot <- function(fit, selected_item, theta = seq(-4, 4, 0.1), plot.occ = FALSE, addlabel = FALSE, base_size = 16, line_size = 1, cal_option = "D") {
   # plot.occ=F : Categorical response curve
   # plot.occ=T : operating characteristic curve plot
 

@@ -7,6 +7,9 @@ NULL
 #'
 #' @description An interactive Shiny application for running a GRM analysis.
 #' @details This starts the IRT Shiny application on the user's local computer.
+#'
+#' @return It launches the Shiny app for Graded Response Model.
+#'
 #' @keywords IRT
 #' @examples
 #' if (interactive()) {

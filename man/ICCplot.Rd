@@ -9,7 +9,7 @@ ICCplot(
   selected_item,
   theta = seq(-4, 4, 0.1),
   plot.occ = FALSE,
-  addlabel = F,
+  addlabel = FALSE,
   base_size = 16,
   line_size = 1,
   cal_option = "D"
@@ -22,7 +22,7 @@ ICCplot(
 
 \item{theta}{a numeric indicating latent traits}
 
-\item{plot.occ}{a logical. If TURE, OCC is made instead of ICC}
+\item{plot.occ}{a logical. If TRUE, OCC is made instead of ICC}
 
 \item{addlabel}{a logical indicating whether to add the b parameter as labels}
 

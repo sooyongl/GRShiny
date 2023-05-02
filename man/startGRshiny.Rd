@@ -6,6 +6,9 @@
 \usage{
 startGRshiny()
 }
+\value{
+It launches the Shiny app for Graded Response Model.
+}
 \description{
 An interactive Shiny application for running a GRM analysis.
 }
