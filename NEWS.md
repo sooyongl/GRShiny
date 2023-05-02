@@ -1,6 +1,6 @@
 # *News*
 
-# GRShiny v1.0.0 (Release data: 2022-02-20)
+# GRShiny v1.0.0 (Release data: 2022-05-01)
 
 ## Initial Submission
 
