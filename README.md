@@ -1,4 +1,10 @@
 
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/GRShiny)](https://CRAN.R-project.org/package=GRShiny)
+<!-- badges: end -->
+
 # GRShiny <img src='https://raw.githubusercontent.com/sooyongl/GRShiny/main/man/figures/hextile.png?raw=true' align="right" height="135" />
 
 ## Overview

@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
 library(GRShiny)
 ```
 
+<!-- badges: start -->
+  [![CRAN status](https://www.r-pkg.org/badges/version/GRShiny)](https://CRAN.R-project.org/package=GRShiny)
+<!-- badges: end -->
+
 ## GRM data simulation
 
 ### Item parameters for graded response model
