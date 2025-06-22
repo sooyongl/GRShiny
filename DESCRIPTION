@@ -25,7 +25,7 @@ Imports:
     lavaan,
     mirt,
     sirt,
-    ggplot2 (>= 3.4.0),
+    ggplot2 (>= 3.5.2),
     dplyr,
     readr,
     tidyr,

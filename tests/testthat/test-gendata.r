@@ -69,6 +69,11 @@ test_that("Plotting functions work", {
   p2 <- ICCplot(grm.fit, 1)
   p3 <- ESplot(grm.fit , 1)
   p4 <- infoPlot(grm.fit, 1)
-  res <- all(c(class(p1)[1],class(p2)[1],class(p3)[1],class(p4)[1]) %in% "gg")
-  expect_true(res)
+
+  expect_true(
+    ggplot2::is_ggplot(p1) &
+      ggplot2::is_ggplot(p2) &
+      ggplot2::is_ggplot(p3) &
+      ggplot2::is_ggplot(p4))
+
 })
