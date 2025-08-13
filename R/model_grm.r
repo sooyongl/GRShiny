@@ -14,7 +14,7 @@ NULL
 #' @return a list containing GRM results as follows:
 #' \itemize{
 #'   \item{\code{fit}} an object from either \code{\linkS4class[mirt]{SingleGroupClass}}
-#'    from \code{\link[mirt]{mirt}} or code{\linkS4class[lavaan]{lavaan}} from from
+#'    from \code{\link[mirt]{mirt}} or \code{\linkS4class[lavaan]{lavaan}} from from
 #'     \code{\link[lavaan]{lavaan}}.
 #'   \item{\code{grm.par}} a data frame indicating graded response parameters.
 #' }
