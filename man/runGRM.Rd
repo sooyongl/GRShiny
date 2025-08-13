@@ -13,17 +13,17 @@ runGRM(dat, lav.syntax, estimator)
 
 \item{estimator}{a character indicating the type of estimator.
 \itemize{
-\item{\code{ML}} Maximum likelihood estimation
-\item{\code{WL}} Weighted least squares mean and variance
+  \item \code{"ML"} Maximum likelihood estimation.
+  \item \code{"WL"} Weighted least squares mean and variance (WLSMV).
 }}
 }
 \value{
 a list containing GRM results as follows:
 \describe{
-  \item{\code{fit}}{an object from either \linkS4class{SingleGroupClass
-   from \pkg{mirt} or \linkS4class{lavaan} from from
-    \pkg{lavaan}}.}
-  \item{\code{grm.par}}{a data frame indicating graded response parameters.}
+  \item{\code{fit}}{An object of class
+    \link[mirt:SingleGroupClass-class]{SingleGroupClass} (from \pkg{mirt})
+    or \link[lavaan:lavaan-class]{lavaan} (from \pkg{lavaan}).}
+  \item{\code{grm.par}}{A data frame containing graded response parameters.}
 }
 }
 \description{
