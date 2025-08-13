@@ -9,7 +9,7 @@ runGRM(dat, lav.syntax, estimator)
 \arguments{
 \item{dat}{a data frame containing graded response model data}
 
-\item{lav.syntax}{a character indicating \code{\link{lavaan}} syntax}
+\item{lav.syntax}{a character indicating \pkg{lavaan} syntax}
 
 \item{estimator}{a character indicating the type of estimator.
 \itemize{
@@ -20,9 +20,9 @@ runGRM(dat, lav.syntax, estimator)
 \value{
 a list containing GRM results as follows:
 \itemize{
-  \item{\code{fit}} an object from either \code{\linkS4class{SingleGroupClass}}
-   from \code{\link{mirt}} or code{\linkS4class{lavaan}} from from
-    \code{\link{lavaan}}.
+  \item{\code{fit}} an object from either \code{\linkS4class[mirt]{SingleGroupClass}}
+   from \pkg{mirt} or \code{\linkS4class[lavaan]{lavaan}} from from
+    \pkg{lavaan}.
   \item{\code{grm.par}} a data frame indicating graded response parameters.
 }
 }

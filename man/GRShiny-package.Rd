@@ -2,6 +2,7 @@
 % Please edit documentation in R/GRShiny-package.r
 \docType{package}
 \name{GRShiny-package}
+\alias{GRShiny}
 \alias{GRShiny-package}
 \title{Full information maximum likelihood estimation of IRT models.}
 \description{
@@ -13,6 +14,13 @@ unidimensional and multidimensional latent trait models under the Structure
 Equation Modeling paradigm. Confirmatory graded response models can be estimated
 with ML and WLS estimators. GRM data can be simulated and analyzed.
 Finally, an interactive Shiny application for running a GRM analysis is supported.l
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/sooyongl/GRShiny}
+}
+
 }
 \author{
 Sooyong Lee \email{sooyongl09@utexas.edu}

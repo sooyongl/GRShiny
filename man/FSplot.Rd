@@ -28,7 +28,7 @@ FSplot(
 \item{base_size}{a numeric indicating the base font size}
 }
 \value{
-a \code{\link{ggplot}} object.
+a \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Plot Factor score

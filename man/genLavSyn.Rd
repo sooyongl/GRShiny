@@ -12,11 +12,11 @@ genLavSyn(dat, nfac = 1)
 \item{nfac}{a numeric indicating the number of factors}
 }
 \value{
-a string indicating \code{\link{lavaan}} syntax.
+a string indicating \code{\link[lavaan]{lavaan}} syntax.
 }
 \description{
 Generate lavaan syntax
 }
 \details{
-This generates \code{\link{lavaan}}  syntax
+This generates \code{\link[lavaan]{lavaan}}  syntax
 }

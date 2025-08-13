@@ -33,13 +33,13 @@ infoPlot(
 \item{line_size}{a numeric indicating the size of line}
 
 \item{cal_option}{a character indicating the plot colour  specified in
-\code{\link{scale_color_viridis_d}} (default = \code{D})}
+\code{\link[ggplot2]{scale_color_viridis_d}} (default = \code{D})}
 
 \item{facet}{a logical. If TRUE, the plot is faceted by items.
 (default = \code{FALSE}).}
 }
 \value{
-a \code{\link{ggplot}} object.
+a \code{\link[ggplot2]{ggplot}} object.
 }
 \description{
 Calculate item information

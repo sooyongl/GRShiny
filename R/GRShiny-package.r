@@ -7,7 +7,7 @@
 #' Finally, an interactive Shiny application for running a GRM analysis is supported.l
 #'
 #' @name GRShiny-package
-#' @docType package
+# #' @docType package
 #' @title Full information maximum likelihood estimation of IRT models.
 #' @author Sooyong Lee \email{sooyongl09@utexas.edu}
 #' @import shiny
@@ -37,5 +37,6 @@
 #' @importFrom utils write.csv
 #' @importFrom readr parse_number
 #' @keywords package
+"_PACKAGE"
 NULL
 
