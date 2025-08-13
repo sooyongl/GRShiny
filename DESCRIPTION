@@ -16,7 +16,7 @@ Authors@R:
     )
 Description: Simulation and analysis of graded response data with different types of estimators. Also, an interactive shiny application is provided with graphics for characteristic and information curves. Samejima (2018) <doi:10.1007/978-1-4757-2691-6_5>.
 Depends:
-    R (>= 4.0.0)
+    R (>= 3.6.0)
 Imports: 
     shiny,
     shinyWidgets,
@@ -42,7 +42,7 @@ Imports:
     openxlsx,
     sass
 Suggests: 
-    testthat (>= 3.0.0),
+    testthat (>= 3.2.0),
     knitr,
     rmarkdown
 License: GPL (>= 3)
