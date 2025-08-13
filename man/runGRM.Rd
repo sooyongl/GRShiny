@@ -19,11 +19,11 @@ runGRM(dat, lav.syntax, estimator)
 }
 \value{
 a list containing GRM results as follows:
-\itemize{
-  \item{\code{fit}} an object from either \linkS4class[mirt]{SingleGroupClass}
-   from \pkg{mirt} or \linkS4class[lavaan]{lavaan} from from
-    \pkg{lavaan}.
-  \item{\code{grm.par}} a data frame indicating graded response parameters.
+\describe{
+  \item{\code{fit}}{an object from either \linkS4class{SingleGroupClass
+   from \pkg{mirt} or \linkS4class{lavaan} from from
+    \pkg{lavaan}}.}
+  \item{\code{grm.par}}{a data frame indicating graded response parameters.}
 }
 }
 \description{
