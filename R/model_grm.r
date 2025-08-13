@@ -4,7 +4,7 @@ NULL
 #' Run graded response model
 #'
 #' @param dat a data frame containing graded response model data
-#' @param lav.syntax a character indicating \code{\link{lavaan}} syntax
+#' @param lav.syntax a character indicating \code{\link[lavaan]{lavaan}} syntax
 #' @param estimator a character indicating the type of estimator.
 #' \itemize{
 #' \item{\code{ML}} Maximum likelihood estimation
@@ -13,9 +13,9 @@ NULL
 #'
 #' @return a list containing GRM results as follows:
 #' \itemize{
-#'   \item{\code{fit}} an object from either \code{\linkS4class{SingleGroupClass}}
-#'    from \code{\link{mirt}} or code{\linkS4class{lavaan}} from from
-#'     \code{\link{lavaan}}.
+#'   \item{\code{fit}} an object from either \code{\linkS4class[mirt]{SingleGroupClass}}
+#'    from \code{\link[mirt]{mirt}} or code{\linkS4class[lavaan]{lavaan}} from from
+#'     \code{\link[lavaan]{lavaan}}.
 #'   \item{\code{grm.par}} a data frame indicating graded response parameters.
 #' }
 #'
@@ -96,9 +96,9 @@ runGRM <- function(dat, lav.syntax, estimator) {
 #' @param dat a data frame containing graded response data
 #' @param nfac a numeric indicating the number of factors
 #'
-#' @return a string indicating \code{\link{lavaan}} syntax.
+#' @return a string indicating \code{\link[lavaan]{lavaan}} syntax.
 #'
-#' @details This generates \code{\link{lavaan}}  syntax
+#' @details This generates \code{\link[lavaan]{lavaan}}  syntax
 #'
 #' @export genLavSyn
 genLavSyn <- function(dat, nfac=1) {

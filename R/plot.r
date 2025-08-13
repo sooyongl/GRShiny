@@ -31,7 +31,7 @@ calFS <- function(fit) {
 #' @param fill_colour a character indicating the color (default = \code{grey70})
 #' @param base_size a numeric indicating the base font size
 #'
-#' @return a \code{\link{ggplot}} object.
+#' @return a \code{\link[ggplot2]{ggplot}} object.
 #'
 #' @details This makes either histogram or density plot for individual factor
 #'  scores.
@@ -109,9 +109,9 @@ calProb <- function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot color specified in
-#'  \code{\link{scale_color_viridis_d}} (default = \code{D})
+#'  \code{\link[ggplot2]{scale_color_viridis_d}} (default = \code{D})
 #'
-#' @return a \code{\link{ggplot}} object.
+#' @return a \code{\link[ggplot2]{ggplot}} object.
 #'
 #' @details This makes either item characteristic curve plots or
 #' operating characteristic curve plots
@@ -277,9 +277,9 @@ calES = function(ipar,theta = seq(-4, 4, 0.1)) {
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot color specified in
-#'  \code{\link{scale_color_viridis_d}} (default = \code{D})
+#'  \code{\link[ggplot2]{scale_color_viridis_d}} (default = \code{"D"})
 #'
-#' @return a \code{\link{ggplot}} object.
+#' @return a \code{\link[ggplot2]{ggplot}} object.
 #'
 #' @details This makes a expected score plot
 #'
@@ -372,11 +372,11 @@ calInfo = function(ipar, theta = seq(-4, 4, 0.1)) {
 #' @param base_size a numeric indicating the base font size
 #' @param line_size a numeric indicating the size of line
 #' @param cal_option a character indicating the plot colour  specified in
-#'  \code{\link{scale_color_viridis_d}} (default = \code{D})
+#'  \code{\link[ggplot2]{scale_color_viridis_d}} (default = \code{D})
 #' @param facet a logical. If TRUE, the plot is faceted by items.
 #' (default = \code{FALSE}).
 #'
-#' @return a \code{\link{ggplot}} object.
+#' @return a \code{\link[ggplot2]{ggplot}} object.
 #'
 #' @details This makes either item information plots or
 #' total information plot
